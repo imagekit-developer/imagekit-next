@@ -9,9 +9,6 @@ interface LQIP {
 }
 
 interface Props {
-    width: number;
-    height: number;
-    alt: string;
     loading?: 'lazy';
     lqip?: LQIP | null;
     path?: string;

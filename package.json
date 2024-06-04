@@ -1,0 +1,40 @@
+{
+  "name": "imagekit-next",
+  "version": "1.0.0",
+  "description": "Next.js SDK for ImageKit.io which implements client-side upload and URL generation for use inside a next application.",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imagekit-developer/imagekit-next.git"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [],
+  "author": "ImageKit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/imagekit-developer/imagekit-next/issues"
+  },
+  "homepage": "https://github.com/imagekit-developer/imagekit-next#readme",
+  "devDependencies": {
+    "@types/node": "^20.12.13",
+    "@types/react": "^18.3.3",
+    "next": "^14.2.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "imagekit-javascript": "^3.0.1"
+  },
+  "peerDependencies": {
+    "react": "^16.13.1 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.13.1 || ^17.0.0 || ^18.0.0",
+    "next": "^12 || ^13 || ^14"
+  }
+}

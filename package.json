@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "Next.js SDK for ImageKit.io which implements client-side upload and URL generation for use inside a next application.",
   "scripts": {
-    "build": "tsc"
+    "build": "rm -rf dist*; tsc"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/imagekit-developer/imagekit-next.git"
   },
   "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist",
     "src"

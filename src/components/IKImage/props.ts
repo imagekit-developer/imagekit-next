@@ -1,5 +1,3 @@
-import IKContextProps from "./props";
-
 interface LQIP {
     active?: boolean;
     quality?: number;

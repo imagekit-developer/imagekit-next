@@ -1,9 +1,8 @@
 import ImageKit from "imagekit-javascript";
 import { TransformationPosition, UrlOptions } from "imagekit-javascript/dist/src/interfaces";
-import IKContextBaseProps, { IKContextExtractedProps } from "../components/IKContext/props";
+import IKContextProps, { IKContextExtractedProps } from "../components/IKContext/props";
 import IKImageProps from "../components/IKImage/props";
-// import { IKVideoBaseProps } from "../components/IKVideo/combinedProps";
-
+import IKVideoProps from "../components/IKVideo/props";
 
 export type IKImageState = {
   currentUrl?: string;
@@ -13,38 +12,40 @@ export type IKImageState = {
   intersected: boolean;
   contextOptions: IKContextExtractedProps;
   observe?: IntersectionObserver;
-  initialzeState: boolean
-}
+  initialzeState: boolean;
+};
 
 export const fetchEffectiveConnection = () => {
-    try {
-        return (navigator as any).connection.effectiveType;
-    } catch (ex) {
-        return "4g";
-    }
-}
+  try {
+    return (navigator as any).connection.effectiveType;
+  } catch (ex) {
+    return "4g";
+  }
+};
 
 export const areObjectsDifferent = <T>(prevProps: T, newProps: T, propsAffectingURL: Array<string>) => {
   for (let index = 0; index < propsAffectingURL.length; index++) {
     if (prevProps[propsAffectingURL[index] as keyof T] !== newProps[propsAffectingURL[index] as keyof T]) {
       return true;
-    };
+    }
   }
-  
+
   return false;
-}
-type GetSrcReturnType = {originalSrc: string; lqipSrc?: string;};
+};
+type GetSrcReturnType = { originalSrc: string; lqipSrc?: string };
 
-export const getSrc = ({ urlEndpoint, lqip, src, path, transformation, transformationPosition, queryParameters }: IKImageProps & IKContextBaseProps,
-  ikClient: ImageKit, contextOptions: IKContextExtractedProps): GetSrcReturnType  => {
-
+export const getSrc = (
+  { urlEndpoint, lqip, src, path, transformation, transformationPosition, queryParameters }: IKImageProps & IKContextProps & IKVideoProps,
+  ikClient: ImageKit,
+  contextOptions: IKContextExtractedProps
+): GetSrcReturnType => {
   let options: UrlOptions;
   if (src) {
     options = {
       urlEndpoint: urlEndpoint || contextOptions.urlEndpoint,
       src,
       transformation: transformation || undefined,
-      transformationPosition: ((transformationPosition || contextOptions.transformationPosition || undefined) as TransformationPosition),
+      transformationPosition: (transformationPosition || contextOptions.transformationPosition || undefined) as TransformationPosition,
       queryParameters: queryParameters || {},
     };
   } else if (path) {
@@ -52,39 +53,38 @@ export const getSrc = ({ urlEndpoint, lqip, src, path, transformation, transform
       urlEndpoint: urlEndpoint || contextOptions.urlEndpoint,
       path,
       transformation: transformation || undefined,
-      transformationPosition: ((transformationPosition || contextOptions.transformationPosition || undefined) as TransformationPosition),
+      transformationPosition: (transformationPosition || contextOptions.transformationPosition || undefined) as TransformationPosition,
       queryParameters: queryParameters || {},
     };
-  } else
-    return { originalSrc: "" };
+  } else return { originalSrc: "" };
 
-  const result: GetSrcReturnType = {originalSrc: ikClient.url(options)};
-  console.log({options,result})
+  const result: GetSrcReturnType = { originalSrc: ikClient.url(options) };
+  console.log({ options, result });
   if (lqip && lqip.active) {
     var quality = Math.round(lqip.quality || lqip.threshold || 20);
     var blur = Math.round(lqip.blur || 6);
     var newTransformation = options.transformation ? [...options.transformation] : [];
     if (lqip.raw && typeof lqip.raw === "string" && lqip.raw.trim() !== "") {
       newTransformation.push({
-        raw: lqip.raw.trim()
+        raw: lqip.raw.trim(),
       });
     } else {
       newTransformation.push({
         quality: String(quality),
         blur: String(blur),
-      })
+      });
     }
     result.lqipSrc = ikClient.url({
       ...options,
-      transformation: newTransformation
+      transformation: newTransformation,
     });
   }
 
   return result;
-}
+};
 
 export const getIKElementsUrl = ({ lqip = null, loading }: IKImageProps, { intersected, originalSrcLoaded, originalSrc, lqipSrc }: IKImageState) => {
-    /*
+  /*
       No lazy loading no lqip
         src=originalImage
       No lazy loading lqip
@@ -99,27 +99,28 @@ export const getIKElementsUrl = ({ lqip = null, loading }: IKImageProps, { inter
         onIntersect:
         src=originalImage (when loaded)
     */
-   const isLqipActive = (lqip: IKImageProps['lqip']) => (lqip && lqip.active);
+  const isLqipActive = (lqip: IKImageProps["lqip"]) => lqip && lqip.active;
 
-    if (loading !== "lazy" && !isLqipActive(lqip)) {
+  if (loading !== "lazy" && !isLqipActive(lqip)) {
+    return originalSrc;
+  } else if (loading !== "lazy" && isLqipActive(lqip)) {
+    if (originalSrcLoaded) {
       return originalSrc;
-    } else if (loading !== "lazy" && isLqipActive(lqip)) {
-      if (originalSrcLoaded) {
-        return originalSrc;
-      } else {
-        return lqipSrc;
-      }
-    } else if (loading === "lazy" && !isLqipActive(lqip)) {
-      if (intersected) {
-        return originalSrc;
-      } else {
-        return "";
-      }
-    } else { //  if (loading === "lazy" && isLqipActive(lqip))
-      if (intersected && originalSrcLoaded) {
-        return originalSrc;
-      } else {
-        return lqipSrc;
-      }
+    } else {
+      return lqipSrc;
+    }
+  } else if (loading === "lazy" && !isLqipActive(lqip)) {
+    if (intersected) {
+      return originalSrc;
+    } else {
+      return "";
+    }
+  } else {
+    //  if (loading === "lazy" && isLqipActive(lqip))
+    if (intersected && originalSrcLoaded) {
+      return originalSrc;
+    } else {
+      return lqipSrc;
     }
   }
+};

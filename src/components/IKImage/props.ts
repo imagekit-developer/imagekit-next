@@ -1,3 +1,5 @@
+import { Transformation } from "imagekit-javascript/dist/src/interfaces/Transformation";
+
 interface LQIP {
     active?: boolean;
     quality?: number;
@@ -12,7 +14,7 @@ interface Props {
     path?: string;
     src?: string;
     queryParameters?: Record<string, string | number >;
-    transformation?: Array<Record<string, any>>;
+    transformation?: Array<Transformation>;
     transformationPosition?: 'path' | 'query';
 }
 

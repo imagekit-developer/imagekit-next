@@ -1,6 +1,6 @@
 import ImageKit from "imagekit-javascript";
 
-export interface Props {
+interface Props {
   publicKey?: string;
   urlEndpoint?: string;
   authenticator?: () => Promise<{ signature: string; expire: number; token: string }>;

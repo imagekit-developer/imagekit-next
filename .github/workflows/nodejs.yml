@@ -47,18 +47,18 @@ jobs:
     - name: build test-app
       run: |
         cd test-app
-        echo NEXT_PUBLIC_URL_ENDPOINT = ${{ secrets.ik_url_endopint }} > .env;
-        echo NEXT_PUBLIC_PUBLIC_KEY = ${{ secrets.ik_public_key }} >> .env;
+        echo NEXT_PUBLIC_URL_ENDPOINT = ${{ secrets.IK_URL_ENDPOINT }} > .env;
+        echo NEXT_PUBLIC_PUBLIC_KEY = ${{ secrets.IK_PUBLIC_KEY }} >> .env;
         echo NEXT_PUBLIC_AUTHENTICATION_ENDPOINT = 'http://localhost:3001/auth' >> .env;
         npm install && npm install ../../imagekitio*.tgz --force && npm run build
         cd server
-        echo PRIVATE_KEY = ${{ secrets.ik_private_key }} >> .env;
+        echo PRIVATE_KEY = ${{ secrets.IK_PRIVATE_KEY }} >> .env;
         npm install
       env:
         CI: true
-        NEXT_PUBLIC_PUBLIC_KEY: ${{ secrets.ik_public_key }}
-        PRIVATE_KEY: ${{ secrets.ik_private_key }}
-        NEXT_PUBLIC_URL_ENDPOINT: ${{ secrets.ik_url_endopint }}
+        NEXT_PUBLIC_PUBLIC_KEY: ${{ secrets.IK_PUBLIC_KEY }}
+        PRIVATE_KEY: ${{ secrets.IK_PRIVATE_KEY }}
+        NEXT_PUBLIC_URL_ENDPOINT: ${{ secrets.IK_URL_ENDPOINT }}
 
     - name: Run E2E tests
       uses: cypress-io/github-action@v4
@@ -68,9 +68,9 @@ jobs:
       env:
         DEBUG: 'cypress:server:browsers:electron'
         CI: true
-        NEXT_PUBLIC_PUBLIC_KEY: ${{ secrets.ik_public_key }}
-        PRIVATE_KEY: ${{ secrets.ik_private_key }}
-        NEXT_PUBLIC_URL_ENDPOINT: ${{ secrets.ik_url_endopint }}
+        NEXT_PUBLIC_PUBLIC_KEY: ${{ secrets.IK_PUBLIC_KEY }}
+        PRIVATE_KEY: ${{ secrets.IK_PRIVATE_KEY }}
+        NEXT_PUBLIC_URL_ENDPOINT: ${{ secrets.IK_URL_ENDPOINT }}
 
     - name: tar workspace
       if: always()

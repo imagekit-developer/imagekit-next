@@ -7,7 +7,6 @@ function App() {
   const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
   const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
   const authenticationEndpoint = process.env.NEXT_PUBLIC_AUTHENTICATION_ENDPOINT;
-  console.log({ publicKey, urlEndpoint, authenticationEndpoint });
   let reftest = useRef(null);
   const [error, setError] = useState();
   const [isUploading, setIsUploading] = useState(null);

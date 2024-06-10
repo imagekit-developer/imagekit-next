@@ -59,7 +59,6 @@ export const getSrc = (
   } else return { originalSrc: "" };
 
   const result: GetSrcReturnType = { originalSrc: ikClient.url(options) };
-  console.log({ options, result });
   if (lqip && lqip.active) {
     var quality = Math.round(lqip.quality || lqip.threshold || 20);
     var blur = Math.round(lqip.blur || 6);

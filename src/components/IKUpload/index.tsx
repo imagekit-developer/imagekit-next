@@ -177,7 +177,6 @@ const IKUpload = forwardRef<HTMLInputElement, IKUploadProps & IKContextProps>((p
           (err: any, result: any) => {
             if (err) {
               if (onError && typeof onError === "function") {
-                console.log(err);
                 onError(err);
               }
             } else {

@@ -64,7 +64,7 @@ jobs:
       uses: cypress-io/github-action@v4
       with:
         start: npm run serve:test-app
-        wait-on: 'http://localhost:4000, http://localhost:4001'
+        wait-on: 'http://localhost:3000, http://localhost:3001'
       env:
         DEBUG: 'cypress:server:browsers:electron'
         CI: true

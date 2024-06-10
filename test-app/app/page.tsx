@@ -1,30 +1,40 @@
-//@ts-nocheck
 "use client";
 import React, { useState, useRef } from "react";
 import { IKImage, IKContext, IKUpload, IKVideo } from "../../src/index";
+import { AbortableFileInput } from "../../src/components/IKUpload/props";
+import { UploadResponse } from "imagekit-javascript/dist/src/interfaces";
+import { Transformation } from "imagekit-javascript/dist/src/interfaces/Transformation";
+
+interface ErrorType {
+  uploadFileErr: string;
+}
+
+interface OverrideParameterType {
+  fileNameOnLocalSystem: string;
+}
 
 function App() {
   const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
   const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
   const authenticationEndpoint = process.env.NEXT_PUBLIC_AUTHENTICATION_ENDPOINT;
-  let reftest = useRef(null);
-  const [error, setError] = useState();
-  const [isUploading, setIsUploading] = useState(null);
-  const [uploadProgress, setUploadProgress] = useState();
-  const [uploadedImageSource, setUploadedImageSource] = useState();
-  const [imageTr, setImageTr] = useState([
+  let reftest = useRef<AbortableFileInput>(null);
+  const [error, setError] = useState<ErrorType>();
+  const [isUploading, setIsUploading] = useState<boolean | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<ProgressEvent>();
+  const [uploadedImageSource, setUploadedImageSource] = useState<string>();
+  const [imageTr, setImageTr] = useState<Transformation[]>([
     {
       height: "200",
       width: "200",
     },
   ]);
-  const [imageTrSansIKContext, setImageTrSansIKContext] = useState([
+  const [imageTrSansIKContext, setImageTrSansIKContext] = useState<Transformation[]>([
     {
       height: "300",
       width: "300",
     },
   ]);
-  const [overrideParametersValue, setoverrideParametersValue] = useState();
+  const [overrideParametersValue, setoverrideParametersValue] = useState<OverrideParameterType>();
 
   const path = "default-image.jpg";
   const videoUrlEndpoint = "https://ik.imagekit.io/demo/";
@@ -32,49 +42,51 @@ function App() {
 
   const src = `${urlEndpoint}/${path}`;
 
-  const onError = (err) => {
-    console.log("Error");
-    console.log(JSON.stringify(err));
-    setError({ uploadFileErr: err.message });
-    setIsUploading(false);
-  };
-
-  const onSuccess = (res) => {
+  const onSuccess = (res: UploadResponse) => {
     console.log("Success");
     console.log(res);
-    console.log(res.$ResponseMetadata.statusCode); // 200
-    console.log(res.$ResponseMetadata.headers); // headers
     setUploadedImageSource(res.url);
     setIsUploading(false);
   };
 
+  const validateFileFunction = (file: File): boolean => {
+    console.log("validating", file);
+    if (!(file.type.startsWith("image/") || file.type.startsWith("video/"))) {
+      setError({ uploadFileErr: "File not Supported" });
+      return false;
+    }
+    return true;
+  };
+
   const authenticator = async () => {
     try {
-      // You can pass headers as well and later validate the request source in the backend, or you can use headers for any other use case.
-      const response = await fetch(authenticationEndpoint);
+      if (authenticationEndpoint) {
+        // You can pass headers as well and later validate the request source in the backend, or you can use headers for any other use case.
+        const response = await fetch(authenticationEndpoint);
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Request failed with status ${response.status}: ${errorText}`);
-      }
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Request failed with status ${response.status}: ${errorText}`);
+        }
 
-      const data = await response.json();
-      const { signature, expire, token } = data;
-      return { signature, expire, token };
-    } catch (error) {
+        const data = await response.json();
+        const { signature, expire, token } = data;
+        return { signature, expire, token };
+      } else throw new Error(`Authentication endpoint is required`);
+    } catch (error: any) {
       throw new Error(`Authentication request failed: ${error.message}`);
     }
   };
 
-  const onUploadStart = (_) => {
+  const onUploadStart = (_: React.ChangeEvent<HTMLInputElement>): void => {
     setIsUploading(true);
   };
 
-  const onUploadProgress = (e) => {
+  const onUploadProgress = (e: ProgressEvent) => {
     setUploadProgress(e);
   };
 
-  const onOverrideParameters = (file) => {
+  const onOverrideParameters = (file: File) => {
     setoverrideParametersValue({
       fileNameOnLocalSystem: file.name,
     });
@@ -103,7 +115,7 @@ function App() {
       <p>
         Directly using <code>IkImage</code>
       </p>
-      <IKImage urlEndpoint={urlEndpoint} src={src} width={200} height={200} />
+      <IKImage urlEndpoint={urlEndpoint} src={src} width={200} height={200} alt="test-image" />
 
       <p>Dynamic transformation update directly using IKImage</p>
       <IKImage
@@ -114,6 +126,7 @@ function App() {
         transformation={imageTrSansIKContext}
         width={200}
         height={200}
+        alt="test-image"
       />
       <div>
         <p>Click here to apply transformations on the above image</p>
@@ -129,8 +142,8 @@ function App() {
               {
                 height: "200",
                 width: "200",
-                rotate: 180,
-              }
+                rotate: "180",
+              },
             ])
           }
         >
@@ -144,10 +157,10 @@ function App() {
       </p>
       <IKContext publicKey={publicKey} urlEndpoint={urlEndpoint} authenticator={authenticator}>
         <p>Let's add an Image</p>
-        <IKImage src={src} width={200} height={200} />
+        <IKImage src={src} width={200} height={200} alt="test-image" />
 
         <p>Transformation - height and width manipulation</p>
-        <IKImage className={"img-transformation"} path={path} transformation={imageTr} width={200} height={200} />
+        <IKImage className={"img-transformation"} path={path} transformation={imageTr} width={200} height={200} alt="test-image" />
         <div>
           <p>Click here to apply max radius on above image </p>
           <button
@@ -180,6 +193,7 @@ function App() {
           ]}
           width={200}
           height={200}
+          alt="test-image"
         />
 
         <p>Lazy loading image</p>
@@ -195,6 +209,7 @@ function App() {
           loading="lazy"
           width={200}
           height={200}
+          alt="test-image"
         />
 
         <p>Progressive image loading wihtout lazy loading</p>
@@ -211,6 +226,7 @@ function App() {
           lqip={{ active: true, quality: 20, blur: 10 }}
           width={200}
           height={200}
+          alt="test-image"
         />
 
         <p>Progressive image loading with lazy loading</p>
@@ -227,6 +243,7 @@ function App() {
           lqip={{ active: true, quality: 20, blur: 30 }}
           width={200}
           height={200}
+          alt="test-image"
         />
 
         <p>File upload along with upload API options - To use this funtionality please remember to setup the server</p>
@@ -238,7 +255,6 @@ function App() {
           useUniqueFileName={true}
           responseFields={["tags"]}
           folder={"/sample-folder"}
-          onError={onError}
           onSuccess={onSuccess}
           ref={reftest}
           className="file-upload-ik"
@@ -260,7 +276,7 @@ function App() {
         {isUploading ? (
           <button
             onClick={() => {
-              reftest.current.abort();
+              reftest.current?.abort();
               setIsUploading(null);
             }}
           >
@@ -270,7 +286,7 @@ function App() {
           <></>
         )}
         <p>Custom Upload Button</p>
-        {reftest && <button onClick={() => reftest.current.click()}>Upload</button>}
+        {reftest && <button onClick={() => reftest.current?.click()}>Upload</button>}
 
         <p>Your above uploaded file will appear here </p>
         {uploadedImageSource && (
@@ -286,11 +302,12 @@ function App() {
             ]}
             width={200}
             height={200}
+            alt="test-image"
           />
         )}
 
         <p>Upload invalid file</p>
-        <IKUpload className={"file-upload-error"} folder={"/sample-folder"} onError={onError} onSuccess={onSuccess} />
+        <IKUpload className={"file-upload-error"} folder={"/sample-folder"} onSuccess={onSuccess} validateFile={validateFileFunction} />
 
         {error && error.hasOwnProperty("uploadFileErr") && (
           <p style={{ color: "red" }} className="upload-error-ik">
@@ -301,11 +318,16 @@ function App() {
 
       <IKContext publicKey={publicKey} urlEndpoint={videoUrlEndpoint}>
         <p>Video Element</p>
-        <IKVideo className="ikvideo-default" path={videoPath} transformation={[{ height: 200, width: 200 }]} controls={true} />
+        <IKVideo className="ikvideo-default" path={videoPath} transformation={[{ height: "200", width: "200" }]} controls={true} />
 
         <br />
         <p>Video with some advance transformation</p>
-        <IKVideo className="ikvideo-with-tr" path={videoPath} transformation={[{ height: 200, width: 600, b: "5_red", q: 95 }]} controls={true} />
+        <IKVideo
+          className="ikvideo-with-tr"
+          path={videoPath}
+          transformation={[{ height: "200", width: "600", b: "5_red", q: "95" }]}
+          controls={true}
+        />
       </IKContext>
     </div>
   );

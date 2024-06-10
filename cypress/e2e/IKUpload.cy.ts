@@ -31,7 +31,7 @@ describe('IKUpload Element', () => {
             });
         });
 
-        it.skip('should upload non-image file and try to get error element', () => {
+        it('should upload non-image file and try to get error element', () => {
             //static file
             const p = 'example.json'
 

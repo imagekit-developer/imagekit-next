@@ -59,10 +59,8 @@ const IKUpload = forwardRef<HTMLInputElement, IKUploadProps & IKContextProps>((p
     const urlEndpoint = props.urlEndpoint || contextOptions.urlEndpoint;
 
     if (!publicKey || publicKey.trim() === "") {
-      console.error("Missing publicKey");
       if (onError && typeof onError === "function") {
         onError({
-          name: "Missing publicKey",
           message: "Missing publicKey",
         });
       }
@@ -70,10 +68,8 @@ const IKUpload = forwardRef<HTMLInputElement, IKUploadProps & IKContextProps>((p
     }
 
     if (!authenticator) {
-      console.error("The authenticator function is not provided.");
       if (onError && typeof onError === "function") {
         onError({
-          name: "The authenticator function is not provided.",
           message: "The authenticator function is not provided.",
         });
       }
@@ -81,10 +77,8 @@ const IKUpload = forwardRef<HTMLInputElement, IKUploadProps & IKContextProps>((p
     }
 
     if (typeof authenticator !== "function") {
-      console.error("The provided authenticator is not a function.");
       if (onError && typeof onError === "function") {
         onError({
-          name: "The provided authenticator is not a function.",
           message: "The provided authenticator is not a function.",
         });
       }
@@ -92,10 +86,8 @@ const IKUpload = forwardRef<HTMLInputElement, IKUploadProps & IKContextProps>((p
     }
 
     if (!urlEndpoint || urlEndpoint.trim() === "") {
-      console.error("Missing urlEndpoint");
       if (onError && typeof onError === "function") {
         onError({
-          name: "Missing urlEndpoint",
           message: "Missing urlEndpoint",
         });
       }
@@ -160,7 +152,6 @@ const IKUpload = forwardRef<HTMLInputElement, IKUploadProps & IKContextProps>((p
     if (!(authPromise instanceof Promise)) {
       if (onError && typeof onError === "function") {
         onError({
-          name: "The authenticator function is expected to return a Promise instance.",
           message: "The authenticator function is expected to return a Promise instance.",
         });
       }
@@ -202,7 +193,6 @@ const IKUpload = forwardRef<HTMLInputElement, IKUploadProps & IKContextProps>((p
 
         if (onError && typeof onError === "function") {
           onError({
-            name: String(error),
             message: String(error),
           });
         }

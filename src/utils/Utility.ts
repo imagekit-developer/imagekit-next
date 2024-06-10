@@ -2,7 +2,7 @@ import ImageKit from "imagekit-javascript";
 import { TransformationPosition, UrlOptions } from "imagekit-javascript/dist/src/interfaces";
 import IKContextProps, { IKContextExtractedProps } from "../components/IKContext/props";
 import IKImageProps from "../components/IKImage/props";
-import IKVideoProps from "../components/IKVideo/props";
+import { Props as IKVideoProps } from "../components/IKVideo/props";
 
 export type IKImageState = {
   currentUrl?: string;
@@ -115,7 +115,6 @@ export const getIKElementsUrl = ({ lqip = null, loading }: IKImageProps, { inter
       return "";
     }
   } else {
-    //  if (loading === "lazy" && isLqipActive(lqip))
     if (intersected && originalSrcLoaded) {
       return originalSrc;
     } else {

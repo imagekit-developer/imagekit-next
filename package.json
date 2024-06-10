@@ -7,7 +7,9 @@
     "build:types": "tsc --emitDeclarationOnly",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
-    "build": "rm -rf dist*; npm run build:types && npm run build:js"
+    "build": "rm -rf dist*; npm run build:types && npm run build:js",
+    "test:e2e": "cypress open",
+    "serve:test-app": "export SKIP_PREFLIGHT_CHECK=true;cd test-app/server && node server & cd test-app && next dev"
   },
   "repository": {
     "type": "git",
@@ -38,11 +40,12 @@
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/node": "^20.12.13",
     "@types/react": "^18.3.3",
+    "cypress": "^13.11.0",
+    "cypress-file-upload": "^5.0.8",
     "next": "^14.2.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "rollup": "^2.28.2",
-    "rollup-plugin-extensions": "^0.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-peer-deps-external": "^2.2.3",
     "rollup-plugin-terser": "^7.0.2",

@@ -6,7 +6,7 @@ import useImageKitComponent from "../ImageKitComponent";
 import { ImageKitContext } from "../IKContext";
 import { fetchEffectiveConnection, getIKElementsUrl, getSrc } from "../../utils/Utility";
 
-const IKImage = (props: Omit<ImageProps, "src" | "quality" | "loading"> & IKImageProps & IKContextProps) => {
+const IKImage = (props: Omit<ImageProps, "src" | "loading"> & IKImageProps & IKContextProps) => {
   const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);
   const [originalSrc, setOriginalSrc] = useState<string>("");
   const [lqipSrc, setLqipSrc] = useState<string>("");

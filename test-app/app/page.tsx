@@ -1,8 +1,7 @@
 "use client";
 import React, { useState, useRef } from "react";
 import { IKImage, IKContext, IKUpload, IKVideo } from "../../src/index";
-import { AbortableFileInput } from "../../src/components/IKUpload/props";
-import { UploadResponse } from "imagekit-javascript/dist/src/interfaces";
+import { AbortableFileInput, IKUploadResponse } from "../../src/components/IKUpload/props";
 import { Transformation } from "imagekit-javascript/dist/src/interfaces/Transformation";
 
 interface ErrorType {
@@ -42,9 +41,11 @@ function App() {
 
   const src = `${urlEndpoint}/${path}`;
 
-  const onSuccess = (res: UploadResponse) => {
+  const onSuccess = (res: IKUploadResponse) => {
     console.log("Success");
     console.log(res);
+    console.log(res.$ResponseMetadata.statusCode); // 200
+    console.log(res.$ResponseMetadata.headers); // headers
     setUploadedImageSource(res.url);
     setIsUploading(false);
   };

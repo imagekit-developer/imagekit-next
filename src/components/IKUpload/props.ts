@@ -51,6 +51,15 @@ export interface AbortableFileInput extends HTMLInputElement {
 
 export type Extension = (BgRemoval | AutoTag)[];
 
+interface ResponseMetadata {
+  statusCode: number;
+  headers: Record<string, string | number | boolean>;
+}
+
+export interface IKUploadResponse extends UploadResponse {
+  $ResponseMetadata: ResponseMetadata;
+}
+
 export type OverrideValues = {
   fileName?: IKUploadProps["fileName"];
   useUniqueFileName?: IKUploadProps["useUniqueFileName"];
@@ -88,7 +97,7 @@ type IKUploadProps = {
   overwriteCustomMetadata?: boolean;
   customMetadata?: string | Record<string, string | number | boolean | Array<string | number | boolean>>;
   onError?: (err: UploadError) => void;
-  onSuccess?: (res: UploadResponse) => void;
+  onSuccess?: (res: IKUploadResponse) => void;
   onUploadStart?: (evt: React.ChangeEvent<HTMLInputElement>) => void;
   onUploadProgress?: (evt: ProgressEvent<XMLHttpRequestEventTarget>) => void;
   validateFile?: (file: File) => boolean;

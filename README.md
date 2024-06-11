@@ -82,7 +82,7 @@ module.exports = {
   <IKImage urlEndpoint="https://www.custom-domain.com" path="/default-image.jpg" width={200} height={200} alt="Alt text"/>
 
   // Render an image using an absolute URL - https://www1.custom-domain.com/default-image.jpg?tr=w-100
-  <IKImage src="https://www1.custom-domain.com/default-image.jpg?tr=w-100" />
+  <IKImage src="https://www1.custom-domain.com/default-image.jpg?tr=w-100" width={200} height={200} alt="Alt text"/>
 
   // Height and width manipulation - https://ik.imagekit.io/your_imagekit_id/tr:h-200,w-200/default-image.jpg
   <IKImage path="/default-image.jpg" transformation={[{
@@ -200,15 +200,15 @@ module.exports = {
 ```
 
 ## Demo application
-* The official step-by-step React quick start guide - https://docs.imagekit.io/getting-started/quickstart-guides/next
-* The official step-by-step React Native quick start guide - https://docs.imagekit.io/getting-started/quickstart-guides/next
+* The official step-by-step Next.js quick start guide - https://docs.imagekit.io/getting-started/quickstart-guides/next
+* The official step-by-step Next.js quick start guide - https://docs.imagekit.io/getting-started/quickstart-guides/next
 
 ## Components
 
 The library includes 5 Components:
 
 * [`IKContext`](#IKContext) for defining options like `urlEndpoint`, `publicKey` or `authenticator` to all children elements. This component does not render anything.
-* `IKImage` for [image resizing](#image-resizing). This utilzes `next/image` and renders `<img>` tag.
+* `IKImage` for [image resizing](#image-resizing). This utilizes next/image and renders an `<img>` tag.
 * `IKVideo` for [video resizing](#video-resizing). This renders a `<video>` tag.
 * `IKUpload`for client-side [file uploading](#file-upload). This renders a `<input type="file">` tag.
 * `IKCore` for [Core SDK](#ikcore), This exposes methods from [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript) like url and upload.
@@ -743,25 +743,6 @@ var imageURL = imagekit.url({
 });
 ```
 
-## Error Handling
-
-You can use `ErrorBoundary` to handle errors anywhere in their child component tree. Log those errors or display a fallback UI instead of the crashed component tree. For example:
-
-```js
-// urlEndpoint should be present in IKImage or parent IKContext component; otherwise, it will throw an error. For example:
-<ErrorBoundary>
-  <IKImage
-    path = "/default-image.jpg"
-    transformation={[
-      {
-        height:300,
-        width:400
-      }
-    ]}
-    height={300} width={400} alt="Alt text"
-  />
-</ErrorBoundary>
-```
 
 ## Support
 

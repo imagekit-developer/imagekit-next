@@ -33,16 +33,53 @@ Import components in your code:
 import { IKImage, IKVideo, IKContext, IKUpload } from 'imagekit-next'
 ```
 
+### Using in Pages Router (/src)
+
+By default, `imagekit-next` fully supports the included components in the `src` directory without any additional setup.
+
+### Using in /app 
+
+To use `imagekit-next` in the app directory, you currently need to mark the parent page or component as a Client Component.
+
+This requirement exists because components are divided into two types: Client Components and Server Components.
+
+To do this, simply add the following at the top of the file:
+
+```js
+"use client";
+```
+
+### Configure hostname
+
+To protect your application from malicious users, configuration is required in order to use external images. This ensures that only external images from your account can be served from the Next.js Image Optimization API.
+
+`next.config.js`
+```js
+module.exports = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'example.com',
+        port: '',
+        pathname: '/account123/**',
+      },
+    ],
+  },
+}
+```
+
+
 ### Quick examples
 
 #### Image & video rendering and transformations
 ```js
 <IKContext urlEndpoint="https://ik.imagekit.io/your_imagekit_id">
   // Render an image using a relative path - https://ik.imagekit.io/your_imagekit_id/default-image.jpg
-  <IKImage path="/default-image.jpg" />
+  <IKImage path="/default-image.jpg" width={200} height={200} alt="Alt text"/>
 
   // Overriding urlEndpoint defined in parent IkContext - https://www.custom-domain.com/default-image.jpg
-  <IKImage urlEndpoint="https://www.custom-domain.com" path="/default-image.jpg" />
+  <IKImage urlEndpoint="https://www.custom-domain.com" path="/default-image.jpg" width={200} height={200} alt="Alt text"/>
 
   // Render an image using an absolute URL - https://www1.custom-domain.com/default-image.jpg?tr=w-100
   <IKImage src="https://www1.custom-domain.com/default-image.jpg?tr=w-100" />
@@ -51,7 +88,7 @@ import { IKImage, IKVideo, IKContext, IKUpload } from 'imagekit-next'
   <IKImage path="/default-image.jpg" transformation={[{
     "height": "200",
     "width": "200"
-  }]} />
+  }]} width={200} height={200} alt="Alt text" />
 
   // Chained transformation - https://ik.imagekit.io/your_imagekit_id/tr:h-200,w-200:rt-90/default-image.jpg
   <IKImage path="/default-image.jpg" transformation={[{
@@ -60,7 +97,7 @@ import { IKImage, IKVideo, IKContext, IKUpload } from 'imagekit-next'
   },
   {
     "rotation": "90"
-  }]} />
+  }]} width={200} height={200} alt="Alt text"/>
 
   // Video element with basic transformation, reduced quality by 50% using q:50
   <IKVideo
@@ -82,6 +119,7 @@ import { IKImage, IKVideo, IKContext, IKUpload } from 'imagekit-next'
       "width": "200"
     }]}
     loading="lazy"
+    width={200} height={200} alt="Alt text"
   />
 
   /*
@@ -95,6 +133,7 @@ import { IKImage, IKVideo, IKContext, IKUpload } from 'imagekit-next'
       "width": "200"
     }]}
     lqip={{ active: true }}
+    width={200} height={200} alt="Alt text"
   />
 
   // Low-quality image placeholder with custom quality and blur values
@@ -105,6 +144,7 @@ import { IKImage, IKVideo, IKContext, IKUpload } from 'imagekit-next'
       "width": "200"
     }]}
     lqip={{ active: true, quality: 20, blur: 10 }}
+    width={200} height={200} alt="Alt text"
   />
 
   // Low-quality image placeholder and lazy loading of original image in the background
@@ -116,6 +156,7 @@ import { IKImage, IKVideo, IKContext, IKUpload } from 'imagekit-next'
     }]}
     loading="lazy"
     lqip={{ active: true }}
+    width={200} height={200} alt="Alt text"
   />
 </IKContext>
 ```
@@ -159,15 +200,15 @@ import { IKImage, IKVideo, IKContext, IKUpload } from 'imagekit-next'
 ```
 
 ## Demo application
-* The official step-by-step React quick start guide - https://docs.imagekit.io/getting-started/quickstart-guides/react
-* The official step-by-step React Native quick start guide - https://docs.imagekit.io/getting-started/quickstart-guides/react-native
+* The official step-by-step React quick start guide - https://docs.imagekit.io/getting-started/quickstart-guides/next
+* The official step-by-step React Native quick start guide - https://docs.imagekit.io/getting-started/quickstart-guides/next
 
 ## Components
 
 The library includes 5 Components:
 
 * [`IKContext`](#IKContext) for defining options like `urlEndpoint`, `publicKey` or `authenticator` to all children elements. This component does not render anything.
-* `IKImage` for [image resizing](#image-resizing). This renders a `<img>` tag.
+* `IKImage` for [image resizing](#image-resizing). This utilzes `next/image` and renders `<img>` tag.
 * `IKVideo` for [video resizing](#video-resizing). This renders a `<video>` tag.
 * `IKUpload`for client-side [file uploading](#file-upload). This renders a `<input type="file">` tag.
 * `IKCore` for [Core SDK](#ikcore), This exposes methods from [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript) like url and upload.
@@ -182,14 +223,8 @@ To use this SDK, you need to provide it with a few configuration parameters. You
   publicKey="your_public_api_key" // optional
   transformationPosition="path" // optional
   authenticator={()=>Promise} // optional
-  <IKImage path="/default-image.jpg" />
+  <IKImage path="/default-image.jpg" width={200} height={200} alt="Alt text"/>
 </IKContext>
-```
-
-will render:
-
-```html
-<img alt="" src="https://ik.imagekit.io/your_imagekit_id/default-image.jpg">
 ```
 
 * `urlEndpoint` is required to use the SDK. You can get URL-endpoint from your ImageKit dashboard - https://imagekit.io/dashboard/url-endpoints.
@@ -200,7 +235,7 @@ will render:
 
 ## Image resizing
 
-The `IKImage` component renders an `img` tag. It is used for rendering and manipulating images in real time. `IKImage` component accepts the following props:
+The `IKImage` component acts as a wrapper around the [Next.js Image component](https://nextjs.org/docs/pages/api-reference/components/image). This allows you to access all the built-in features of the Next.js Image component. The `IKImage` component is used for rendering and manipulating images in real time. It accepts the following props:
 
 | Prop                   | Type             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | :--------------------- | :--------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -211,7 +246,13 @@ The `IKImage` component renders an `img` tag. It is used for rendering and manip
 | transformationPosition | String           | Optional. The default value is `path`, which places the transformation string as a URL path parameter. It can also be specified as `query`, which adds the transformation string as the URL's query parameter i.e.`tr`. If you use the `src` parameter to create the URL, then the transformation string is always added as a query parameter.                                                                                                                                                                                                                                                                                                                    |
 | queryParameters        | Object           | Optional. These are the other query parameters that you want to add to the final URL. These can be any query parameters and are not necessarily related to ImageKit. Especially useful if you want to add some versioning parameters to your URLs.                                                                                                                                                                                                                                                                                                                                                                                                                |
 | loading                | String           | Optional. Pass `lazy` to lazy load images. Note: Component does not accept change in this value after it has mounted.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| lqip                   | Object           | Optional. You can use this to show a low-quality blurred placeholder while the original image is being loaded e.g. `{active:true, quality: 20, blur: 6, raw: "n-lqip_named_transformation"`}. The default value of `quality` is `20`, and `blur` is `6`. If `raw` transformation is provided, SDK uses that and ignores the `quality` and `blur` parameters. <br /> Note: Component does not accept change in this value after it has mounted.                                                                                                                                                                                                                    |
+| lqip                   | Object           | Optional. You can use this to show a low-quality blurred placeholder while the original image is being loaded e.g. `{active:true, quality: 20, blur: 6, raw: "n-lqip_named_transformation"`}. The default value of `quality` is `20`, and `blur` is `6`. If `raw` transformation is provided, SDK uses that and ignores the `quality` and `blur` parameters. <br /> Note: Component does not accept change in this value after it has mounted.                                                                                                                                            |
+| width                   | String or Number           | Required. The `width` property represents the rendered width in pixels, so it will affect how large the image appears.                                                                                                                                                                                                                    |
+| height                   | String or Number           | Required. The `height` property represents the rendered height in pixels, so it will affect how large the image appears.                                                                                                                                                                  |
+| alt                   | String       | Required. The `alt` property is used to describe the image for screen readers and search engines. It is also the fallback text if images have been disabled or an error occurs while loading the image.                                                                                                                                                                       |
+
+
+In addition to these, you can use all the options supported by `next/image` except for `loading` and `src`. You can find the full list of supported `next/image` props [here](https://nextjs.org/docs/pages/building-your-application/optimizing/images#props).
 
 ### Basic resizing examples
 
@@ -219,7 +260,7 @@ The `IKImage` component renders an `img` tag. It is used for rendering and manip
 <IKContext urlEndpoint="https://ik.imagekit.io/your_imagekit_id">
   // Image from related file path with no transformations - https://ik.imagekit.io/your_imagekit_id/default-image.jpg
   <IKImage
-    path="/default-image.jpg" height={200} width={300} alt="test image"
+    path="/default-image.jpg" height={200} width={300} alt="Alt text"
   />
 
   // Image resizing - https://ik.imagekit.io/your_imagekit_id/tr:w-h-300,w-400/default-image.jpg
@@ -231,12 +272,12 @@ The `IKImage` component renders an `img` tag. It is used for rendering and manip
     }]}
     height={300}
     width={400}
-    alt="test image"
+    alt="Alt text"
   />
 
   // Loading image from an absolute file path with no transformations - https://www.custom-domain.com/default-image.jpg
   <IKImage
-    src="https://www.custom-domain.com/default-image.jpg" height={200} width={200} alt="test image"
+    src="https://www.custom-domain.com/default-image.jpg" height={200} width={200} alt="Alt text"
   />
 
   // Using a new transformation parameter which is not there in this SDK yet - https://ik.imagekit.io/your_imagekit_id/tr:custom-value/default-image.jpg
@@ -247,7 +288,7 @@ The `IKImage` component renders an `img` tag. It is used for rendering and manip
     }]}
     height={200} 
     width={200} 
-    alt="test image"
+    alt="Alt text"
   />
 </IKContext>
 ```
@@ -283,7 +324,7 @@ For example:
 <IKImage
     path="/default-image.jpg"
     transformation={[{ "width": 400, "height": 300 },{ "raw": "l-text,i-Imagekit,fs-50,l-end" }]}
-    height={300} width={400} alt="test image"
+    height={300} width={400} alt="Alt text"
 />
 ```
 **Sample Result URL**
@@ -301,7 +342,7 @@ For example:
 <IKImage
     path="/default-image.jpg"
     transformation={[{ "width": 400, "height": 300 },{ "raw": "l-image,i-default-image.jpg,w-100,b-10_CDDC39,l-end" }]}
-    height={300} width={400} alt="test image"
+    height={300} width={400} alt="Alt text"
 />
 ```
 **Sample Result URL**
@@ -341,7 +382,7 @@ For example:
         "width": "iw_div_4",
         "border": "cw_mul_0.05_yellow"
     }]}
-    height={200} width={200} alt="test image"
+    height={200} width={200} alt="Alt text"
 />
 ```
 
@@ -407,7 +448,7 @@ Chained transforms make it easy to specify the order the transform is applied. F
       rotation: 90
     }
   ]}
-  height={300} width={400} alt="test image"
+  height={300} width={400} alt="Alt text"
 />
 ```
 
@@ -437,7 +478,7 @@ Example usage:
     }
   ]}
   loading="lazy"
-  height={300} width={400} alt="test image"
+  height={300} width={400} alt="Alt text"
 />
 ```
 
@@ -449,7 +490,7 @@ To improve user experience, you can use a low-quality blurred variant of the ori
 <IKImage
   path="/default-image.jpg"
   lqip={{active:true}}
-  height={200} width={200} alt="test image"
+  height={200} width={200} alt="Alt text"
 />
 ```
 
@@ -459,7 +500,7 @@ By default, the SDK uses the `quality:20` and `blur:6`. You can change this. For
 <IKImage
   path="/default-image.jpg"
   lqip={{active:true, quality: 40, blur: 5}}
-  height={200} width={200} alt="test image"
+  height={200} width={200} alt="Alt text"
 />
 ```
 
@@ -469,7 +510,7 @@ You can also specify a `raw` transformation if you want more control over the UR
 <IKImage
   path="/default-image.jpg"
   lqip={{active:true, raw: "n-lqip_named_transformation"}}
-  height={200} width={200} alt="test image"
+  height={200} width={200} alt="Alt text"
 />
 ```
 
@@ -483,7 +524,7 @@ You have the option to lazy-load the original image only when the user scrolls n
   transformation={[{height:300,width:400},{rotation:90}]}
   lqip={{active:true}}
   loading="lazy"
-  height={300} width={400} alt="test image"
+  height={300} width={400} alt="Alt text"
 />
 ```
 
@@ -492,10 +533,10 @@ You can use `urlEndpoint` prop in an individual `IKImage` to change url for that
 ```js
 <IKContext urlEndpoint="https://ik.imagekit.io/your_imagekit_id">
   // Render an image using parent IKContext urlEndpont - https://ik.imagekit.io/your_imagekit_id/default-image.jpg
-  <IKImage path="/default-image.jpg" height={200} width={200} alt="test image"/>
+  <IKImage path="/default-image.jpg" height={200} width={200} alt="Alt text"/>
 
   // Overriding urlEndpoint defined in parent IkContext - https://www.custom-domain.com/default-image.jpg
-  <IKImage urlEndpoint="https://www.custom-domain.com" path="/default-image.jpg" height={200} width={200} alt="test image"/>
+  <IKImage urlEndpoint="https://www.custom-domain.com" path="/default-image.jpg" height={200} width={200} alt="Alt text"/>
 </IKContext>
 ```
 
@@ -717,7 +758,7 @@ You can use `ErrorBoundary` to handle errors anywhere in their child component t
         width:400
       }
     ]}
-    height={300} width={400} alt="test image"
+    height={300} width={400} alt="Alt text"
   />
 </ErrorBoundary>
 ```

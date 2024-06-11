@@ -33,11 +33,11 @@ Import components in your code:
 import { IKImage, IKVideo, IKContext, IKUpload } from 'imagekit-next'
 ```
 
-### Using in Pages Router (/src)
+#### Pages Router (/src)
 
 By default, `imagekit-next` fully supports the included components in the `src` directory without any additional setup.
 
-### Using in /app 
+#### App Router (/app)
 
 To use `imagekit-next` in the app directory, you currently need to mark the parent page or component as a Client Component.
 

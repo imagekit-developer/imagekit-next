@@ -103,6 +103,6 @@ type IKUploadProps = {
   validateFile?: (file: File) => boolean;
   transformation?: TransformationType;
   overrideParameters?: (file: File) => OverrideValues;
-} & React.InputHTMLAttributes<HTMLInputElement>;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onError'>;
 
 export default IKUploadProps;

@@ -59,10 +59,9 @@ module.exports = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'example.com',
+        protocol: "https",
+        hostname: "ik.imagekit.io",
         port: '',
-        pathname: '/account123/**',
       },
     ],
   },

@@ -113,7 +113,9 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading"> & IKImageProps & IKC
     alt,
     ...restProps
   } = props;
-  return <NextImage width={width} height={height} alt={alt} src={currentUrl ? currentUrl : ""} ref={imageRef} {...restProps} />;
+  return (
+    <NextImage width={width} loader={({ src }) => src} height={height} alt={alt} src={currentUrl ? currentUrl : ""} ref={imageRef} {...restProps} />
+  );
 };
 
 export default IKImage;

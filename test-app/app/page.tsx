@@ -116,6 +116,7 @@ function App() {
           imageTr,
           overrideParametersValue,
         })}
+        onChange={()=>{}}
         style={{ display: "none" }}
       ></input>
       <h1>Hi! This is an ImageKit Next.js SDK Demo!</h1>

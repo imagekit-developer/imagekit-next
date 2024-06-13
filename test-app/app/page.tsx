@@ -118,7 +118,7 @@ function App() {
         })}
         style={{ display: "none" }}
       ></input>
-      <h1>Hi! This is an ImageKit React SDK Demo!</h1>
+      <h1>Hi! This is an ImageKit Next.js SDK Demo!</h1>
 
       <p>
         Directly using <code>IkImage</code>

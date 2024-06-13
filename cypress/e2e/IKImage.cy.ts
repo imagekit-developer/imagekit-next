@@ -17,7 +17,7 @@ describe('ImageKit Next SDK', () => {
 
       cy.get('.lazyload')
         .should('have.attr', 'src')
-        .and('include', encodeURIComponent('tr:h-200,w-200/default-image.jpg'));
+        .and('include', 'tr:h-200,w-200/default-image.jpg');
     });
   });
 
@@ -39,7 +39,7 @@ describe('ImageKit Next SDK', () => {
 
       cy.get('.lazyload-lqip')
         .should('have.attr', 'src')
-        .and('include', encodeURIComponent('tr:h-200,w-200/default-image.jpg'));
+        .and('include', 'tr:h-200,w-200/default-image.jpg');
     });
   });
 
@@ -50,7 +50,7 @@ describe('ImageKit Next SDK', () => {
 
       cy.get('.lqip')
         .should('have.attr', 'src')
-        .and('include', encodeURIComponent('tr:h-200,w-200:q-20,bl-10/default-image.jpg'));
+        .and('include', 'tr:h-200,w-200:q-20,bl-10/default-image.jpg');
     });
 
     it('should have actual src after image is loaded', () => {
@@ -62,7 +62,7 @@ describe('ImageKit Next SDK', () => {
 
       cy.get('.lqip')
         .should('have.attr', 'src')
-        .and('include', encodeURIComponent('tr:h-200,w-200/default-image.jpg'));
+        .and('include', 'tr:h-200,w-200/default-image.jpg');
     });
   });
 
@@ -76,14 +76,14 @@ describe('ImageKit Next SDK', () => {
 
       cy.get('.img-transformation-direct')
         .should('have.attr', 'src')
-        .and('include', encodeURIComponent('tr:h-300,w-300/default-image.jpg'));
+        .and('include', 'tr:h-300,w-300/default-image.jpg');
 
       cy.get('.btn-to-change-tr-direct').click();
       cy.wait(500);
 
       cy.get('.img-transformation-direct')
         .should('have.attr', 'src')
-        .and('include', encodeURIComponent('tr:h-200,w-600,r-max:h-200,w-200,rt-180/default-image.jpg'));
+        .and('include', 'tr:h-200,w-600,r-max:h-200,w-200,rt-180/default-image.jpg');
     });
     it('should update image src within IKContext when button is clicked', () => {
       cy.visit(APP_HOST);
@@ -94,14 +94,14 @@ describe('ImageKit Next SDK', () => {
 
       cy.get('.img-transformation')
         .should('have.attr', 'src')
-        .and('include', encodeURIComponent('tr:h-200,w-200/default-image.jpg'));
+        .and('include', 'tr:h-200,w-200/default-image.jpg');
 
       cy.get('.btn-to-change-tr').click();
       cy.wait(500);
 
       cy.get('.img-transformation')
         .should('have.attr', 'src')
-        .and('include', encodeURIComponent('tr:h-200,w-200,r-max/default-image.jpg'));
+        .and('include', 'tr:h-200,w-200,r-max/default-image.jpg');
     });
   });
 

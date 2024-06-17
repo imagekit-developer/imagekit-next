@@ -113,7 +113,8 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading"> & IKImageProps & IKC
     alt,
     ...restProps
   } = props;
-  return (
+
+  return currentUrl != undefined ? (
     <NextImage
       width={width}
       loader={({ src }) => src}
@@ -125,6 +126,8 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading"> & IKImageProps & IKC
       unoptimized
       loading="eager"
     />
+  ) : (
+    <img alt={props.alt || ""} src={currentUrl ? currentUrl : ""} ref={imageRef} {...restProps} />
   );
 };
 

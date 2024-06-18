@@ -108,18 +108,12 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading"> & IKImageProps & IKC
     transformation,
     transformationPosition,
     queryParameters,
-    width,
-    height,
-    alt,
     ...restProps
   } = props;
 
   return currentUrl != undefined ? (
     <NextImage
-      width={width}
       loader={({ src }) => src}
-      height={height}
-      alt={alt}
       src={currentUrl ? currentUrl : ""}
       ref={imageRef}
       {...restProps}
@@ -127,7 +121,7 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading"> & IKImageProps & IKC
       loading="eager"
     />
   ) : (
-    <img alt={props.alt || ""} src={currentUrl ? currentUrl : ""} ref={imageRef} {...restProps} />
+    <img src={currentUrl ? currentUrl : ""} ref={imageRef} {...restProps} />
   );
 };
 

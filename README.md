@@ -30,7 +30,7 @@ yarn add imagekit-next
 Import components in your code:
 
 ```js
-import { IKImage, IKVideo, ImageKitProvider, IKUpload } from 'imagekit-next'
+import { IKImage, IKVideo, ImageKitProvider, IKUpload, ImageKitContext } from 'imagekit-next'
 ```
 
 ### Pages Router (/src)
@@ -204,13 +204,14 @@ module.exports = {
 
 ## Components
 
-The library includes 5 Components:
+The library includes 6 Components:
 
 * [`ImageKitProvider`](#ImageKitProvider) for defining options like `urlEndpoint`, `publicKey` or `authenticator` to all children elements. This component does not render anything.
 * `IKImage` for [image resizing](#image-resizing). This utilizes next/image and renders an `<img>` tag.
 * `IKVideo` for [video resizing](#video-resizing). This renders a `<video>` tag.
 * `IKUpload`for client-side [file uploading](#file-upload). This renders a `<input type="file">` tag.
 * `ImageKitClient` for [Core SDK](#imagekitclient), This exposes methods from [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript) like url and upload.
+* [`ImageKitContext`](#ImageKitContext) is used to access options such as `urlEndpoint`, `publicKey`, or `authenticator` in child elements defined within `ImageKitProvider`. This component does not render anything.
 
 ## ImageKitProvider
 
@@ -742,6 +743,17 @@ var imageURL = imagekit.url({
 });
 ```
 
+## ImageKitContext
+
+To access options such as `urlEndpoint`, `publicKey`, or `authenticator` in child elements defined within `ImageKitProvider` you can use `ImageKitContext`.For example:
+
+```js
+import { ImageKitContext } from "imagekit-next"
+
+... 
+const { urlEndpoint, ikClient, authenticator } = useContext(ImageKitContext);
+
+```
 
 ## Support
 

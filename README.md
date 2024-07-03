@@ -206,12 +206,12 @@ module.exports = {
 
 The library includes 6 Components:
 
-* [`ImageKitProvider`](#ImageKitProvider) for defining options like `urlEndpoint`, `publicKey` or `authenticator` to all children elements. This component does not render anything.
+* [`ImageKitProvider`](#ImageKitProvider) is used to define options such as `urlEndpoint`, `publicKey`, or `authenticator` for all child components. It does not render any UI elements.
 * `IKImage` for [image resizing](#image-resizing). This utilizes next/image and renders an `<img>` tag.
 * `IKVideo` for [video resizing](#video-resizing). This renders a `<video>` tag.
 * `IKUpload`for client-side [file uploading](#file-upload). This renders a `<input type="file">` tag.
 * `ImageKitClient` for [Core SDK](#imagekitclient), This exposes methods from [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript) like url and upload.
-* [`ImageKitContext`](#ImageKitContext) is used to access options such as `urlEndpoint`, `publicKey`, or `authenticator` in child elements defined within `ImageKitProvider`. This component does not render anything.
+* [`ImageKitContext`](#ImageKitContext) is a context used to provide access to options such as `urlEndpoint`, `publicKey`, `ikClient` or `authenticator` to child components within `ImageKitProvider`. It does not render any UI elements.
 
 ## ImageKitProvider
 
@@ -745,7 +745,7 @@ var imageURL = imagekit.url({
 
 ## ImageKitContext
 
-To access options such as `urlEndpoint`, `publicKey`, or `authenticator` in child elements defined within `ImageKitProvider` you can use `ImageKitContext`.For example:
+To access options such as `urlEndpoint`, `publicKey`, `ikClient` or `authenticator` in child elements defined within `ImageKitProvider` you can use `ImageKitContext`. For example:
 
 ```js
 import { ImageKitContext } from "imagekit-next"

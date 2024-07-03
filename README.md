@@ -30,7 +30,7 @@ yarn add imagekit-next
 Import components in your code:
 
 ```js
-import { IKImage, IKVideo, IKContext, IKUpload } from 'imagekit-next'
+import { IKImage, IKVideo, ImageKitProvider, IKUpload } from 'imagekit-next'
 ```
 
 ### Pages Router (/src)
@@ -73,11 +73,11 @@ module.exports = {
 
 #### Image & video rendering and transformations
 ```js
-<IKContext urlEndpoint="https://ik.imagekit.io/your_imagekit_id">
+<ImageKitProvider urlEndpoint="https://ik.imagekit.io/your_imagekit_id">
   // Render an image using a relative path - https://ik.imagekit.io/your_imagekit_id/default-image.jpg
   <IKImage path="/default-image.jpg" width={200} height={200} alt="Alt text"/>
 
-  // Overriding urlEndpoint defined in parent IkContext - https://www.custom-domain.com/default-image.jpg
+  // Overriding urlEndpoint defined in parent ImageKitProvider - https://www.custom-domain.com/default-image.jpg
   <IKImage urlEndpoint="https://www.custom-domain.com" path="/default-image.jpg" width={200} height={200} alt="Alt text"/>
 
   // Render an image using an absolute URL - https://www1.custom-domain.com/default-image.jpg?tr=w-100
@@ -104,12 +104,12 @@ module.exports = {
     transformation={[{ height: 200, width: 200, q: 50 }]}
     controls={true}
   />
-</IKContext>
+</ImageKitProvider>
 ```
 
 #### Image lazy loading and low-quality placeholder
 ```js
-<IKContext urlEndpoint="https://ik.imagekit.io/your_imagekit_id">
+<ImageKitProvider urlEndpoint="https://ik.imagekit.io/your_imagekit_id">
   // Lazy loading image
   <IKImage
     path="/default-image.jpg"
@@ -157,13 +157,13 @@ module.exports = {
     lqip={{ active: true }}
     width={200} height={200} alt="Alt text"
   />
-</IKContext>
+</ImageKitProvider>
 ```
 
 #### File upload example
 ```js
-// Ensure you pass publicKey, urlEndpoint, and authenticator function to the parent IKContext component or to the IKUpload component directly.
-<IKContext
+// Ensure you pass publicKey, urlEndpoint, and authenticator function to the parent ImageKitProvider component or to the IKUpload component directly.
+<ImageKitProvider
   publicKey="your_public_api_key"
   urlEndpoint="https://ik.imagekit.io/your_imagekit_id"
   authenticator={()=>Promise} 
@@ -195,7 +195,7 @@ module.exports = {
       ]
     }}
   />
-</IKContext>
+</ImageKitProvider>
 ```
 
 ## Demo application
@@ -206,24 +206,24 @@ module.exports = {
 
 The library includes 5 Components:
 
-* [`IKContext`](#IKContext) for defining options like `urlEndpoint`, `publicKey` or `authenticator` to all children elements. This component does not render anything.
+* [`ImageKitProvider`](#ImageKitProvider) for defining options like `urlEndpoint`, `publicKey` or `authenticator` to all children elements. This component does not render anything.
 * `IKImage` for [image resizing](#image-resizing). This utilizes next/image and renders an `<img>` tag.
 * `IKVideo` for [video resizing](#video-resizing). This renders a `<video>` tag.
 * `IKUpload`for client-side [file uploading](#file-upload). This renders a `<input type="file">` tag.
-* `IKCore` for [Core SDK](#ikcore), This exposes methods from [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript) like url and upload.
+* `ImageKitClient` for [Core SDK](#imagekitclient), This exposes methods from [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript) like url and upload.
 
-## IKContext
+## ImageKitProvider
 
-To use this SDK, you need to provide it with a few configuration parameters. You can use a parent `IKContext` component to define common options for all children `IKImage`, `IKVideo` or `IKupload` components. For example:
+To use this SDK, you need to provide it with a few configuration parameters. You can use a parent `ImageKitProvider` component to define common options for all children `IKImage`, `IKVideo` or `IKupload` components. For example:
 
 ```js
-<IKContext
+<ImageKitProvider
   urlEndpoint="https://ik.imagekit.io/your_imagekit_id"  // Required. Default URL-endpoint is https://ik.imagekit.io/your_imagekit_id
   publicKey="your_public_api_key" // optional
   transformationPosition="path" // optional
   authenticator={()=>Promise} // optional
   <IKImage path="/default-image.jpg" width={200} height={200} alt="Alt text"/>
-</IKContext>
+</ImageKitProvider>
 ```
 
 * `urlEndpoint` is required to use the SDK. You can get URL-endpoint from your ImageKit dashboard - https://imagekit.io/dashboard/url-endpoints.
@@ -238,7 +238,7 @@ The `IKImage` component acts as a wrapper around the [Next.js Image component](h
 
 | Prop                   | Type             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | :--------------------- | :--------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| urlEndpoint            | String           | Optional. The base URL to be appended before the path of the image. If not specified, the URL-endpoint specified in the parent `IKContext` component is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| urlEndpoint            | String           | Optional. The base URL to be appended before the path of the image. If not specified, the URL-endpoint specified in the parent `ImageKitProvider` component is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | path                   | String           | Conditional. This is the path at which the image exists. For example, `/path/to/image.jpg`. Either the `path` or `src` parameter needs to be specified for URL generation.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | src                    | String           | Conditional. This is the complete URL of an image already mapped to ImageKit. For example, `https://ik.imagekit.io/your_imagekit_id/endpoint/path/to/image.jpg`. Either the `path` or `src` parameter needs to be specified for URL generation.                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | transformation         | Array of objects | Optional. An array of objects specifying the transformation to be applied in the URL. The transformation name and the value should be specified as a key-value pair in the object. See list of [different tranformations](#list-of-supported-transformations). Different steps of a [chained transformation](https://docs.imagekit.io/features/image-transformations/chained-transformations) can be specified as the Array's different objects. The complete list of supported transformations in the SDK and some examples of using them are given later. If you use a transformation name that is not specified in the SDK, it is applied in the URL as it is. |
@@ -256,7 +256,7 @@ In addition to these, you can use all the options supported by `next/image` exce
 ### Basic resizing examples
 
 ```js
-<IKContext urlEndpoint="https://ik.imagekit.io/your_imagekit_id">
+<ImageKitProvider urlEndpoint="https://ik.imagekit.io/your_imagekit_id">
   // Image from related file path with no transformations - https://ik.imagekit.io/your_imagekit_id/default-image.jpg
   <IKImage
     path="/default-image.jpg" height={200} width={300} alt="Alt text"
@@ -289,7 +289,7 @@ In addition to these, you can use all the options supported by `next/image` exce
     width={200} 
     alt="Alt text"
   />
-</IKContext>
+</ImageKitProvider>
 ```
 
 The `transformation` prop is an array of objects. Each object can have the following properties. When you specify more than one object, each object is added as a chained transformation. For example:
@@ -530,13 +530,13 @@ You have the option to lazy-load the original image only when the user scrolls n
 ### Overriding urlEndpoint for a particular image
 You can use `urlEndpoint` prop in an individual `IKImage` to change url for that image. For example:
 ```js
-<IKContext urlEndpoint="https://ik.imagekit.io/your_imagekit_id">
-  // Render an image using parent IKContext urlEndpont - https://ik.imagekit.io/your_imagekit_id/default-image.jpg
+<ImageKitProvider urlEndpoint="https://ik.imagekit.io/your_imagekit_id">
+  // Render an image using parent ImageKitProvider urlEndpont - https://ik.imagekit.io/your_imagekit_id/default-image.jpg
   <IKImage path="/default-image.jpg" height={200} width={200} alt="Alt text"/>
 
-  // Overriding urlEndpoint defined in parent IkContext - https://www.custom-domain.com/default-image.jpg
+  // Overriding urlEndpoint defined in parent ImageKitProvider - https://www.custom-domain.com/default-image.jpg
   <IKImage urlEndpoint="https://www.custom-domain.com" path="/default-image.jpg" height={200} width={200} alt="Alt text"/>
-</IKContext>
+</ImageKitProvider>
 ```
 
 ## Video resizing
@@ -545,7 +545,7 @@ The `IKVideo` component renders a `video` tag. It is used for rendering and mani
 
 | Prop                   | Type             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | :--------------------- | :--------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| urlEndpoint            | String           | Optional. The base URL to be appended before the path of the video. If not specified, the URL-endpoint specified in the parent `IKContext` component is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/                                                                                                                                                                                                                                                      |
+| urlEndpoint            | String           | Optional. The base URL to be appended before the path of the video. If not specified, the URL-endpoint specified in the parent `ImageKitProvider` component is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/                                                                                                                                                                                                                                                      |
 | path                   | String           | Conditional. This is the path at which the video exists. For example, `/path/to/video.mp4`. Either the `path` or `src` parameter needs to be specified for URL generation.                                                                                                                                                                                                                                                                                                        |
 | src                    | String           | Conditional. This is the complete URL of a video already mapped to ImageKit. For example, `https://ik.imagekit.io/your_imagekit_id/endpoint/path/to/video.mp4`. Either the `path` or `src` parameter needs to be specified for URL generation.                                                                                                                                                                                                                                    |
 | transformation         | Array of objects | Optional. An array of objects specifying the transformation to be applied in the URL. The transformation name and the value should be specified as a key-value pair in the object. See list of [different tranformations](#list-of-supported-transformations). The complete list of supported transformations in the SDK and some examples of using them are given later. If you use a transformation name that is not specified in the SDK, it gets applied as it is in the URL. |
@@ -555,7 +555,7 @@ The `IKVideo` component renders a `video` tag. It is used for rendering and mani
 ### Basic video resizing examples
 
 ```js
-<IKContext urlEndpoint="https://ik.imagekit.io/demo/your_imagekit_id">
+<ImageKitProvider urlEndpoint="https://ik.imagekit.io/demo/your_imagekit_id">
   // Video from related file path with no transformations - https://ik.imagekit.io/demo/your_imagekit_id/sample-video.mp4
   <IKVideo
     path="/sample-video.mp4"
@@ -579,7 +579,7 @@ The `IKVideo` component renders a `video` tag. It is used for rendering and mani
       custom: 'value'
     }]}
   />
-</IKContext>
+</ImageKitProvider>
 ```
 
 The `transformation` prop is an array of objects. Each object can have the following properties.
@@ -623,12 +623,12 @@ The SDK provides the `IKUpload` component to upload files to the [ImageKit Media
 | overrideParameters      | Function callback                                          | Optional. This function accepts the `File` object as an argument and should return a JSON value, e.g., `{fileName: "new-file-name.jpg"}.` Use this to programmatically override `fileName`, `useUniqueFileName`, `tags`, `folder`, `isPrivateFile`, `customCoordinates`, `extensions`, `webhookUrl`, `overwriteFile`, `overwriteAITags`, `overwriteTags`, `overwriteCustomMetadata`, `customMetadata`, and `transformation` parameters. |
 | onSuccess               | Function callback                                          | Optional. Called if the upload is successful. The first and only argument is the response JSON from the upload API. The request-id, response headers, and HTTP status code are also accessible using the $ResponseMetadata key that is exposed from the [javascript sdk](https://github.com/imagekit-developer/imagekit-javascript#access-request-id-other-response-headers-and-http-status-code)                       |
 | onError                 | Function callback                                          | Optional. Called if upload results in an error. The first and only argument is the error received from the upload API                                                                                                                                                                                                                                                                                                   |
-| urlEndpoint             | String                                                     | Optional. If not specified, the URL-endpoint specified in the parent `IKContext` component is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/                                                                                                                                                                                                                                                      |
-| publicKey               | String                                                     | Optional. If not specified, the `publicKey` specified in the parent `IKContext` component is used.                                                                                                                                                                                                                                                                                                                      |
-| authenticator           | ()=>Promise<{signature:string,token:string,expiry:number}> | Optional. If not specified, the `authenticator` specified in the parent `IKContext` component is used.                                                                                                                                                                                                                                                                                                                  |
+| urlEndpoint             | String                                                     | Optional. If not specified, the URL-endpoint specified in the parent `ImageKitProvider` component is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/                                                                                                                                                                                                                                                      |
+| publicKey               | String                                                     | Optional. If not specified, the `publicKey` specified in the parent `ImageKitProvider` component is used.                                                                                                                                                                                                                                                                                                                      |
+| authenticator           | ()=>Promise<{signature:string,token:string,expiry:number}> | Optional. If not specified, the `authenticator` specified in the parent `ImageKitProvider` component is used.                                                                                                                                                                                                                                                                                                                  |
 
 
-> Make sure that you have specified `authenticator` and `publicKey` in `IKUpload` or in the parent `IKContext` component as a prop. The authenticator expects an asynchronous function that resolves with an object containing the necessary security parameters i.e `signature`, `token`, and `expire`.
+> Make sure that you have specified `authenticator` and `publicKey` in `IKUpload` or in the parent `ImageKitProvider` component as a prop. The authenticator expects an asynchronous function that resolves with an object containing the necessary security parameters i.e `signature`, `token`, and `expire`.
 
 #### Abort upload
 
@@ -655,7 +655,7 @@ const onSuccess = (res) => {
   console.log(res);
 };
 
-<IKContext
+<ImageKitProvider
   publicKey="your_public_api_key"
   urlEndpoint="https://ik.imagekit.io/your_imagekit_id"
   authenticator={()=>Promise} 
@@ -676,7 +676,7 @@ const onSuccess = (res) => {
       ]
     }}
   />
-</IKContext>;
+</ImageKitProvider>;
 ```
 
 Custom Button Example, using ref
@@ -694,7 +694,7 @@ const onSuccess = (res) => {
   console.log(res);
 };
 
-<IKContext
+<ImageKitProvider
   publicKey="your_public_api_key"
   urlEndpoint="https://ik.imagekit.io/your_imagekit_id"
   authenticator={()=>Promise} 
@@ -717,17 +717,17 @@ const onSuccess = (res) => {
   />
   <h1>Custom Upload Button</h1>
   {reftest && <button className='custom-button-style' onClick={() => reftest.current.click()}>Upload</button>}
-</IKContext>;
+</ImageKitProvider>;
 ```
 
-## IKCore
+## ImageKitClient
 
-Accessing the underlying [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript) is possible using the `IKCore` import. For example:
+Accessing the underlying [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript) is possible using the `ImageKitClient` import. For example:
 
 ```js
-import { IKCore } from "imagekit-next"
+import { ImageKitClient } from "imagekit-next"
 // Generate image URL
-var imagekit = new IKCore({
+var imagekit = new ImageKitClient({
     publicKey: "your_public_api_key",
     urlEndpoint: "https://ik.imagekit.io/your_imagekit_id",
 });

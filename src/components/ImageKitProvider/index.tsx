@@ -1,22 +1,22 @@
 import React, { createContext } from "react";
 import ImageKit from "imagekit-javascript";
-import IKContextProps, { IKContextExtractedProps } from "./props";
+import ImageKitProviderProps, { ImageKitProviderExtractedProps } from "./props";
 
 // Create the context
-export const ImageKitContext = createContext<IKContextExtractedProps>({});
+export const ImageKitContext = createContext<ImageKitProviderExtractedProps>({});
 
 /**
- * Provides a container for ImageKit components. Any option set in IKContext will be passed to the children.
+ * Provides a container for ImageKit components. Any option set in ImageKitProvider will be passed to the children.
  *
  * @example
- *<IKContext  publicKey="<public key>" urlEndpoint="url link">
+ *<ImageKitProvider  publicKey="<public key>" urlEndpoint="url link">
  *    <!-- other tags -->
  *    <Image src={link}/>
- *</IKContext>
+ *</ImageKitProvider>
  */
-const IKContext = (props: React.PropsWithChildren<IKContextProps>) => {
-  const extractContextOptions = (mergedOptions: IKContextExtractedProps) => {
-    const propKeys = ["publicKey", "urlEndpoint", "authenticator", "transformationPosition", "ikClient"] as Array<keyof IKContextExtractedProps>;
+const ImageKitProvider = (props: React.PropsWithChildren<ImageKitProviderProps>) => {
+  const extractContextOptions = (mergedOptions: ImageKitProviderExtractedProps) => {
+    const propKeys = ["publicKey", "urlEndpoint", "authenticator", "transformationPosition", "ikClient"] as Array<keyof ImageKitProviderExtractedProps>;
 
     for (const key in mergedOptions) {
       if (!propKeys.includes(key as keyof typeof mergedOptions)) {
@@ -44,4 +44,4 @@ const IKContext = (props: React.PropsWithChildren<IKContextProps>) => {
   return <ImageKitContext.Provider value={contextOptionsExtracted}>{props.children}</ImageKitContext.Provider>;
 };
 
-export default IKContext;
+export default ImageKitProvider;

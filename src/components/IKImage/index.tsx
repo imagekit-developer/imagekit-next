@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import NextImage, { ImageProps } from "next/image";
 import IKImageProps from "./props";
-import IKContextProps from "../IKContext/props";
+import ImageKitProviderProps from "../ImageKitProvider/props";
 import useImageKitComponent from "../ImageKitComponent";
-import { ImageKitContext } from "../IKContext";
+import { ImageKitContext } from "../ImageKitProvider";
 import { fetchEffectiveConnection, getIKElementsUrl, getSrc } from "../../utils/Utility";
 
-const IKImage = (props: Omit<ImageProps, "src" | "loading"> & IKImageProps & IKContextProps) => {
+const IKImage = (props: Omit<ImageProps, "src" | "loading"> & IKImageProps & ImageKitProviderProps) => {
   const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);
   const [originalSrc, setOriginalSrc] = useState<string>("");
   const [lqipSrc, setLqipSrc] = useState<string>("");
@@ -97,29 +97,11 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading"> & IKImageProps & IKC
     };
   }, [props, originalSrc, lqipSrc]);
 
-  const {
-    urlEndpoint,
-    authenticator,
-    publicKey,
-    loading,
-    lqip,
-    path,
-    src,
-    transformation,
-    transformationPosition,
-    queryParameters,
-    ...restProps
-  } = props;
+  const { urlEndpoint, authenticator, publicKey, loading, lqip, path, src, transformation, transformationPosition, queryParameters, ...restProps } =
+    props;
 
   return currentUrl != undefined ? (
-    <NextImage
-      loader={({ src }) => src}
-      src={currentUrl ? currentUrl : ""}
-      ref={imageRef}
-      {...restProps}
-      unoptimized
-      loading="eager"
-    />
+    <NextImage loader={({ src }) => src} src={currentUrl ? currentUrl : ""} ref={imageRef} {...restProps} unoptimized loading="eager" />
   ) : (
     <img src={currentUrl ? currentUrl : ""} ref={imageRef} {...restProps} />
   );

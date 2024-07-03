@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import IKContextProps, { IKContextExtractedProps } from "../IKContext/props";
+import ImageKitProviderProps, { ImageKitProviderExtractedProps } from "../ImageKitProvider/props";
 import IKVideoProps from "./props";
 import { getSrc } from "../../utils/Utility";
 import useImageKitComponent from "../ImageKitComponent";
-import { ImageKitContext } from "../IKContext";
+import { ImageKitContext } from "../ImageKitProvider";
 
 type IKVideoState = {
   currentUrl?: string;
-  contextOptions: IKContextExtractedProps;
+  contextOptions: ImageKitProviderExtractedProps;
 };
 
-const IKVideo = (props: IKVideoProps & IKContextProps) => {
+const IKVideo = (props: IKVideoProps & ImageKitProviderProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [state, setState] = useState<IKVideoState>({
     currentUrl: "",

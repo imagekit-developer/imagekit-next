@@ -7,7 +7,7 @@ interface Props {
   transformationPosition?: "path" | "query";
 }
 
-export interface IKContextExtractedProps extends Props {
+export interface ImageKitProviderExtractedProps extends Props {
   ikClient?: ImageKit;
 }
 

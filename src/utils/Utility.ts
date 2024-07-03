@@ -1,6 +1,6 @@
 import ImageKit from "imagekit-javascript";
 import { TransformationPosition, UrlOptions } from "imagekit-javascript/dist/src/interfaces";
-import IKContextProps, { IKContextExtractedProps } from "../components/IKContext/props";
+import ImageKitProviderProps, { ImageKitProviderExtractedProps } from "../components/ImageKitProvider/props";
 import IKImageProps from "../components/IKImage/props";
 import { Props as IKVideoProps } from "../components/IKVideo/props";
 
@@ -10,7 +10,7 @@ export type IKImageState = {
   lqipSrc?: string;
   originalSrcLoaded: boolean;
   intersected: boolean;
-  contextOptions: IKContextExtractedProps;
+  contextOptions: ImageKitProviderExtractedProps;
   observe?: IntersectionObserver;
   initialzeState: boolean;
 };
@@ -35,9 +35,9 @@ export const areObjectsDifferent = <T>(prevProps: T, newProps: T, propsAffecting
 type GetSrcReturnType = { originalSrc: string; lqipSrc?: string };
 
 export const getSrc = (
-  { urlEndpoint, lqip, src, path, transformation, transformationPosition, queryParameters }: IKImageProps & IKContextProps & IKVideoProps,
+  { urlEndpoint, lqip, src, path, transformation, transformationPosition, queryParameters }: IKImageProps & ImageKitProviderProps & IKVideoProps,
   ikClient: ImageKit,
-  contextOptions: IKContextExtractedProps
+  contextOptions: ImageKitProviderExtractedProps
 ): GetSrcReturnType => {
   let options: UrlOptions;
   if (src) {

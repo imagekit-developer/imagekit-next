@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef } from "react";
-import { IKImage, IKContext, IKUpload, IKVideo } from "../../src/index";
+import { IKImage, ImageKitProvider, IKUpload, IKVideo } from "../../src/index";
 import { AbortableFileInput, IKUploadResponse, UploadError } from "../../src/components/IKUpload/props";
 import { Transformation } from "imagekit-javascript/dist/src/interfaces/Transformation";
 
@@ -27,7 +27,7 @@ function App() {
       width: "200",
     },
   ]);
-  const [imageTrSansIKContext, setImageTrSansIKContext] = useState<Transformation[]>([
+  const [imageTransImageKitProvider, setImageTransImageKitProvider] = useState<Transformation[]>([
     {
       height: "300",
       width: "300",
@@ -116,7 +116,7 @@ function App() {
           imageTr,
           overrideParametersValue,
         })}
-        onChange={()=>{}}
+        onChange={() => {}}
         style={{ display: "none" }}
       ></input>
       <h1>Hi! This is an ImageKit Next.js SDK Demo!</h1>
@@ -132,7 +132,7 @@ function App() {
         urlEndpoint={urlEndpoint}
         className={"img-transformation-direct"}
         path={path}
-        transformation={imageTrSansIKContext}
+        transformation={imageTransImageKitProvider}
         width={200}
         height={200}
         alt="test-image"
@@ -142,7 +142,7 @@ function App() {
         <button
           className={"btn-to-change-tr-direct"}
           onClick={() =>
-            setImageTrSansIKContext([
+            setImageTransImageKitProvider([
               {
                 height: "200",
                 width: "600",
@@ -162,9 +162,9 @@ function App() {
       <br />
 
       <p>
-        Using context <code>IKContext</code>
+        Using context <code>ImageKitProvider</code>
       </p>
-      <IKContext publicKey={publicKey} urlEndpoint={urlEndpoint} authenticator={authenticator}>
+      <ImageKitProvider publicKey={publicKey} urlEndpoint={urlEndpoint} authenticator={authenticator}>
         <p>Let's add an Image</p>
         <IKImage src={src} width={200} height={200} alt="test-image" />
 
@@ -329,9 +329,9 @@ function App() {
             {"File upload failed."}
           </p>
         )}
-      </IKContext>
+      </ImageKitProvider>
 
-      <IKContext publicKey={publicKey} urlEndpoint={videoUrlEndpoint}>
+      <ImageKitProvider publicKey={publicKey} urlEndpoint={videoUrlEndpoint}>
         <p>Video Element</p>
         <IKVideo className="ikvideo-default" path={videoPath} transformation={[{ height: "200", width: "200" }]} controls={true} />
 
@@ -343,7 +343,7 @@ function App() {
           transformation={[{ height: "200", width: "600", b: "5_red", q: "95" }]}
           controls={true}
         />
-      </IKContext>
+      </ImageKitProvider>
     </div>
   );
 }

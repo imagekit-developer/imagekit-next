@@ -103,7 +103,7 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading"> & IKImageProps & Ima
   return currentUrl != undefined ? (
     <NextImage loader={({ src }) => src} src={currentUrl ? currentUrl : ""} ref={imageRef} {...restProps} unoptimized loading="eager" />
   ) : (
-    <img src={currentUrl ? currentUrl : ""} ref={imageRef} {...restProps} />
+    <img src={currentUrl ? currentUrl : ""} ref={imageRef} />
   );
 };
 

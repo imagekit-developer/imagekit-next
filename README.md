@@ -9,9 +9,11 @@
 
 ImageKit Next.js SDK allows you to resize, optimize, deliver, and upload images and videos in your Next.js application.
 
-ImageKit is a complete media storage, optimization, and transformation solution that comes with an image and video CDN. It can be integrated with your existing infrastructure - storage like AWS S3, web servers, your CDN, and custom domain names, allowing you to deliver optimized images in minutes with minimal code changes.
+[ImageKit](https://imagekit.io) is a complete media storage, optimization, and transformation solution that comes with an image and video CDN. It can be integrated with your existing infrastructure - storage like AWS S3, web servers, your CDN, and custom domain names, allowing you to deliver optimized images in minutes with minimal code changes.
 
 ## Installation
+
+Add `imagekit-next` to your project by executing one of the following commands:
 
 ```shell
 npm install --save imagekit-next
@@ -49,9 +51,23 @@ To do this, simply add the following at the top of the file:
 "use client";
 ```
 
-### Configure hostname
+The components in the app directory are, by default, React Server-Side Components (RSCs), but not everything can be done server-side. That's where Client components come in.
 
-To protect your application from malicious users, configuration is required in order to use external images. This ensures that only external images from your account can be served from the Next.js Image Optimization API.
+`imagekit-next` provides components that operate exclusively on the client side.
+
+When using the SDK for the first time, you might enter either of the following errors.
+
+`Error: (0 , react__WEBPACK_IMPORTED_MODULE_0__.createContext) is not a function`
+
+or
+
+`You're importing a component that needs createContext. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.`
+
+To simply fix this, you can force the component or the page to operate solely on Client Side by adding "use client"; directive at the start of the file, you can read more about it here [Using Client Components in Next.js](https://nextjs.org/docs/app/building-your-application/rendering/client-components#using-client-components-in-nextjs).
+
+### Allowing images to be loaded from trusted external URLs
+
+To protect your application from malicious users, configuration is required to use external images. The `remotePatterns` configuration in Next.js specifies the sources allowed to load images via external URLs. This enhances security by preventing unauthorized image sources, which could potentially expose the application to vulnerabilities like cross-site scripting (XSS) or data theft. By defining a whitelist of trusted image sources, developers can ensure that only images from these sources are loaded, thereby safeguarding the application. For more details, refer to the [Next.js documentation](https://nextjs.org/docs/app/api-reference/components/image#remotepatterns).
 
 `next.config.js`
 ```js
@@ -69,7 +85,7 @@ module.exports = {
 ```
 
 
-### Quick examples
+### Examples
 
 #### Image & video rendering and transformations
 ```js
@@ -199,8 +215,7 @@ module.exports = {
 ```
 
 ## Demo application
-* The official step-by-step Next.js quick start guide - https://docs.imagekit.io/getting-started/quickstart-guides/next
-* The official step-by-step Next.js quick start guide - https://docs.imagekit.io/getting-started/quickstart-guides/next
+* The official step-by-step Next.js quick start guide - https://imagekit.io/docs/integration/next
 
 ## Components
 

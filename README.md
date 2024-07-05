@@ -41,16 +41,6 @@ By default, `imagekit-next` fully supports the included components in the `src` 
 
 ### App Router (/app)
 
-To use `imagekit-next` in the app directory, you currently need to mark the parent page or component as a Client Component.
-
-This requirement exists because components are divided into two types: Client Components and Server Components.
-
-To do this, simply add the following at the top of the file:
-
-```js
-"use client";
-```
-
 The components in the app directory are, by default, React Server-Side Components (RSCs), but not everything can be done server-side. That's where Client components come in.
 
 `imagekit-next` provides components that operate exclusively on the client side.

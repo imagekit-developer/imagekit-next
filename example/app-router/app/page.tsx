@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useRef } from "react";
-import { IKImage, ImageKitProvider, IKUpload, IKVideo } from "../../src/index";
-import { AbortableFileInput, IKUploadResponse, UploadError } from "../../src/components/IKUpload/props";
+import { IKImage, ImageKitProvider, IKUpload, IKVideo } from "../../../src/index";
+import { AbortableFileInput, IKUploadResponse, UploadError } from "../../../src/components/IKUpload/props";
 import { Transformation } from "imagekit-javascript/dist/src/interfaces/Transformation";
 
 interface ErrorType {

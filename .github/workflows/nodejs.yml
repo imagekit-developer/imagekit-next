@@ -44,9 +44,9 @@ jobs:
         npm install
         npm run build
         npm pack
-    - name: build test-app
+    - name: build example/app-router
       run: |
-        cd test-app
+        cd example/app-router
         echo NEXT_PUBLIC_URL_ENDPOINT = ${{ secrets.IK_URL_ENDPOINT }} > .env;
         echo NEXT_PUBLIC_PUBLIC_KEY = ${{ secrets.IK_PUBLIC_KEY }} >> .env;
         echo NEXT_PUBLIC_AUTHENTICATION_ENDPOINT = 'http://localhost:3001/auth' >> .env;
@@ -63,7 +63,7 @@ jobs:
     - name: Run E2E tests
       uses: cypress-io/github-action@v4
       with:
-        start: npm run serve:test-app
+        start: npm run serve:app-router
         wait-on: 'http://localhost:3000, http://localhost:3001'
       env:
         DEBUG: 'cypress:server:browsers:electron'

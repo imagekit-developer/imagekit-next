@@ -49,7 +49,7 @@ jobs:
         cd example/app-router
         echo NEXT_PUBLIC_URL_ENDPOINT = ${{ secrets.IK_URL_ENDPOINT }} > .env;
         echo NEXT_PUBLIC_PUBLIC_KEY = ${{ secrets.IK_PUBLIC_KEY }} >> .env;
-        echo NEXT_PUBLIC_AUTHENTICATION_ENDPOINT = 'http://localhost:3001/auth' >> .env;
+        echo NEXT_PUBLIC_AUTHENTICATION_ENDPOINT = 'http://localhost:3000/api/auth' >> .env;
         echo PRIVATE_KEY = ${{ secrets.IK_PRIVATE_KEY }} >> .env;
         npm install && npm run build
       env:

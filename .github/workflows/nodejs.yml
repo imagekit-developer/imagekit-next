@@ -51,7 +51,7 @@ jobs:
         echo NEXT_PUBLIC_PUBLIC_KEY = ${{ secrets.IK_PUBLIC_KEY }} >> .env;
         echo NEXT_PUBLIC_AUTHENTICATION_ENDPOINT = 'http://localhost:3001/auth' >> .env;
         echo PRIVATE_KEY = ${{ secrets.IK_PRIVATE_KEY }} >> .env;
-        npm install && npm install ../../imagekitio*.tgz --force && npm run build
+        npm install && npm run build
       env:
         CI: true
         NEXT_PUBLIC_PUBLIC_KEY: ${{ secrets.IK_PUBLIC_KEY }}

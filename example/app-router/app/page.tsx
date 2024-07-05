@@ -165,7 +165,7 @@ function App() {
         Using context <code>ImageKitProvider</code>
       </p>
       <ImageKitProvider publicKey={publicKey} urlEndpoint={urlEndpoint} authenticator={authenticator}>
-        <p>Let's add an Image</p>
+        <p>Let&apos;s add an Image</p>
         <IKImage src={src} width={200} height={200} alt="test-image" />
 
         <p>Transformation - height and width manipulation</p>

@@ -99,11 +99,28 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading"> & IKImageProps & Ima
 
   const { urlEndpoint, authenticator, publicKey, loading, lqip, path, src, transformation, transformationPosition, queryParameters, ...restProps } =
     props;
+  const {
+    fill,
+    loader,
+    quality,
+    priority,
+    placeholder,
+    blurDataURL,
+    unoptimized,
+    overrideSrc,
+    onLoadingComplete,
+    layout,
+    objectFit,
+    objectPosition,
+    lazyBoundary,
+    lazyRoot,
+    ...restPropsWithoutImageProps
+  } = restProps;
 
   return currentUrl != undefined ? (
     <NextImage loader={({ src }) => src} src={currentUrl ? currentUrl : ""} ref={imageRef} {...restProps} unoptimized loading="eager" />
   ) : (
-    <img src={currentUrl ? currentUrl : ""} ref={imageRef} />
+    <img src={currentUrl ? currentUrl : ""} ref={imageRef} {...restPropsWithoutImageProps} />
   );
 };
 

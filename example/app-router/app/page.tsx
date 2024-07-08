@@ -130,6 +130,7 @@ function App() {
       <div className="relative large-dimension">
         <IKImage
           publicKey={publicKey}
+          height={200} width={200}
           urlEndpoint={urlEndpoint}
           className={"img-transformation-direct"}
           path={path}
@@ -171,7 +172,7 @@ function App() {
 
         <p>Transformation - height and width manipulation</p>
         <div className="relative large-dimension">
-          <IKImage className={"img-transformation"} path={path} transformation={imageTr} alt="test-image" />
+          <IKImage className={"img-transformation"} height={200} width={200} path={path} transformation={imageTr} alt="test-image" />
         </div>
         <div>
           <p>Click here to apply max radius on above image </p>
@@ -205,6 +206,7 @@ function App() {
               },
             ]}
             alt="test-image"
+            height={200} width={200}
           />
         </div>
 
@@ -213,6 +215,7 @@ function App() {
           <IKImage
             className={"lazyload"}
             path={path}
+            height={200} width={200}
             transformation={[
               {
                 height: "200",
@@ -228,6 +231,7 @@ function App() {
         <div className="relative dimension">
           <IKImage
             className={"lqip"}
+            height={200} width={200}
             path={path}
             transformation={[
               {
@@ -245,6 +249,7 @@ function App() {
         <div className="relative dimension">
           <IKImage
             className={"lazyload-lqip"}
+            height={200} width={200}
             path={path}
             transformation={[
               {
@@ -304,6 +309,7 @@ function App() {
           <div className="relative dimension">
             <IKImage
               urlEndpoint={urlEndpoint}
+              height={200} width={200}
               src={uploadedImageSource}
               className="uploaded-img-ik"
               transformation={[

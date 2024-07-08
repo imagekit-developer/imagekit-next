@@ -259,7 +259,7 @@ The `IKImage` component acts as a wrapper around the [Next.js Image component](h
 
 In addition to these, you can use all the options supported by `next/image` except for `loading`, `loader` and `src`. You can find the full list of supported `next/image` props [here](https://nextjs.org/docs/pages/building-your-application/optimizing/images#props).
 
-The `height` and `width` properties are ignored if they are included in the `transformation` parameter passed to `IKImage`, and `fill={true}` is applied. In such cases, where the `transformation` contains `height` or `width`, a boundary element with appropriate dimensions should be provided, and its position should be set to one of `absolute`, `fixed`, or `relative`. Please refer to the example below.
+The `height` and `width` properties are ignored if they are included in the `transformation` parameter passed to `IKImage`, and `fill={true}` is applied. In such cases, where the `transformation` contains `height` or `width`, a boundary element with appropriate dimensions should be provided, and its position should be set to one of `absolute`, `fixed`, or `relative`. If `height`, `width`, or `quality` is specified only as a prop and not in the `transformation`, it is automatically applied in the `transformation`. Please refer to the example below.
 
 ```js
 <div style={{ position: "relative", width: "200", height: "200" }}>

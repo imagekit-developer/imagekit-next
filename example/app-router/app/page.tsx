@@ -124,13 +124,14 @@ function App() {
       <p>
         Directly using <code>IkImage</code>
       </p>
-      <IKImage urlEndpoint={urlEndpoint} width={200} height={200} src={src} alt="test-image" />
+      <IKImage className="applied-to-transformation" urlEndpoint={urlEndpoint} width={200} height={200} quality={10} path={path} alt="test-image" />
 
       <p>Dynamic transformation update directly using IKImage</p>
       <div className="relative large-dimension">
         <IKImage
           publicKey={publicKey}
-          height={200} width={200}
+          height={200}
+          width={200}
           urlEndpoint={urlEndpoint}
           className={"img-transformation-direct"}
           path={path}
@@ -206,7 +207,6 @@ function App() {
               },
             ]}
             alt="test-image"
-            height={200} width={200}
           />
         </div>
 
@@ -215,7 +215,6 @@ function App() {
           <IKImage
             className={"lazyload"}
             path={path}
-            height={200} width={200}
             transformation={[
               {
                 height: "200",
@@ -231,7 +230,6 @@ function App() {
         <div className="relative dimension">
           <IKImage
             className={"lqip"}
-            height={200} width={200}
             path={path}
             transformation={[
               {
@@ -249,7 +247,6 @@ function App() {
         <div className="relative dimension">
           <IKImage
             className={"lazyload-lqip"}
-            height={200} width={200}
             path={path}
             transformation={[
               {
@@ -309,7 +306,6 @@ function App() {
           <div className="relative dimension">
             <IKImage
               urlEndpoint={urlEndpoint}
-              height={200} width={200}
               src={uploadedImageSource}
               className="uploaded-img-ik"
               transformation={[

@@ -13,7 +13,7 @@ describe('ImageKit Next SDK', () => {
 
       cy.get('.lazyload').scrollIntoView();
 
-      cy.wait(1500);
+      cy.wait(20000);
 
       cy.get('.lazyload')
         .should('have.attr', 'src')

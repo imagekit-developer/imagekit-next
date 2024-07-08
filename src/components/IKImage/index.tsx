@@ -157,7 +157,7 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
       ref={imageRef}
       unoptimized
       loading="eager"
-      fill={transformation?.length && (hasProperty(transformation, "height") || hasProperty(transformation, "width")) ? true : false}
+      //fill={transformation?.length && (hasProperty(transformation, "height") || hasProperty(transformation, "width")) ? true : false}
       {...restProps}
     />
   ) : (

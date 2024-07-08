@@ -22,7 +22,11 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
   const contextOptions = useContext(ImageKitContext);
 
   useEffect(() => {
-    const { originalSrc: newOriginalSrc, lqipSrc: newLqipSrc } = getSrc({...props,transformation:updateTransformation(props)}, getIKClient(), contextOptions);
+    const { originalSrc: newOriginalSrc, lqipSrc: newLqipSrc } = getSrc(
+      { ...props, transformation: updateTransformation(props) },
+      getIKClient(),
+      contextOptions
+    );
     setOriginalSrc(newOriginalSrc);
     setLqipSrc(newLqipSrc ? newLqipSrc : "");
     setInitialized(true);
@@ -145,7 +149,7 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
     setImageProps(updatedRestProps);
   }, []);
 
-  return currentUrl != undefined && Object.keys(imageProps).length ? (
+  return currentUrl != undefined ? (
     <NextImage
       loader={({ src }) => src}
       alt={alt}

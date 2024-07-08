@@ -3,6 +3,8 @@ import { TransformationPosition, UrlOptions } from "imagekit-javascript/dist/src
 import ImageKitProviderProps, { ImageKitProviderExtractedProps } from "../components/ImageKitProvider/props";
 import IKImageProps from "../components/IKImage/props";
 import { Props as IKVideoProps } from "../components/IKVideo/props";
+import { ImageProps } from "next/image";
+import { Transformation } from "imagekit-javascript/dist/src/interfaces/Transformation";
 
 export type IKImageState = {
   currentUrl?: string;
@@ -121,4 +123,32 @@ export const getIKElementsUrl = ({ lqip = null, loading }: IKImageProps, { inter
       return lqipSrc;
     }
   }
+};
+
+export function hasProperty(array: Array<Transformation>, property: string) {
+  return array.some((obj) => obj.hasOwnProperty(property));
+}
+
+export const updateTransformation = ({
+  width,
+  height,
+  transformation,
+  src,
+  path,
+  quality,
+}: IKImageProps & ImageKitProviderProps & Pick<ImageProps, "height" | "width" | "quality">) => {
+  //if height and width are there in props and absent in transformation then add it to the transformatiion
+  if ((src || path) && (width || quality || height)) {
+    let transformationObject: Transformation = {};
+    if (!(transformation?.length && (hasProperty(transformation, "height") || hasProperty(transformation, "width")))) {
+      if (height) transformationObject["height"] = String(height);
+      if (width) transformationObject["width"] = String(width);
+    }
+    if (!(transformation?.length && hasProperty(transformation, "quality")) && quality) transformationObject["quality"] = String(quality);
+    if (Object.keys(transformationObject).length) {
+      if (transformation?.length) transformation = [...transformation, transformationObject];
+      else transformation = [transformationObject];
+    }
+  }
+  return transformation;
 };

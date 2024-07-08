@@ -93,7 +93,7 @@ module.exports = {
   <IKImage path="/default-image.jpg" transformation={[{
     "height": "200",
     "width": "200"
-  }]} width={200} height={200} alt="Alt text" />
+  }]} alt="Alt text" />
 
   // Chained transformation - https://ik.imagekit.io/your_imagekit_id/tr:h-200,w-200:rt-90/default-image.jpg
   <IKImage path="/default-image.jpg" transformation={[{
@@ -102,7 +102,7 @@ module.exports = {
   },
   {
     "rotation": "90"
-  }]} width={200} height={200} alt="Alt text"/>
+  }]} alt="Alt text"/>
 
   // Video element with basic transformation, reduced quality by 50% using q:50
   <IKVideo
@@ -124,7 +124,7 @@ module.exports = {
       "width": "200"
     }]}
     loading="lazy"
-    width={200} height={200} alt="Alt text"
+    alt="Alt text"
   />
 
   /*
@@ -138,7 +138,7 @@ module.exports = {
       "width": "200"
     }]}
     lqip={{ active: true }}
-    width={200} height={200} alt="Alt text"
+    alt="Alt text"
   />
 
   // Low-quality image placeholder with custom quality and blur values
@@ -149,7 +149,7 @@ module.exports = {
       "width": "200"
     }]}
     lqip={{ active: true, quality: 20, blur: 10 }}
-    width={200} height={200} alt="Alt text"
+    alt="Alt text"
   />
 
   // Low-quality image placeholder and lazy loading of original image in the background
@@ -161,7 +161,7 @@ module.exports = {
     }]}
     loading="lazy"
     lqip={{ active: true }}
-    width={200} height={200} alt="Alt text"
+    alt="Alt text"
   />
 </ImageKitProvider>
 ```
@@ -257,7 +257,15 @@ The `IKImage` component acts as a wrapper around the [Next.js Image component](h
 | alt                   | String       | Required. The `alt` property is used to describe the image for screen readers and search engines. It is also the fallback text if images have been disabled or an error occurs while loading the image.                                                                                                                                                                       |
 
 
-In addition to these, you can use all the options supported by `next/image` except for `loading` and `src`. You can find the full list of supported `next/image` props [here](https://nextjs.org/docs/pages/building-your-application/optimizing/images#props).
+In addition to these, you can use all the options supported by `next/image` except for `loading`, `loader` and `src`. You can find the full list of supported `next/image` props [here](https://nextjs.org/docs/pages/building-your-application/optimizing/images#props).
+
+The `height` and `width` properties are ignored if they are included in the `transformation` parameter passed to `IKImage`, and `fill={true}` is applied. In such cases, where the `transformation` contains `height` or `width`, a boundary element with appropriate dimensions should be provided, and its position should be set to one of `absolute`, `fixed`, or `relative`. Please refer to the example below.
+
+```js
+<div style={{ position: "relative", width: "200", height: "200" }}>
+  <IKImage path={path} transformation={[{ height: "200", width: "200" }]} alt="test-image" />
+</div>
+```
 
 ### Basic resizing examples
 
@@ -272,11 +280,9 @@ In addition to these, you can use all the options supported by `next/image` exce
   <IKImage
     path="/default-image.jpg"
     transformation={[{
-      height:300,
-      width:400
+      height:"300",
+      width:"400"
     }]}
-    height={300}
-    width={400}
     alt="Alt text"
   />
 
@@ -328,8 +334,8 @@ For example:
 ```js
 <IKImage
     path="/default-image.jpg"
-    transformation={[{ "width": 400, "height": 300 },{ "raw": "l-text,i-Imagekit,fs-50,l-end" }]}
-    height={300} width={400} alt="Alt text"
+    transformation={[{ "width": "400", "height": "300" },{ "raw": "l-text,i-Imagekit,fs-50,l-end" }]}
+    alt="Alt text"
 />
 ```
 **Sample Result URL**
@@ -346,8 +352,8 @@ For example:
 ```js
 <IKImage
     path="/default-image.jpg"
-    transformation={[{ "width": 400, "height": 300 },{ "raw": "l-image,i-default-image.jpg,w-100,b-10_CDDC39,l-end" }]}
-    height={300} width={400} alt="Alt text"
+    transformation={[{ "width": "400", "height": "300" },{ "raw": "l-image,i-default-image.jpg,w-100,b-10_CDDC39,l-end" }]}
+    alt="Alt text"
 />
 ```
 **Sample Result URL**
@@ -387,7 +393,7 @@ For example:
         "width": "iw_div_4",
         "border": "cw_mul_0.05_yellow"
     }]}
-    height={200} width={200} alt="Alt text"
+    alt="Alt text"
 />
 ```
 
@@ -453,7 +459,7 @@ Chained transforms make it easy to specify the order the transform is applied. F
       rotation: 90
     }
   ]}
-  height={300} width={400} alt="Alt text"
+  alt="Alt text"
 />
 ```
 
@@ -475,15 +481,15 @@ Example usage:
   path="/default-image.jpg"
   transformation={[
     {
-      height:300,
-      width:400
+      height:"300",
+      width:"400"
     },
     {
       rotation:90
     }
   ]}
   loading="lazy"
-  height={300} width={400} alt="Alt text"
+  alt="Alt text"
 />
 ```
 
@@ -526,10 +532,10 @@ You have the option to lazy-load the original image only when the user scrolls n
 // Loading a blurred low quality image placeholder and lazy-loading original when the user scrolls near them
 <IKImage
   path="/default-image.jpg"
-  transformation={[{height:300,width:400},{rotation:90}]}
+  transformation={[{height:"300",width:"400"},{rotation:90}]}
   lqip={{active:true}}
   loading="lazy"
-  height={300} width={400} alt="Alt text"
+  alt="Alt text"
 />
 ```
 

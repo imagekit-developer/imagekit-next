@@ -4,10 +4,13 @@ import IKImageProps from "./props";
 import ImageKitProviderProps from "../ImageKitProvider/props";
 import useImageKitComponent from "../ImageKitComponent";
 import { ImageKitContext } from "../ImageKitProvider";
-import { fetchEffectiveConnection, getIKElementsUrl, getSrc } from "../../utils/Utility";
+import { fetchEffectiveConnection, getIKElementsUrl, getSrc, hasProperty, updateTransformation } from "../../utils/Utility";
 
-const IKImage = (props: Omit<ImageProps, "src" | "loading"> & IKImageProps & ImageKitProviderProps) => {
+const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImageProps & ImageKitProviderProps) => {
   const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);
+  const [imageProps, setImageProps] = useState<(Omit<ImageProps, "src" | "loading" | "loader" | "alt"> & IKImageProps & ImageKitProviderProps) | {}>(
+    {}
+  );
   const [originalSrc, setOriginalSrc] = useState<string>("");
   const [lqipSrc, setLqipSrc] = useState<string>("");
   const [originalSrcLoaded, setOriginalSrcLoaded] = useState<boolean>(false);
@@ -19,7 +22,7 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading"> & IKImageProps & Ima
   const contextOptions = useContext(ImageKitContext);
 
   useEffect(() => {
-    const { originalSrc: newOriginalSrc, lqipSrc: newLqipSrc } = getSrc(props, getIKClient(), contextOptions);
+    const { originalSrc: newOriginalSrc, lqipSrc: newLqipSrc } = getSrc({...props,transformation:updateTransformation(props)}, getIKClient(), contextOptions);
     setOriginalSrc(newOriginalSrc);
     setLqipSrc(newLqipSrc ? newLqipSrc : "");
     setInitialized(true);
@@ -97,11 +100,22 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading"> & IKImageProps & Ima
     };
   }, [props, originalSrc, lqipSrc]);
 
-  const { urlEndpoint, authenticator, publicKey, loading, lqip, path, src, transformation, transformationPosition, queryParameters, ...restProps } =
-    props;
+  const {
+    urlEndpoint,
+    authenticator,
+    publicKey,
+    loading,
+    lqip,
+    path,
+    src,
+    transformation,
+    transformationPosition,
+    queryParameters,
+    alt,
+    ...restProps
+  } = props;
   const {
     fill,
-    loader,
     quality,
     priority,
     placeholder,
@@ -117,8 +131,31 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading"> & IKImageProps & Ima
     ...restPropsWithoutImageProps
   } = restProps;
 
-  return currentUrl != undefined ? (
-    <NextImage loader={({ src }) => src} src={currentUrl ? currentUrl : ""} ref={imageRef} {...restProps} unoptimized loading="eager" />
+  useEffect(() => {
+    // if height and width are there in transformation skip props height and width and add fill =true
+    const updatedRestProps = restProps;
+    if (
+      transformation?.length &&
+      (hasProperty(transformation, "height") || hasProperty(transformation, "width")) &&
+      (updatedRestProps.height || updatedRestProps.width)
+    ) {
+      if (updatedRestProps.height) delete updatedRestProps["height"];
+      if (updatedRestProps.width) delete updatedRestProps["width"];
+    }
+    setImageProps(updatedRestProps);
+  }, []);
+
+  return currentUrl != undefined && Object.keys(imageProps).length ? (
+    <NextImage
+      loader={({ src }) => src}
+      alt={alt}
+      src={currentUrl ? currentUrl : ""}
+      ref={imageRef}
+      unoptimized
+      loading="eager"
+      fill={transformation?.length && (hasProperty(transformation, "height") || hasProperty(transformation, "width")) ? true : false}
+      {...imageProps}
+    />
   ) : (
     <img src={currentUrl ? currentUrl : ""} ref={imageRef} {...restPropsWithoutImageProps} />
   );

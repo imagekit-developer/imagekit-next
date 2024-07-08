@@ -63,12 +63,14 @@ jobs:
       with:
         start: npm run serve:app-router
         wait-on: 'http://localhost:3000'
+        record: true
       env:
         DEBUG: 'cypress:server:browsers:electron'
         CI: true
         NEXT_PUBLIC_PUBLIC_KEY: ${{ secrets.IK_PUBLIC_KEY }}
         PRIVATE_KEY: ${{ secrets.IK_PRIVATE_KEY }}
         NEXT_PUBLIC_URL_ENDPOINT: ${{ secrets.IK_URL_ENDPOINT }}
+        CYPRESS_RECORD_KEY: c008f3e4-aff9-4acb-8e41-01b0bad9510a
 
     - name: tar workspace
       if: always()

@@ -8,7 +8,7 @@ import { fetchEffectiveConnection, getIKElementsUrl, getSrc, hasProperty, update
 
 const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImageProps & ImageKitProviderProps) => {
   const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);
-  const [_, setImageProps] = useState<(Omit<ImageProps, "src" | "loading" | "loader" | "alt"> & IKImageProps & ImageKitProviderProps) | {}>(
+  const [imageProps, setImageProps] = useState<(Omit<ImageProps, "src" | "loading" | "loader" | "alt"> & IKImageProps & ImageKitProviderProps) | {}>(
     {}
   );
   const [originalSrc, setOriginalSrc] = useState<string>("");
@@ -158,7 +158,7 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
       unoptimized
       loading="eager"
       fill={transformation?.length && (hasProperty(transformation, "height") || hasProperty(transformation, "width")) ? true : false}
-      {...restProps}
+      {...imageProps}
     />
   ) : (
     <img src={currentUrl ? currentUrl : ""} ref={imageRef} {...restPropsWithoutImageProps} />

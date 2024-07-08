@@ -13,7 +13,7 @@ describe('ImageKit Next SDK', () => {
 
       cy.get('.lazyload').scrollIntoView();
 
-      cy.wait(500);
+      cy.wait(1500);
 
       cy.get('.lazyload')
         .should('have.attr', 'src')
@@ -35,7 +35,7 @@ describe('ImageKit Next SDK', () => {
 
       cy.get('.lazyload-lqip').scrollIntoView();
 
-      cy.wait(1000);
+      cy.wait(1500);
 
       cy.get('.lazyload-lqip')
         .should('have.attr', 'src')

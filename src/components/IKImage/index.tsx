@@ -8,9 +8,9 @@ import { fetchEffectiveConnection, getIKElementsUrl, getSrc, updateTransformatio
 
 const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImageProps & ImageKitProviderProps) => {
   const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);
-  // const [imageProps, setImageProps] = useState<(Omit<ImageProps, "src" | "loading" | "loader" | "alt"> & IKImageProps & ImageKitProviderProps) | {}>(
-  //   {}
-  // );
+  const [imageProps, setImageProps] = useState<(Omit<ImageProps, "src" | "loading" | "loader" | "alt"> & IKImageProps & ImageKitProviderProps) | {}>(
+    {}
+  );
   const [originalSrc, setOriginalSrc] = useState<string>("");
   const [lqipSrc, setLqipSrc] = useState<string>("");
   const [originalSrcLoaded, setOriginalSrcLoaded] = useState<boolean>(false);
@@ -135,19 +135,19 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
     ...restPropsWithoutImageProps
   } = restProps;
 
-  // useEffect(() => {
-  //   // if height and width are there in transformation skip props height and width and add fill =true
-  //   const updatedRestProps = restProps;
-  //   if (
-  //     transformation?.length &&
-  //     (hasProperty(transformation, "height") || hasProperty(transformation, "width")) &&
-  //     (updatedRestProps.height || updatedRestProps.width)
-  //   ) {
-  //     if (updatedRestProps.height) delete updatedRestProps["height"];
-  //     if (updatedRestProps.width) delete updatedRestProps["width"];
-  //   }
-  //   setImageProps(updatedRestProps);
-  // }, []);
+  useEffect(() => {
+    // if height and width are there in transformation skip props height and width and add fill =true
+    const updatedRestProps = restProps;
+    // if (
+    //   transformation?.length &&
+    //   (hasProperty(transformation, "height") || hasProperty(transformation, "width")) &&
+    //   (updatedRestProps.height || updatedRestProps.width)
+    // ) {
+    //   if (updatedRestProps.height) delete updatedRestProps["height"];
+    //   if (updatedRestProps.width) delete updatedRestProps["width"];
+    // }
+    setImageProps(updatedRestProps);
+  }, []);
   useEffect(() => {
     if(props.loading==='lazy')
     console.log({ currentUrl, loading: props.loading });
@@ -161,7 +161,7 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
       unoptimized
       loading="eager"
       // fill={transformation?.length && (hasProperty(transformation, "height") || hasProperty(transformation, "width")) ? true : false}
-      {...restProps}
+      {...imageProps}
     />
   ) : (
     <img src={currentUrl ? currentUrl : ""} ref={imageRef} {...restPropsWithoutImageProps} />

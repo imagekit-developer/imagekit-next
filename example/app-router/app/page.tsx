@@ -135,7 +135,6 @@ function App() {
           path={path}
           transformation={imageTransImageKitProvider}
           alt="test-image"
-          quality={10}
         />
       </div>
 

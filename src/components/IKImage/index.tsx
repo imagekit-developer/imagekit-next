@@ -148,7 +148,10 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
     }
     setImageProps(updatedRestProps);
   }, []);
-
+  useEffect(() => {
+    if(props.loading==='lazy')
+    console.log({ currentUrl, loading: props.loading });
+  }, [currentUrl, props.loading]);
   return currentUrl != undefined ? (
     <NextImage
       loader={({ src }) => src}

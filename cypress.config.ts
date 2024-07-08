@@ -4,6 +4,7 @@ export default defineConfig({
   fixturesFolder: 'cypress/fixtures',
   screenshotsFolder: 'screenshots',
   videosFolder: 'videos',
+  projectId: "nfkjt7",
   env: {
     APP_HOST: 'http://localhost:3000/',
   },

@@ -4,7 +4,7 @@ import IKImageProps from "./props";
 import ImageKitProviderProps from "../ImageKitProvider/props";
 import useImageKitComponent from "../ImageKitComponent";
 import { ImageKitContext } from "../ImageKitProvider";
-import { fetchEffectiveConnection, getIKElementsUrl, getSrc, hasProperty, updateTransformation } from "../../utils/Utility";
+import { fetchEffectiveConnection, getIKElementsUrl, getSrc, updateTransformation } from "../../utils/Utility";
 
 const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImageProps & ImageKitProviderProps) => {
   const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);

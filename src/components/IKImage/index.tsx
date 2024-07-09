@@ -137,24 +137,25 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
 
   useEffect(() => {
     // if height and width are there in transformation skip props height and width and add fill =true
+    if(props.loading==='lazy')
+    console.log({restProps})
     const updatedRestProps = restProps;
     if (
       transformation?.length &&
-      (hasProperty(transformation, "height") || hasProperty(transformation, "width")) &&
-      (updatedRestProps.height || updatedRestProps.width)
+      (hasProperty(transformation, "height") || hasProperty(transformation, "width")) 
     ) {
       if (updatedRestProps.height) delete updatedRestProps["height"];
       if (updatedRestProps.width) delete updatedRestProps["width"];
+      updatedRestProps["fill"] = true;
     }
     setImageProps(updatedRestProps);
   }, []);
 
   useEffect(() => {
-    if(props.loading==='lazy')
-    console.log({ currentUrl, loading: props.loading });
-  }, [currentUrl, props.loading]);
+    if (props.loading === "lazy") console.log({ currentUrl, loading: props.loading,imageProps });
+  }, [currentUrl, props.loading,imageProps]);
 
-  return currentUrl != undefined ? (
+  return currentUrl != undefined && Object.keys(imageProps).length ? (
     <NextImage
       loader={({ src }) => src}
       alt={alt}
@@ -162,7 +163,7 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
       ref={imageRef}
       unoptimized
       loading="eager"
-      fill={transformation?.length && (hasProperty(transformation, "height") || hasProperty(transformation, "width")) ? true : false}
+      // fill={transformation?.length && (hasProperty(transformation, "height") || hasProperty(transformation, "width")) ? true : false}
       {...imageProps}
     />
   ) : (

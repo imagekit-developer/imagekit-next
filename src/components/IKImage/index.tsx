@@ -140,14 +140,14 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
     if(props.loading==='lazy')
     console.log({restProps})
     const updatedRestProps = restProps;
-    // if (
-    //   transformation?.length &&
-    //   (hasProperty(transformation, "height") || hasProperty(transformation, "width")) 
-    // ) {
-    //   if (updatedRestProps.height) delete updatedRestProps["height"];
-    //   if (updatedRestProps.width) delete updatedRestProps["width"];
-    //   updatedRestProps["fill"] = true;
-    // }
+    if (
+      transformation?.length //&&
+      // (hasProperty(transformation, "height") || hasProperty(transformation, "width")) 
+    ) {
+      if (updatedRestProps.height) delete updatedRestProps["height"];
+      if (updatedRestProps.width) delete updatedRestProps["width"];
+      updatedRestProps["fill"] = true;
+    }
     setImageProps(updatedRestProps);
   }, []);
 

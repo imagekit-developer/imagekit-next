@@ -97,16 +97,16 @@ describe("ImageKit Next SDK", () => {
 
       cy.get(".applied-to-transformation").should("have.attr", "src").and("include", "tr:h-200,w-200,q-10/default-image.jpg");
     });
-    // it("Height and width properties are ignored if they are included in the transformation", () => {
-    //   cy.visit(APP_HOST);
+    it("Height and width properties are ignored if they are included in the transformation", () => {
+      cy.visit(APP_HOST);
 
-    //   cy.get(".img-transformation-direct").scrollIntoView();
+      cy.get(".img-transformation-direct").scrollIntoView();
 
-    //   cy.wait(500);
+      cy.wait(500);
 
-    //   cy.get(".img-transformation-direct").should("have.attr", "src").and("include", "tr:h-300,w-300/default-image.jpg");
-    //   cy.get(".img-transformation-direct").should("not.have.attr", "height");
-    //   cy.get(".img-transformation-direct").should("not.have.attr", "width");
-    // });
+      cy.get(".img-transformation-direct").should("have.attr", "src").and("include", "tr:h-300,w-300/default-image.jpg");
+      cy.get(".img-transformation-direct").should("not.have.attr", "height");
+      cy.get(".img-transformation-direct").should("not.have.attr", "width");
+    });
   });
 });

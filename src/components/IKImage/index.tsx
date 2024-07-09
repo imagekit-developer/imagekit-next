@@ -141,7 +141,8 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
     console.log({restProps})
     const updatedRestProps = restProps;
     if (
-      transformation?.length //&&
+      transformation?.length &&
+      transformation.some((obj) => obj.hasOwnProperty('height') || obj.hasOwnProperty('width'))
       // (hasProperty(transformation, "height") || hasProperty(transformation, "width")) 
     ) {
       if (updatedRestProps.height) delete updatedRestProps["height"];

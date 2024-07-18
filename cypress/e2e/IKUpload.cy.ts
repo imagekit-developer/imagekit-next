@@ -13,7 +13,7 @@ describe('IKUpload Element', () => {
             cy.get('.file-upload-ik').attachFile(p)
 
             // wait for 4 secs
-            cy.wait(4000);
+            cy.wait(5000);
 
             //Verify uploaded file
             cy.get('.uploaded-img-ik').should('have.attr', 'src');

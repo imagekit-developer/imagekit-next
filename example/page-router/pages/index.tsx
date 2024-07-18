@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { IKImage, ImageKitProvider, IKUpload, IKVideo } from "imagekit-next";
-import { AbortableFileInput, IKUploadResponse, UploadError } from "../../../src/components/IKUpload/props";
+import { AbortableFileInput, IKUploadResponse, UploadError } from "imagekit-next/dist/types/components/IKUpload/props";
 import { Transformation } from "imagekit-javascript/dist/src/interfaces/Transformation";
 
 interface ErrorType {
@@ -272,6 +272,7 @@ function App() {
           onUploadProgress={onUploadProgress}
           onUploadStart={onUploadStart}
           overrideParameters={onOverrideParameters}
+          accept="image/*"
         />
         {isUploading !== null ? (
           <p>
@@ -279,7 +280,7 @@ function App() {
               ? `...Uploading (${
                   uploadProgress ? (uploadProgress.type ? ((uploadProgress.loaded / uploadProgress.total) * 100).toFixed(2) + "%)" : "") : ""
                 }`
-              : "uploaded"}
+              : uploadedImageSource}
           </p>
         ) : (
           <></>
@@ -324,6 +325,7 @@ function App() {
           onSuccess={onSuccess}
           onError={onError}
           validateFile={validateFileFunction}
+          accept="image/*"
         />
 
         {error && error.hasOwnProperty("uploadFileErr") && (

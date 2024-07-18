@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "preinstall": "cd ../../ && npm install && npm run build && npm pack && cd example/app-router && npm install ../../imagekit-next-1.0.0.tgz"
   },
   "dependencies": {
     "dotenv": "^16.4.5",

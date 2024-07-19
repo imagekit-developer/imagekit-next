@@ -102,6 +102,7 @@ type IKUploadProps = {
   onUploadProgress?: (evt: ProgressEvent<XMLHttpRequestEventTarget>) => void;
   validateFile?: (file: File) => boolean;
   transformation?: TransformationType;
+  checks?: string;
   overrideParameters?: (file: File) => OverrideValues;
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onError'>;
 

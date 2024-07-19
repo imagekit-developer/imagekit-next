@@ -50,6 +50,7 @@ const IKUpload = forwardRef<HTMLInputElement, IKUploadProps & ImageKitProviderPr
     customMetadata,
     transformation,
     overrideParameters,
+    checks,
     ...restProps
   } = props;
 
@@ -145,6 +146,7 @@ const IKUpload = forwardRef<HTMLInputElement, IKUploadProps & ImageKitProviderPr
       token: "",
       xhr,
       transformation: overrideValues.transformation || transformation,
+      checks
     };
 
     const authPromise = authenticator();

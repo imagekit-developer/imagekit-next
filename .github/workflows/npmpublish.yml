@@ -24,9 +24,9 @@ jobs:
           npm run build
         env:
           CI: true
-          NEXT_PUBLIC_PUBLIC_KEY: ${{ secrets.ik_public_key }}
-          PRIVATE_KEY: ${{ secrets.ik_private_key }}
-          NEXT_PUBLIC_URL_ENDPOINT: ${{ secrets.ik_url_endopint }}
+          NEXT_PUBLIC_PUBLIC_KEY: ${{ secrets.IK_PUBLIC_KEY }}
+          PRIVATE_KEY: ${{ secrets.IK_PRIVATE_KEY }}
+          NEXT_PUBLIC_URL_ENDPOINT: ${{ secrets.IK_URL_ENDPOINT }}
 
 
   publish:

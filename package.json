@@ -51,6 +51,9 @@
   "dependencies": {
     "imagekit-javascript": "^3.0.2"
   },
+  "engines": {
+    "node": ">=18.17.0"
+  },
   "peerDependencies": {
     "next": "^12 || ^13 || ^14",
     "react": "^16.13.1 || ^17.0.0 || ^18.0.0",

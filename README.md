@@ -3,7 +3,7 @@
 # ImageKit.io Next.js SDK
 
 [![Node CI](https://github.com/imagekit-developer/imagekit-next/workflows/Node%20CI/badge.svg)](https://github.com/imagekit-developer/imagekit-next/)
-[![npm version](https://img.shields.io/npm/v/imagekit-next)](https://www.npmjs.com/package/imagekit-next)
+[![npm version](https://img.shields.io/npm/v/imagekitio-next)](https://www.npmjs.com/package/imagekitio-next)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Twitter Follow](https://img.shields.io/twitter/follow/imagekitio?label=Follow&style=social)](https://twitter.com/ImagekitIo)
 
@@ -13,16 +13,16 @@ ImageKit Next.js SDK allows you to resize, optimize, deliver, and upload images 
 
 ## Installation
 
-Add `imagekit-next` to your project by executing one of the following commands:
+Add `imagekitio-next` to your project by executing one of the following commands:
 
 ```shell
-npm install --save imagekit-next
+npm install --save imagekitio-next
 ```
 
 or
 
 ```shell
-yarn add imagekit-next
+yarn add imagekitio-next
 ```
 
 ## Usage
@@ -32,18 +32,18 @@ yarn add imagekit-next
 Import components in your code:
 
 ```js
-import { IKImage, IKVideo, ImageKitProvider, IKUpload, ImageKitContext } from 'imagekit-next'
+import { IKImage, IKVideo, ImageKitProvider, IKUpload, ImageKitContext } from 'imagekitio-next'
 ```
 
 ### Pages Router (/src)
 
-By default, `imagekit-next` fully supports the included components in the `src` directory without any additional setup.
+By default, `imagekitio-next` fully supports the included components in the `src` directory without any additional setup.
 
 ### App Router (/app)
 
 The components in the app directory are, by default, React Server-Side Components (RSCs), but not everything can be done server-side. That's where Client components come in.
 
-`imagekit-next` provides components that operate exclusively on the client side.
+`imagekitio-next` provides components that operate exclusively on the client side.
 
 When using the SDK for the first time, you might enter either of the following errors.
 
@@ -200,6 +200,7 @@ module.exports = {
         }
       ]
     }}
+    checks={`"file.size" < "1mb"`} // To run server side checks before uploading files. Notice the quotes around file.size and 1mb.
   />
 </ImageKitProvider>
 ```
@@ -215,7 +216,7 @@ The library includes 6 Components:
 * `IKImage` for [image resizing](#image-resizing). This utilizes next/image and renders an `<img>` tag.
 * `IKVideo` for [video resizing](#video-resizing). This renders a `<video>` tag.
 * `IKUpload`for client-side [file uploading](#file-upload). This renders a `<input type="file">` tag.
-* `ImageKitClient` for [Core SDK](#imagekitclient), This exposes methods from [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript) like url and upload.
+* `ImageKitClient` for [Core SDK](#imagekitclient), this exposes methods from [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript) like url and upload.
 * [`ImageKitContext`](#ImageKitContext) is a context used to provide access to options such as `urlEndpoint`, `publicKey`, `ikClient` or `authenticator` to child components within `ImageKitProvider`. It does not render any UI elements.
 
 ## ImageKitProvider
@@ -236,7 +237,7 @@ To use this SDK, you need to provide it with a few configuration parameters. You
 * `publicKey` and `authenticator` parameters are required if you want to use the SDK for client-side file upload. You can get these parameters from the developer section in your ImageKit dashboard - https://imagekit.io/dashboard/developer/api-keys.
 * `transformationPosition` is optional. The default value for this parameter is `path`. Acceptable values are `path` & `query`
 
-> Note: Do not include your [private key](https://docs.imagekit.io/api-reference/api-introduction/api-keys#private-key) in any client-side code.
+> Note: Do not include your [private key](https://imagekit.io/docs/api-keys#private-key) in any client-side code.
 
 ## Image resizing
 
@@ -247,7 +248,7 @@ The `IKImage` component acts as a wrapper around the [Next.js Image component](h
 | urlEndpoint            | String           | Optional. The base URL to be appended before the path of the image. If not specified, the URL-endpoint specified in the parent `ImageKitProvider` component is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | path                   | String           | Conditional. This is the path at which the image exists. For example, `/path/to/image.jpg`. Either the `path` or `src` parameter needs to be specified for URL generation.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | src                    | String           | Conditional. This is the complete URL of an image already mapped to ImageKit. For example, `https://ik.imagekit.io/your_imagekit_id/endpoint/path/to/image.jpg`. Either the `path` or `src` parameter needs to be specified for URL generation.                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| transformation         | Array of objects | Optional. An array of objects specifying the transformation to be applied in the URL. The transformation name and the value should be specified as a key-value pair in the object. See list of [different tranformations](#list-of-supported-transformations). Different steps of a [chained transformation](https://docs.imagekit.io/features/image-transformations/chained-transformations) can be specified as the Array's different objects. The complete list of supported transformations in the SDK and some examples of using them are given later. If you use a transformation name that is not specified in the SDK, it is applied in the URL as it is. |
+| transformation         | Array of objects | Optional. An array of objects specifying the transformation to be applied in the URL. The transformation name and the value should be specified as a key-value pair in the object. See list of [different tranformations](#list-of-supported-transformations). Different steps of a [chained transformation](https://imagekit.io/docs/transformations#chained-transformations) can be specified as the Array's different objects. The complete list of supported transformations in the SDK and some examples of using them are given later. If you use a transformation name that is not specified in the SDK, it is applied in the URL as it is. |
 | transformationPosition | String           | Optional. The default value is `path`, which places the transformation string as a URL path parameter. It can also be specified as `query`, which adds the transformation string as the URL's query parameter i.e.`tr`. If you use the `src` parameter to create the URL, then the transformation string is always added as a query parameter.                                                                                                                                                                                                                                                                                                                    |
 | queryParameters        | Object           | Optional. These are the other query parameters that you want to add to the final URL. These can be any query parameters and are not necessarily related to ImageKit. Especially useful if you want to add some versioning parameters to your URLs.                                                                                                                                                                                                                                                                                                                                                                                                                |
 | loading                | String           | Optional. Pass `lazy` to lazy load images. Note: Component does not accept change in this value after it has mounted.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
@@ -319,11 +320,11 @@ transformation = [
 ]
 ```
 
-See the complete list of transformations supported in ImageKit [here](https://docs.imagekit.io/features/image-transformations). The SDK gives a name to each transformation parameter e.g. `height` for `h` and `width` for `w` parameter. It makes your code more readable. If the property does not match any of the following supported options, it is added as it is.
+See the complete list of transformations supported in ImageKit [here](https://imagekit.io/docs/image-transformation). The SDK gives a name to each transformation parameter e.g. `height` for `h` and `width` for `w` parameter. It makes your code more readable. If the property does not match any of the following supported options, it is added as it is.
 
 ### Adding overlays
 
-ImageKit.io enables you to apply overlays to [images](https://docs.imagekit.io/features/image-transformations/overlay-using-layers) and [videos](https://docs.imagekit.io/features/video-transformation/overlay) using the raw parameter with the concept of [layers](https://docs.imagekit.io/features/image-transformations/overlay-using-layers#layers). The raw parameter facilitates incorporating transformations directly in the URL. A layer is a distinct type of transformation that allows you to define an asset to serve as an overlay, along with its positioning and additional transformations.
+ImageKit.io enables you to apply overlays to [images](https://imagekit.io/docs/add-overlays-on-images) and [videos](https://imagekit.io/docs/add-overlays-on-videos) using the raw parameter with the concept of [layers](https://imagekit.io/docs/transformations#overlay-using-layers). The raw parameter facilitates incorporating transformations directly in the URL. A layer is a distinct type of transformation that allows you to define an asset to serve as an overlay, along with its positioning and additional transformations.
 
 **Text as overlays**
 
@@ -381,7 +382,7 @@ https://ik.imagekit.io/your_imagekit_id/tr:h-300,w-400,l-image,i-ik_canvas,bg-FF
 
 ### Arithmetic expressions in transformations
 
-ImageKit allows use of [arithmetic expressions](https://docs.imagekit.io/features/arithmetic-expressions-in-transformations) in certain dimension and position-related parameters, making media transformations more flexible and dynamic.
+ImageKit allows use of [arithmetic expressions](https://imagekit.io/docs/arithmetic-expressions-in-transformations) in certain dimension and position-related parameters, making media transformations more flexible and dynamic.
 
 For example:
 
@@ -609,9 +610,9 @@ transformation = [
 
 ## File upload
 
-The SDK provides the `IKUpload` component to upload files to the [ImageKit Media Library](https://docs.imagekit.io/media-library/overview). 
+The SDK provides the `IKUpload` component to upload files to the [ImageKit Media Library](https://imagekit.io/docs/dam/overview). 
 
-`IKUpload` component accepts the following props. These options are better explained in the [ImageKit Upload API](https://docs.imagekit.io/api-reference/upload-file-api/client-side-file-upload#request-structure-multipart-form-data) documentation.
+`IKUpload` component accepts the following props. These options are better explained in the [ImageKit Upload API](https://imagekit.io/docs/api-reference/upload-file/upload-file) documentation.
 
 | Prop                    | Type                                                       | Description                                                                                                                                                                                                                                                                                                                                                                                                             |
 | :---------------------- | :--------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -622,7 +623,7 @@ The SDK provides the `IKUpload` component to upload files to the [ImageKit Media
 | isPrivateFile           | Boolean                                                    | Optional. Accepts `true` of `false`. The default value is `false`. Specify whether to mark the file as private or not. This is only relevant for image type files                                                                                                                                                                                                                                                       |
 | customCoordinates       | String                                                     | Optional. Define an important area in the image. This is only relevant for image-type files. To be passed as a string with the `x` and `y` coordinates of the top-left corner and `width` and `height` of the area of interest in the format `x,y,width,height`. For example - `10,10,100,100`                                                                                                                          |
 | responseFields          | Array of string                                            | Optional. Values of the fields that you want upload API to return in the response. For example, set the value of this field to `["tags", "customCoordinates", "isPrivateFile"]` to get value of `tags`, `customCoordinates`, and `isPrivateFile` in the response.                                                                                                                                                       |
-| extensions              | Array of object                                            | Optional. Array of object for [applying extensions](https://docs.imagekit.io/extensions/overview) on the image.                                                                                                                                                                                                                                                                                                         |
+| extensions              | Array of object                                            | Optional. Array of object for [applying extensions](https://imagekit.io/docs/dam/overview#ai-extension-pricing) on the image.                                                                                                                                                                                                                                                                                                         |
 | webhookUrl              | String                                                     | Optional. Final status of pending extensions will be sent to this URL.                                                                                                                                                                                                                                                                                                                                                  |
 | overwriteFile           | Boolean                                                    | Optional. Default is true. If overwriteFile is set to false and useUniqueFileName is also false, and a file already exists at the exact location, upload API will return an error immediately.                                                                                                                                                                                                                          |
 | overwriteAITags         | Boolean                                                    | Optional. Default is true. If set to true and a file already exists at the exact location, its AITags will be removed. Set overwriteAITags to false to preserve AITags.                                                                                                                                                                                                                                                 |
@@ -632,13 +633,13 @@ The SDK provides the `IKUpload` component to upload files to the [ImageKit Media
 | onUploadStart           | Function callback                                          | Optional. Called before the upload is started. The first and only argument is the HTML input's change event                                                                                                                                                                                                                                                                                                             |
 | onUploadProgress        | Function callback                                          | Optional. Called while an upload is in progress. The first and only argument is the ProgressEvent                                                                                                                                                                                                                                                                                                                       |
 | validateFile            | Function callback                                          | Optional. This function accepts the `File` object as an argument and exoects a Boolean return value. This is called before the upload is started to run custom validation. The first and only argument is the file selected for upload. If the callback returns `true`, the upload is allowed to continue. But, if it returns `false`, the upload is not done                                                           |
-| overrideParameters      | Function callback                                          | Optional. This function accepts the `File` object as an argument and should return a JSON value, e.g., `{fileName: "new-file-name.jpg"}.` Use this to programmatically override `fileName`, `useUniqueFileName`, `tags`, `folder`, `isPrivateFile`, `customCoordinates`, `extensions`, `webhookUrl`, `overwriteFile`, `overwriteAITags`, `overwriteTags`, `overwriteCustomMetadata`, `customMetadata`, and `transformation` parameters. |
+| overrideParameters      | Function callback                                          | Optional. This function accepts the `File` object as an argument and should return a JSON value, e.g., `{fileName: "new-file-name.jpg"}.` Use this to programmatically override `fileName`, `useUniqueFileName`, `tags`, `folder`, `isPrivateFile`, `customCoordinates`, `extensions`, `webhookUrl`, `overwriteFile`, `overwriteAITags`, `overwriteTags`, `overwriteCustomMetadata`, `customMetadata`, and `transformation`, and `checks` parameters. |
 | onSuccess               | Function callback                                          | Optional. Called if the upload is successful. The first and only argument is the response JSON from the upload API. The request-id, response headers, and HTTP status code are also accessible using the $ResponseMetadata key that is exposed from the [javascript sdk](https://github.com/imagekit-developer/imagekit-javascript#access-request-id-other-response-headers-and-http-status-code)                       |
 | onError                 | Function callback                                          | Optional. Called if upload results in an error. The first and only argument is the error received from the upload API                                                                                                                                                                                                                                                                                                   |
 | urlEndpoint             | String                                                     | Optional. If not specified, the URL-endpoint specified in the parent `ImageKitProvider` component is used. For example, https://ik.imagekit.io/your_imagekit_id/endpoint/                                                                                                                                                                                                                                                      |
 | publicKey               | String                                                     | Optional. If not specified, the `publicKey` specified in the parent `ImageKitProvider` component is used.                                                                                                                                                                                                                                                                                                                      |
 | authenticator           | ()=>Promise<{signature:string,token:string,expiry:number}> | Optional. If not specified, the `authenticator` specified in the parent `ImageKitProvider` component is used.                                                                                                                                                                                                                                                                                                                  |
-| checks           | String | Optional `checks` parameters can be used to run server-side checks before files are uploaded to the Media Library.                                                                                                                                                                                                                                                                                                                  |
+| checks | String | Optional. Run server-side checks before uploading files. For example, `"file.size" < "1mb"` will check if the file size is less than 1 MB. Check [Upload API docs](https://imagekit.io/docs/api-reference/upload-file/upload-file#upload-api-checks) to learn more. Notice the quotes around `file.size` and `1mb`; otherwise, you will get an error `Your request contains invalid syntax for the checks parameter.` |
 
 
 > Make sure that you have specified `authenticator` and `publicKey` in `IKUpload` or in the parent `ImageKitProvider` component as a prop. The authenticator expects an asynchronous function that resolves with an object containing the necessary security parameters i.e `signature`, `token`, and `expire`.
@@ -738,7 +739,7 @@ const onSuccess = (res) => {
 Accessing the underlying [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript) is possible using the `ImageKitClient` import. For example:
 
 ```js
-import { ImageKitClient } from "imagekit-next"
+import { ImageKitClient } from "imagekitio-next"
 // Generate image URL
 var imagekit = new ImageKitClient({
     publicKey: "your_public_api_key",
@@ -760,7 +761,7 @@ var imageURL = imagekit.url({
 To access options such as `urlEndpoint`, `publicKey`, `ikClient` or `authenticator` in child elements defined within `ImageKitProvider` you can use `ImageKitContext`. For example:
 
 ```js
-import { ImageKitContext } from "imagekit-next"
+import { ImageKitContext } from "imagekitio-next"
 
 ... 
 const { urlEndpoint, ikClient, authenticator } = useContext(ImageKitContext);
@@ -772,7 +773,7 @@ const { urlEndpoint, ikClient, authenticator } = useContext(ImageKitContext);
 For any feedback or to report any issues or general implementation support, please reach out to [support@imagekit.io](mailto:support@imagekit.io)
 
 ## Links
-* [Documentation](https://docs.imagekit.io)
+* [Documentation](https://imagekit.io/docs)
 * [Main website](https://imagekit.io)
 
 ## License

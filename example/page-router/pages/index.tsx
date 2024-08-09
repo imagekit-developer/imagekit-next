@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
-import { IKImage, ImageKitProvider, IKUpload, IKVideo } from "imagekit-next";
-import { AbortableFileInput, IKUploadResponse, UploadError } from "imagekit-next/dist/types/components/IKUpload/props";
+import { IKImage, ImageKitProvider, IKUpload, IKVideo } from "imagekitio-next";
+import { AbortableFileInput, IKUploadResponse, UploadError } from "imagekitio-next/dist/types/components/IKUpload/props";
 import { Transformation } from "imagekit-javascript/dist/src/interfaces/Transformation";
 
 interface ErrorType {

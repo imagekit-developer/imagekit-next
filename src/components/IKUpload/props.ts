@@ -75,6 +75,7 @@ export type OverrideValues = {
   overwriteCustomMetadata?: IKUploadProps["overwriteCustomMetadata"];
   customMetadata?: IKUploadProps["customMetadata"];
   transformation?: IKUploadProps["transformation"];
+  checks?: IKUploadProps['checks'];
 };
 
 export type UploadError = {

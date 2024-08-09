@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "preinstall": "cd ../../ && npm install && npm run build && npm pack && cd example/page-router && npm install ../../imagekit-next-1.0.0.tgz"
+    "preinstall": "cd ../../ && npm install && npm run build && npm pack && cd example/page-router && npm install ../../imagekitio-next-1.0.0.tgz"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
@@ -23,7 +23,7 @@
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   },
-  "engines" : { 
-    "node" : ">=18.17.0"
+  "engines": {
+    "node": ">=18.17.0"
   }
 }

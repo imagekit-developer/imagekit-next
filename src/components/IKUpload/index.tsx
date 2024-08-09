@@ -146,7 +146,7 @@ const IKUpload = forwardRef<HTMLInputElement, IKUploadProps & ImageKitProviderPr
       token: "",
       xhr,
       transformation: overrideValues.transformation || transformation,
-      checks
+      checks: overrideValues.checks || checks,
     };
 
     const authPromise = authenticator();

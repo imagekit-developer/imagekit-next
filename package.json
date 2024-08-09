@@ -1,5 +1,5 @@
 {
-  "name": "imagekit-next",
+  "name": "imagekitio-next",
   "version": "1.0.0",
   "description": "Next.js SDK for ImageKit.io which implements client-side upload and URL generation for use inside a next application.",
   "scripts": {

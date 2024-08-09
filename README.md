@@ -608,6 +608,11 @@ transformation = [
 ]
 ```
 
+### Adaptive Bitrate Streaming
+
+Adaptive Bitrate Streaming (ABS) enhances the video streaming experience by adapting to various devices and connection speeds. It reduces buffering, enables quick start times, and ensures a seamless viewing experience, regardless of whether the connection is high-speed or low-speed. For more details on ABS and how to implement it in Next.js, please refer to this [blog](https://imagekit.io/blog/nextjs-video-player/#adaptive-bitrate-streaming).
+
+
 ## File upload
 
 The SDK provides the `IKUpload` component to upload files to the [ImageKit Media Library](https://imagekit.io/docs/dam/overview). 

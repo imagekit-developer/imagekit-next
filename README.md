@@ -213,9 +213,9 @@ module.exports = {
 The library includes 6 Components:
 
 * [`ImageKitProvider`](#ImageKitProvider) is used to define options such as `urlEndpoint`, `publicKey`, or `authenticator` for all child components. It does not render any UI elements.
-* `IKImage` for [image resizing](#image-resizing). This utilizes next/image and renders an `<img>` tag.
-* `IKVideo` for [video resizing](#video-resizing). This renders a `<video>` tag.
-* `IKUpload`for client-side [file uploading](#file-upload). This renders a `<input type="file">` tag.
+* `IKImage` for [image resizing](#image-resizing), this utilizes next/image and renders an `<img>` tag.
+* `IKVideo` for [video resizing](#video-resizing), this renders a `<video>` tag.
+* `IKUpload`for client-side [file uploading](#file-upload), this renders a `<input type="file">` tag.
 * `ImageKitClient` for [Core SDK](#imagekitclient), this exposes methods from [ImageKit javascript SDK](https://github.com/imagekit-developer/imagekit-javascript) like url and upload.
 * [`ImageKitContext`](#ImageKitContext) is a context used to provide access to options such as `urlEndpoint`, `publicKey`, `ikClient` or `authenticator` to child components within `ImageKitProvider`. It does not render any UI elements.
 

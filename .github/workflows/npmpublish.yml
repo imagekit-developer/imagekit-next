@@ -1,0 +1,49 @@
+name: Publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install, build, and test
+        run: |
+          npm i
+          npm run build
+        env:
+          CI: true
+          NEXT_PUBLIC_PUBLIC_KEY: ${{ secrets.IK_PUBLIC_KEY }}
+          PRIVATE_KEY: ${{ secrets.IK_PRIVATE_KEY }}
+          NEXT_PUBLIC_URL_ENDPOINT: ${{ secrets.IK_URL_ENDPOINT }}
+
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 18
+          registry-url: https://registry.npmjs.org/
+      - name: npm publish
+        run: |
+          npm i
+          npm run build
+          npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          CI: true

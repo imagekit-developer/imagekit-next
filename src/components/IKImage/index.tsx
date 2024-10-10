@@ -148,7 +148,7 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
 
   useEffect(()=>{
     if(lqip?.active)
-      console.warn("Eager is applied")
+      console.warn("In [imagekitio-next], loading is set to eager when LQIP is used.")
   },[lqip])
 
   return currentUrl != undefined && Object.keys(imageProps).length ? (

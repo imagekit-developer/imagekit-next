@@ -64,7 +64,7 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
     const { loading } = props;
 
     if (initialized) {
-      if (window && "IntersectionObserver" in window && loading === "lazy") {
+      if (window && "IntersectionObserver" in window && loading === "lazy" && lqip) {
         const connectionType = fetchEffectiveConnection();
         let rootMargin = "1250px";
         if (connectionType !== "4g") rootMargin = "2500px";
@@ -138,16 +138,18 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
   useEffect(() => {
     // if height and width are there in transformation skip props height and width and add fill =true
     const updatedRestProps = restProps;
-    if (
-      transformation?.length &&
-      transformation.some((obj) => obj.hasOwnProperty('height') || obj.hasOwnProperty('width'))
-    ) {
+    if (transformation?.length && transformation.some((obj) => obj.hasOwnProperty("height") || obj.hasOwnProperty("width"))) {
       if (updatedRestProps.height) delete updatedRestProps["height"];
       if (updatedRestProps.width) delete updatedRestProps["width"];
       updatedRestProps["fill"] = true;
     }
     setImageProps(updatedRestProps);
   }, []);
+
+  useEffect(()=>{
+    if(lqip?.active)
+      console.warn("Eager is applied")
+  },[lqip])
 
   return currentUrl != undefined && Object.keys(imageProps).length ? (
     <NextImage
@@ -156,7 +158,7 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
       src={currentUrl ? currentUrl : ""}
       ref={imageRef}
       unoptimized
-      loading="eager"
+      loading={lqip?.active ? "eager" : loading}
       {...imageProps}
     />
   ) : (

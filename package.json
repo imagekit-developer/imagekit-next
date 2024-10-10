@@ -9,7 +9,7 @@
     "type-check:watch": "npm run type-check -- --watch",
     "build": "rm -rf dist*; npm run build:types && npm run build:js",
     "test:e2e": "cypress open",
-    "serve:app-router": "cd example/app-router && next dev"
+    "serve:app-router": "cd example/app-router && npm run dev"
   },
   "repository": {
     "type": "git",

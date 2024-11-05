@@ -146,10 +146,9 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
     setImageProps(updatedRestProps);
   }, []);
 
-  useEffect(()=>{
-    if(lqip?.active)
-      console.warn("In [imagekitio-next], loading is set to eager when LQIP is used.")
-  },[lqip])
+  useEffect(() => {
+    if (lqip?.active) console.warn("In [imagekitio-next], loading is set to eager when LQIP is used.");
+  }, [lqip]);
 
   return currentUrl != undefined && Object.keys(imageProps).length ? (
     <NextImage
@@ -162,7 +161,7 @@ const IKImage = (props: Omit<ImageProps, "src" | "loading" | "loader"> & IKImage
       {...imageProps}
     />
   ) : (
-    <img src={currentUrl ? currentUrl : ""} ref={imageRef} {...restPropsWithoutImageProps} />
+    <img src={currentUrl ? currentUrl : undefined} ref={imageRef} {...restPropsWithoutImageProps} />
   );
 };
 

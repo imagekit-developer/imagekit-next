@@ -31,7 +31,7 @@ const IKVideo = (props: IKVideoProps & ImageKitProviderProps) => {
 
   return (
     <video {...restProps} ref={videoRef} key={currentUrl}>
-      <source src={currentUrl} type="video/mp4" />
+      <source src={currentUrl || undefined} type="video/mp4" />
     </video>
   );
 };

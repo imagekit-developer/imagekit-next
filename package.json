@@ -4,6 +4,7 @@
   "description": "Next.js SDK for ImageKit.io which implements client-side upload and URL generation for use inside a next application.",
   "scripts": {
     "build:js": "rollup -c",
+    "build-dev:js": "rollup -c --watch",
     "build:types": "tsc --emitDeclarationOnly",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",

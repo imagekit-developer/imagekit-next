@@ -36,8 +36,6 @@ const ImageKitProvider = (props: React.PropsWithChildren<ImageKitProviderProps>)
   if (contextOptionsExtracted.urlEndpoint && contextOptionsExtracted.urlEndpoint.trim() !== "") {
     contextOptionsExtracted.ikClient = new ImageKit({
       urlEndpoint: contextOptionsExtracted.urlEndpoint,
-      // @ts-ignore
-      sdkVersion: "",
     });
   }
 

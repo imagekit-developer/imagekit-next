@@ -1,10 +1,16 @@
-import { Transformation } from "imagekit-javascript/dist/src/interfaces/Transformation";
+import { Transformation, TransformationPosition } from "imagekit-javascript/dist/src/interfaces/Transformation";
+
+type QueryParamValue =
+  | string
+  | number
+  | boolean
+  | undefined;
 
 type Props = {
   src: string;
-  queryParameters?: Record<string, string | number>;
-  transformation?: Array<Transformation>;
-  transformationPosition?: "path" | "query";
+  queryParameters?: Readonly<Record<string, QueryParamValue>>;
+  transformation?: ReadonlyArray<Transformation>;
+  transformationPosition?: TransformationPosition
 }
 
 export default Props;

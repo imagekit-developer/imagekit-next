@@ -1,10 +1,13 @@
 import ImageKit from "imagekit-javascript";
+import { UrlOptions } from "imagekit-javascript/dist/src/interfaces";
+import { TransformationPosition } from "imagekit-javascript/dist/src/interfaces/Transformation";
+
 
 interface Props {
   publicKey?: string;
-  urlEndpoint?: string;
+  urlEndpoint?: UrlOptions["urlEndpoint"];
   authenticator?: () => Promise<{ signature: string; expire: number; token: string }>;
-  transformationPosition?: "path" | "query";
+  transformationPosition?: TransformationPosition;
 }
 
 export interface ImageKitProviderExtractedProps extends Props {

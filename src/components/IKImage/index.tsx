@@ -1,51 +1,46 @@
 import ImageKit from "imagekit-javascript";
+import { Transformation } from "imagekit-javascript/dist/src/interfaces/Transformation";
 import NextImage, { ImageProps } from "next/image";
 import React, { useContext } from "react";
 import { ImageKitContext } from "../ImageKitProvider";
 import ImageKitProviderProps from "../ImageKitProvider/props";
 import IKImageProps from "./props";
 
-const imageKitLoader = ({ src, width, ikClient, transformation, finalUrlEndpoint }: any) => {
-  const url = ikClient.url({
-    urlEndpoint: finalUrlEndpoint,
-    src,
-    transformation: transformation.concat(
-      [{
-        width: `${width},c-at_max`,
-      }]
-    )
-  });
-  return url;
-}
-
 const IKImage = (props: Omit<ImageProps, "loader" | "src"> & IKImageProps & ImageKitProviderProps) => {
+  console.log("rendering IKImage", props.id);
   // @ts-ignore
   if (props.loader) {
     console.error('loader prop is not supported in IKImage and will be ignored')
   }
 
-  let { urlEndpoint: urlEndpointViaContext, ikClient } = useContext(ImageKitContext);
+  // Its important to extract the ImageKit specific props from the props, so that we can use the rest of the props as is in the NextImage component
+  const { transformation = [], unoptimized = false, urlEndpoint, quality, src = "", queryParameters, transformationPosition, publicKey, authenticator, ikClient: ignore, ...nonIKParams } = {
+    ...useContext(ImageKitContext), // first pick from context
+    ...props // Override with props
+  };
 
-  const { transformation = [], unoptimized = false, urlEndpoint, quality, src = "", queryParameters, transformationPosition, publicKey, authenticator, ...nonIKParams } = props;
-
-  if (quality) {
-    transformation.push({
-      quality: quality.toString()
-    });
-  }
-
-  const finalUrlEndpoint = urlEndpoint || urlEndpointViaContext;
-
-  if (!finalUrlEndpoint || finalUrlEndpoint.trim() === "") {
+  if (!urlEndpoint || urlEndpoint.trim() === "") {
     throw new Error(
       'Set urlEndpoint either in ImageKitProvider or in IKImage component'
     )
   }
 
-  if (!ikClient) {
-    ikClient = new ImageKit({
-      urlEndpoint: finalUrlEndpoint,
-    });
+  const ikClient = new ImageKit({
+    urlEndpoint
+  });
+
+  // Do not mutate original transformation array from the props
+  const finalTransformation = [...transformation];
+
+  let propsTransformation = {} as Transformation;
+
+  if (quality) {
+    const parsedQuality = Number(quality);
+    if (!isNaN(parsedQuality)) {
+      propsTransformation.quality = parsedQuality
+    } else {
+      console.warn('Invalid quality value, skipping transformation');
+    }
   }
 
   const pathOrSrc = {} as any;
@@ -55,12 +50,13 @@ const IKImage = (props: Omit<ImageProps, "loader" | "src"> & IKImageProps & Imag
     pathOrSrc.path = src;
   }
 
+  // Return original file without any transformation or optimization to match the behavior of NextImage
   if (unoptimized) {
     return (
       <NextImage
         src={ikClient.url(
           {
-            urlEndpoint: finalUrlEndpoint,
+            urlEndpoint,
             ...pathOrSrc,
             transformation: [
               {
@@ -75,8 +71,8 @@ const IKImage = (props: Omit<ImageProps, "loader" | "src"> & IKImageProps & Imag
     )
   }
 
-  const finalSrc = ikClient.url({
-    urlEndpoint: finalUrlEndpoint,
+  const finalSrcWithoutTransformation = ikClient.url({
+    urlEndpoint,
     queryParameters,
     transformationPosition,
     ...pathOrSrc,
@@ -84,15 +80,13 @@ const IKImage = (props: Omit<ImageProps, "loader" | "src"> & IKImageProps & Imag
 
   return (
     <NextImage
-      src={finalSrc}
+      src={finalSrcWithoutTransformation}
       {...nonIKParams}
       loader={({ src, width }) => {
-        return imageKitLoader({
+        return ikClient.url({
+          urlEndpoint,
           src,
-          width,
-          ikClient,
-          transformation,
-          finalUrlEndpoint
+          transformation: [...finalTransformation, { ...propsTransformation, width }],
         });
       }}
     />

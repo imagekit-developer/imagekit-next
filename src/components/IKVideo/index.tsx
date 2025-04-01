@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { ImageKitContext } from "../ImageKitProvider";
 import ImageKitProviderProps, { ImageKitProviderExtractedProps } from "../ImageKitProvider/props";
 import IKVideoProps from "./props";
-import { getSrc } from "../../utils/Utility";
-import useImageKitComponent from "../ImageKitComponent";
-import { ImageKitContext } from "../ImageKitProvider";
 
 type IKVideoState = {
   currentUrl?: string;
@@ -17,11 +15,12 @@ const IKVideo = (props: IKVideoProps & ImageKitProviderProps) => {
     contextOptions: {},
   });
 
-  const { getIKClient } = useImageKitComponent({ ...props });
+  // const { getIKClient } = useImageKitComponent({ ...props });
   const contextItems = useContext(ImageKitContext);
 
   useEffect(() => {
-    const { originalSrc } = getSrc(props, getIKClient(), contextItems);
+    // const { originalSrc } = getSrc(props, getIKClient(), contextItems);
+    const originalSrc = props.src;
     setState((prevState) => ({ ...prevState, currentUrl: originalSrc, contextOptions: contextItems }));
   }, [contextItems, props]);
 

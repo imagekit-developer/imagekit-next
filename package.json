@@ -50,7 +50,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "imagekit-javascript": "^4.0.0"
+    "imagekit-javascript": "^4.0.1"
   },
   "engines": {
     "node": ">=12"

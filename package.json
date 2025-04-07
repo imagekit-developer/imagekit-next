@@ -1,6 +1,6 @@
 {
-  "name": "imagekitio-next",
-  "version": "1.0.1",
+  "name": "@imagekit/next",
+  "version": "2.0.0-beta.1",
   "description": "Next.js SDK for ImageKit.io which implements client-side upload and URL generation for use inside a next application.",
   "scripts": {
     "build:js": "rollup -c",
@@ -35,7 +35,7 @@
   ],
   "keywords": [],
   "author": "ImageKit",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/imagekit-developer/imagekit-next/issues"
   },
@@ -49,8 +49,6 @@
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/node": "^20.12.13",
     "@types/react": "^18.3.3",
-    "cypress": "^13.11.0",
-    "cypress-file-upload": "^5.0.8",
     "rollup": "^2.28.2",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-peer-deps-external": "^2.2.3",

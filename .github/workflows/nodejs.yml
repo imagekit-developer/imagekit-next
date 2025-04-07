@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [20.x]
 
     steps:
     - uses: actions/checkout@v1
@@ -24,60 +24,4 @@ jobs:
       env:
         CI: true
 
-  e2e:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x]
-
-    steps:
-    - uses: actions/checkout@v1
-
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-
-    - name: Setup module
-      run: |
-        npm install
-        npm run build
-        npm pack
-    - name: build example/app-router
-      run: |
-        cd example/app-router
-        echo NEXT_PUBLIC_URL_ENDPOINT = ${{ secrets.IK_URL_ENDPOINT }} > .env;
-        echo NEXT_PUBLIC_PUBLIC_KEY = ${{ secrets.IK_PUBLIC_KEY }} >> .env;
-        echo NEXT_PUBLIC_AUTHENTICATION_ENDPOINT = 'http://localhost:3000/api/auth' >> .env;
-        echo PRIVATE_KEY = ${{ secrets.IK_PRIVATE_KEY }} >> .env;
-        npm install && npm run build
-      env:
-        CI: true
-        NEXT_PUBLIC_PUBLIC_KEY: ${{ secrets.IK_PUBLIC_KEY }}
-        PRIVATE_KEY: ${{ secrets.IK_PRIVATE_KEY }}
-        NEXT_PUBLIC_URL_ENDPOINT: ${{ secrets.IK_URL_ENDPOINT }}
-
-    - name: Run E2E tests
-      uses: cypress-io/github-action@v4
-      with:
-        start: npm run serve:app-router
-        wait-on: 'http://localhost:3000'
-      env:
-        DEBUG: 'cypress:server:browsers:electron'
-        CI: true
-        NEXT_PUBLIC_PUBLIC_KEY: ${{ secrets.IK_PUBLIC_KEY }}
-        PRIVATE_KEY: ${{ secrets.IK_PRIVATE_KEY }}
-        NEXT_PUBLIC_URL_ENDPOINT: ${{ secrets.IK_URL_ENDPOINT }}
-
-    - name: tar workspace
-      if: always()
-      run: |
-        tar -cf build.tar --exclude=./build.tar .
-    - name: Archive build details
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: e2e-archive
-        path: build.tar
-        retention-days: 1
+ 

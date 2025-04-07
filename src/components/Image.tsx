@@ -1,33 +1,37 @@
-import ImageKit from "imagekit-javascript";
-import { Transformation } from "imagekit-javascript/dist/src/interfaces/Transformation";
+import { buildSrc, SrcOptions, Transformation } from "@imagekit/javascript";
 import NextImage, { ImageProps } from "next/image";
 import React, { useContext } from "react";
-import { ImageKitContext } from "../ImageKitProvider";
-import ImageKitProviderProps from "../ImageKitProvider/props";
-import IKImageProps from "./props";
+import { ImageKitContext } from "../provider/ImageKit";
 
-const IKImage = (props: Omit<ImageProps, "loader" | "src"> & IKImageProps & ImageKitProviderProps) => {
-  console.log("rendering IKImage", props.id);
-  // @ts-ignore
+export interface IKImage {
+  src: SrcOptions["src"];
+  urlEndpoint?: SrcOptions["urlEndpoint"];
+  queryParameters?: SrcOptions["queryParameters"]
+  transformation?: SrcOptions["transformation"];
+  transformationPosition?: SrcOptions["transformationPosition"];
+}
+
+export const Image = (props: Omit<ImageProps, "src"> & IKImage) => {
   if (props.loader) {
-    console.error('loader prop is not supported in IKImage and will be ignored')
+    if (process.env.NODE_ENV !== "production") {
+      console.warn('loader prop is ignored by ImageKit Image component.')
+    }
   }
 
+  const contextValues = useContext(ImageKitContext);
+
   // Its important to extract the ImageKit specific props from the props, so that we can use the rest of the props as is in the NextImage component
-  const { transformation = [], unoptimized = false, urlEndpoint, quality, src = "", queryParameters, transformationPosition, publicKey, authenticator, ikClient: ignore, ...nonIKParams } = {
-    ...useContext(ImageKitContext), // first pick from context
+  const { transformation = [], unoptimized = false, quality, src = "", queryParameters, urlEndpoint, transformationPosition, publicKey, ...nonIKParams } = {
+    ...contextValues, // Default values from context
     ...props // Override with props
   };
 
   if (!urlEndpoint || urlEndpoint.trim() === "") {
-    throw new Error(
-      'Set urlEndpoint either in ImageKitProvider or in IKImage component'
-    )
+    if (process.env.NODE_ENV !== "production") {
+      console.error("urlEndpoint is neither provided in this component nor in the ImageKitContext, skipping transformation.");
+    }
+    return null;
   }
-
-  const ikClient = new ImageKit({
-    urlEndpoint
-  });
 
   // Do not mutate original transformation array from the props
   const finalTransformation = [...transformation];
@@ -39,25 +43,21 @@ const IKImage = (props: Omit<ImageProps, "loader" | "src"> & IKImageProps & Imag
     if (!isNaN(parsedQuality)) {
       propsTransformation.quality = parsedQuality
     } else {
-      console.warn('Invalid quality value, skipping transformation');
+      if (process.env.NODE_ENV !== "production") {
+        console.error('Invalid quality value, skipping transformation.');
+      }
     }
-  }
-
-  const pathOrSrc = {} as any;
-  if (src.startsWith("http://") || src.startsWith("https://")) {
-    pathOrSrc.src = src;
-  } else {
-    pathOrSrc.path = src;
   }
 
   // Return original file without any transformation or optimization to match the behavior of NextImage
   if (unoptimized) {
     return (
       <NextImage
-        src={ikClient.url(
+        src={buildSrc(
           {
             urlEndpoint,
-            ...pathOrSrc,
+            src,
+            queryParameters,
             transformation: [
               {
                 "raw": "orig-true"
@@ -71,11 +71,10 @@ const IKImage = (props: Omit<ImageProps, "loader" | "src"> & IKImageProps & Imag
     )
   }
 
-  const finalSrcWithoutTransformation = ikClient.url({
+  const finalSrcWithoutTransformation = buildSrc({
     urlEndpoint,
     queryParameters,
-    transformationPosition,
-    ...pathOrSrc,
+    src,
   });
 
   return (
@@ -83,7 +82,7 @@ const IKImage = (props: Omit<ImageProps, "loader" | "src"> & IKImageProps & Imag
       src={finalSrcWithoutTransformation}
       {...nonIKParams}
       loader={({ src, width }) => {
-        return ikClient.url({
+        return buildSrc({
           urlEndpoint,
           src,
           transformation: [...finalTransformation, { ...propsTransformation, width }],
@@ -92,5 +91,3 @@ const IKImage = (props: Omit<ImageProps, "loader" | "src"> & IKImageProps & Imag
     />
   )
 };
-
-export default IKImage;

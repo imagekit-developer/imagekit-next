@@ -32,8 +32,8 @@ export default [
     input: "src/index.ts",
     external: ["react", "next"],
     output: [
-      { file: pkg.main, format: "cjs", sourcemap: true },
-      { file: pkg.module, format: "es", sourcemap: true },
+      { file: pkg.main, format: "cjs", sourcemap: true, banner: "'use client'" },
+      { file: pkg.module, format: "es", sourcemap: true, banner: "'use client'"},
     ],
     plugins: PLUGINS,
   },
@@ -51,6 +51,7 @@ export default [
           "next/image": "NextImage",
         },
         sourcemap: true,
+        banner: "'use client'"
       },
     ],
     plugins: PLUGINS,
@@ -68,6 +69,7 @@ export default [
           "next/image": "NextImage",
         },
         sourcemap: true,
+        banner: "'use client'"
       },
     ],
     plugins: [...PLUGINS, terser()],

@@ -50,14 +50,9 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "imagekit-javascript": "^4.0.1"
-  },
-  "engines": {
-    "node": ">=12"
+    "@imagekit/javascript": "^5.0.0-beta.5"
   },
   "peerDependencies": {
-    "next": "^12 || ^13 || ^14 || ^15",
-    "react": "^16.13.1 || ^17.0.0 || ^18.0.0 || ^19.0.0",
-    "react-dom": "^16.13.1 || ^17.0.0 || ^18.0.0 || ^19.0.0"
+    "next": ">=13"
   }
 }

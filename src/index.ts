@@ -1,14 +1,11 @@
-import ImageKit from 'imagekit-javascript';
-import IKImage from './components/IKImage';
-import IKUpload from './components/IKUpload';
-import IKVideo from './components/IKVideo';
-import ImageKitProvider,{ImageKitContext} from './components/ImageKitProvider';
-
-export {
+import { buildSrc, buildTransformationString, ImageKitAbortError, ImageKitInvalidRequestError, ImageKitServerError, ImageKitUploadNetworkError, SrcOptions, Transformation, upload, UploadOptions, UploadResponse } from '@imagekit/javascript';
+import { IKImage, Image } from './components/Image';
+import { IKVideo, Video } from './components/Video';
+import { ImageKitContext, ImageKitProvider, ImageKitProviderProps } from "./provider/ImageKit";
+import { getUploadAuthParams } from './util';
+export { buildSrc, buildTransformationString, getUploadAuthParams, Image, ImageKitAbortError, ImageKitContext, ImageKitInvalidRequestError, ImageKitProvider, ImageKitServerError, ImageKitUploadNetworkError, upload, Video };
+export type {
     IKImage,
-    IKUpload,
-    IKVideo,
-    ImageKitProvider,
-    ImageKit as ImageKitClient,
-    ImageKitContext
+    IKVideo, ImageKitProviderProps, SrcOptions, Transformation, UploadOptions, UploadResponse
 };
+

@@ -16,14 +16,22 @@
     "type": "git",
     "url": "git+https://github.com/imagekit-developer/imagekit-next.git"
   },
-  "main": "dist/imagekit-next.js",
-  "module": "dist/imagekit-next.esm.js",
-  "browser": "dist/imagekit-next.umd.js",
-  "browser:min": "dist/imagekit-next.umd.min.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/client/types/index.d.ts",
+      "main": "./dist/client/index.js",
+      "module": "./dist/client/index-esm.js"
+    },
+    "./server": {
+      "types": "./dist/server/types/server/index.d.ts",
+      "main": "./dist/server/index.js",
+      "module": "./dist/server/index-esm.js"
+    }
+  },
+  "main": "./dist/client/index.js",
+  "types": "./dist/client/types/index.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "keywords": [],
   "author": "ImageKit",

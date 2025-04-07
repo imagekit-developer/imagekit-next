@@ -2,11 +2,10 @@ import babel from "@rollup/plugin-babel";
 import commonJS from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
-import { terser } from "rollup-plugin-terser";
 import replace from "@rollup/plugin-replace";
-import pkg from "./package.json";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import typescript from "@rollup/plugin-typescript";
+import pkg from "./package.json";
 
 const extensions = [".js", ".jsx", ".ts", ".tsx"];
 
@@ -28,50 +27,23 @@ const PLUGINS = [
 ];
 
 export default [
+  // Main entry build (client and shared code)
   {
     input: "src/index.ts",
     external: ["react", "next"],
     output: [
-      { file: pkg.main, format: "cjs", sourcemap: true, banner: "'use client'" },
-      { file: pkg.module, format: "es", sourcemap: true, banner: "'use client'"},
+      { file: pkg.exports["."].main, format: "cjs", sourcemap: true, banner: "'use client'" },
+      { file: pkg.exports["."].module, format: "es", sourcemap: true, banner: "'use client'" },
     ],
     plugins: PLUGINS,
   },
-  // UMD build with inline PropTypes
+  // Server entry build (server-only code)
   {
-    input: "src/index.ts",
-    external: ["react", "'next/image'"],
+    input: "src/server/index.ts",
     output: [
-      {
-        name: "ImageKitNext",
-        file: pkg.browser,
-        format: "umd",
-        globals: {
-          react: "React",
-          "next/image": "NextImage",
-        },
-        sourcemap: true,
-        banner: "'use client'"
-      },
+      { file: pkg.exports["./server"].main, format: "cjs", sourcemap: true },
+      { file: pkg.exports["./server"].module, format: "es", sourcemap: true },
     ],
     plugins: PLUGINS,
-  },
-  // Minified UMD Build With PropTypes
-  {
-    input: "src/index.ts",
-    output: [
-      {
-        name: "ImageKitNext",
-        file: pkg["browser:min"],
-        format: "umd",
-        globals: {
-          react: "React",
-          "next/image": "NextImage",
-        },
-        sourcemap: true,
-        banner: "'use client'"
-      },
-    ],
-    plugins: [...PLUGINS, terser()],
   },
 ];

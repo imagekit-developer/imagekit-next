@@ -1,1 +1,1 @@
-export { getUploadAuthParams } from "./uploadAuth";
+export { getUploadAuthParams, AuthResponse, GenerateAuthOptions } from "./uploadAuth";

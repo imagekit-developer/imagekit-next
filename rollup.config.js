@@ -2,7 +2,6 @@ import babel from "@rollup/plugin-babel";
 import commonJS from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
-import replace from "@rollup/plugin-replace";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import typescript from "@rollup/plugin-typescript";
 import pkg from "./package.json";
@@ -19,10 +18,6 @@ const PLUGINS = [
     include: ["src/**/*"],
   }),
   json(),
-  replace({
-    "process.env.NODE_ENV": JSON.stringify("production"),
-    preventAssignment: true,
-  }),
   commonJS(),
 ];
 

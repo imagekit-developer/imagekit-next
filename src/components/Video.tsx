@@ -1,28 +1,41 @@
-import { buildSrc, SrcOptions } from "@imagekit/javascript";
+import { buildSrc } from "@imagekit/javascript";
 import React, { useContext } from "react";
+import { SrcProps } from "../interface/index";
+
 import { ImageKitContext } from "../provider/ImageKit";
 
-export interface IKVideo {
-  src: SrcOptions["src"];
-  urlEndpoint?: SrcOptions["urlEndpoint"];
-  queryParameters?: SrcOptions["queryParameters"]
-  transformation?: SrcOptions["transformation"];
-  transformationPosition?: SrcOptions["transformationPosition"];
-}
+export type IKVideoProps = Omit<React.VideoHTMLAttributes<HTMLVideoElement>, "src"> & SrcProps;
 
-export const Video = (props: React.VideoHTMLAttributes<HTMLVideoElement> & IKVideo) => {
+/**
+ * The Video component is a wrapper around the HTML video element. It supports all the features of the HTML video element, along with additional features provided by ImageKit.
+ * 
+ * @example
+ * ```jsx
+ * import { Video } from "@imagekit/next";
+ * <Video
+ *  urlEndpoint="https://ik.imagekit.io/your_imagekit_id" // You can also set this in a parent ImageKitProvider component
+ *  src="/default-video.mp4" // The path to the video in your ImageKit account
+ *  controls
+ *  width={500}
+ *  height={500}
+ *  transformation={[{ width: 500, height: 500 }]} // Add ImageKit transformations
+ * />
+ * ```
+ */
+export const Video = (props: IKVideoProps) => {
   const contextValues = useContext(ImageKitContext);
 
   // Its important to extract the ImageKit specific props from the props, so that we can use the rest of the props as is in the video element
-  const { transformation = [], unoptimized = false, src = "", queryParameters, urlEndpoint, transformationPosition, publicKey, ...nonIKParams } = {
+  const { transformation = [], src = "", queryParameters, urlEndpoint, transformationPosition, ...nonIKParams } = {
     ...contextValues, // Default values from context
     ...props // Override with props
   };
 
   if (!urlEndpoint || urlEndpoint.trim() === "") {
-    throw new Error(
-      'Set urlEndpoint either in ImageKitProvider or in IKImage component'
-    )
+    if (process.env.NODE_ENV !== "production") {
+      console.error("urlEndpoint is neither provided in this component nor in the ImageKitContext.");
+    }
+    return null;
   }
 
 

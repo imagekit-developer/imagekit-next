@@ -1,17 +1,28 @@
-import { buildSrc, SrcOptions, Transformation } from "@imagekit/javascript";
+import { buildSrc, Transformation } from "@imagekit/javascript";
 import NextImage, { ImageProps } from "next/image";
 import React, { useContext } from "react";
+import { SrcProps } from "../interface/index";
 import { ImageKitContext } from "../provider/ImageKit";
 
-export interface IKImage {
-  src: SrcOptions["src"];
-  urlEndpoint?: SrcOptions["urlEndpoint"];
-  queryParameters?: SrcOptions["queryParameters"]
-  transformation?: SrcOptions["transformation"];
-  transformationPosition?: SrcOptions["transformationPosition"];
-}
+export type IKImageProps = Omit<ImageProps, "src"> & SrcProps;
 
-export const Image = (props: Omit<ImageProps, "src"> & IKImage) => {
+/**
+ * The Image component is a wrapper around the Next.js Image component. It supports all the features of the Next.js Image component, along with additional features provided by ImageKit.
+ * 
+ * @example
+ * ```jsx
+ * import { Image } from "@imagekit/next";
+ * <Image
+ *  urlEndpoint="https://ik.imagekit.io/your_imagekit_id" // You can also set this in a parent ImageKitProvider component
+ *  src="/default-image.jpg" // The path to the image in your ImageKit account
+ *  alt="Default Image"
+ *  width={500}
+ *  height={500}
+ *  transformation={[{ width: 500, height: 500 }]} // Add ImageKit transformations
+ * />
+ * ```
+ */
+export const Image = (props: IKImageProps) => {
   if (props.loader) {
     if (process.env.NODE_ENV !== "production") {
       console.warn('loader prop is ignored by ImageKit Image component.')
@@ -21,14 +32,14 @@ export const Image = (props: Omit<ImageProps, "src"> & IKImage) => {
   const contextValues = useContext(ImageKitContext);
 
   // Its important to extract the ImageKit specific props from the props, so that we can use the rest of the props as is in the NextImage component
-  const { transformation = [], unoptimized = false, quality, src = "", queryParameters, urlEndpoint, transformationPosition, publicKey, ...nonIKParams } = {
+  const { transformation = [], unoptimized = false, quality, src = "", queryParameters, urlEndpoint, transformationPosition, loader, ...nonIKParams } = {
     ...contextValues, // Default values from context
     ...props // Override with props
   };
 
   if (!urlEndpoint || urlEndpoint.trim() === "") {
     if (process.env.NODE_ENV !== "production") {
-      console.error("urlEndpoint is neither provided in this component nor in the ImageKitContext, skipping transformation.");
+      console.error("urlEndpoint is neither provided in this component nor in the ImageKitContext.");
     }
     return null;
   }

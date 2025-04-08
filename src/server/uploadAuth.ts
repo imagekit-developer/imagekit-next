@@ -5,17 +5,25 @@ export interface GenerateAuthOptions {
   privateKey: string;
   publicKey: string;
   token?: string;
-  expire?: number | string;
+  expire?: number;
 }
 
 export interface AuthResponse {
   token: string;
   signature: string;
-  expire: string;
+  expire: number;
 }
 
 /**
- * This function is meant to be used only on the server.
+ * This function generates the authentication parameters required for uploading files to ImageKit.
+ * It is intended to be used on the server-side only.
+ * 
+ * @param {GenerateAuthOptions} options - The options for generating the authentication parameters.
+ * @param {string} options.privateKey - The private key for your ImageKit account.
+ * @param {string} options.publicKey - The public key for your ImageKit account.
+ * @param {string} [options.token] - An optional token. If not provided, a new UUID will be generated.
+ * @param {number} [options.expire] - An optional expiration time in seconds. If not provided, it defaults to 30 minutes from the current time.
+ * @returns {AuthResponse} - The authentication parameters including token, signature, and expiration time.
  */
 export const getUploadAuthParams = function ({
   token,
@@ -40,11 +48,11 @@ export const getUploadAuthParams = function ({
 
   const signature = crypto
     .createHmac("sha1", privateKey)
-    .update(authResponse.token + authResponse.expire)
+    .update(authResponse.token + String(authResponse.expire))
     .digest("hex");
 
   return {
-    expire: String(authResponse.expire),
+    expire: Number(authResponse.expire),
     token: authResponse.token,
     signature,
   };

@@ -4,7 +4,7 @@ import { SrcProps } from "../interface/index";
 
 import { ImageKitContext } from "../provider/ImageKit";
 
-export type IKVideoProps = Omit<React.VideoHTMLAttributes<HTMLVideoElement>, "src"> & SrcProps;
+export type IKVideoProps = Omit<JSX.IntrinsicElements["video"], "src"> & SrcProps;
 
 /**
  * The Video component is a wrapper around the HTML video element. It supports all the features of the HTML video element, along with additional features provided by ImageKit.

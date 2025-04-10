@@ -96,7 +96,7 @@ export const Image = (props: IKImageProps) => {
         return buildSrc({
           urlEndpoint,
           src,
-          transformation: [...finalTransformation, { ...propsTransformation, width }],
+          transformation: [...finalTransformation, { ...propsTransformation, width, crop: "at_max" }],
         });
       }}
     />

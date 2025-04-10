@@ -1,7 +1,7 @@
-import { buildSrc, Transformation } from "@imagekit/javascript";
-import NextImage, { ImageProps } from "next/image";
+import { buildSrc, type Transformation } from "@imagekit/javascript";
+import NextImage, { type ImageProps } from "next/image";
 import React, { useContext } from "react";
-import { SrcProps } from "../interface/index";
+import type { SrcProps } from "../interface";
 import { ImageKitContext } from "../provider/ImageKit";
 
 export type IKImageProps = Omit<ImageProps, "src"> & SrcProps;

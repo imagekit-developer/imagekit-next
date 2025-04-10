@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
-import { SrcProps } from "../interface/index";
+import type { SrcProps } from "../interface";
 
 export type ImageKitProviderProps = React.PropsWithChildren<Pick<SrcProps, "urlEndpoint" | "transformationPosition">>;
 export const ImageKitContext = createContext<ImageKitProviderProps>({});

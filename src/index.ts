@@ -1,15 +1,25 @@
-import { buildSrc, buildTransformationString, ImageKitAbortError, ImageKitInvalidRequestError, ImageKitServerError, ImageKitUploadNetworkError, SrcOptions, Transformation, upload, UploadOptions, UploadResponse } from '@imagekit/javascript';
-import { IKImageProps, Image } from './components/Image';
-import { IKVideoProps, Video } from './components/Video';
-import { ImageKitContext, ImageKitProvider, ImageKitProviderProps } from "./provider/ImageKit";
+import { buildSrc, buildTransformationString, ImageKitAbortError, ImageKitInvalidRequestError, ImageKitServerError, ImageKitUploadNetworkError, upload } from '@imagekit/javascript';
+import type { SrcOptions, Transformation, UploadOptions, UploadResponse } from '@imagekit/javascript';
+
+import { Image } from './components/Image';
+import type { IKImageProps } from './components/Image';
+
+import { Video } from './components/Video';
+import type { IKVideoProps } from './components/Video';
+
+import { ImageKitContext, ImageKitProvider } from "./provider/ImageKit";
+import type { ImageKitProviderProps } from "./provider/ImageKit";
+
 export { buildSrc, buildTransformationString, Image, ImageKitAbortError, ImageKitContext, ImageKitInvalidRequestError, ImageKitProvider, ImageKitServerError, ImageKitUploadNetworkError, upload, Video };
 export type {
     // Next.js SDK types
     IKImageProps,
     IKVideoProps,
-    ImageKitProviderProps, SrcOptions,
+    ImageKitProviderProps,
+    
     // JS SDK types
-    Transformation, UploadOptions,
+    SrcOptions,
+    Transformation, 
+    UploadOptions,
     UploadResponse
 };
-

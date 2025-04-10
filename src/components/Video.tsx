@@ -1,6 +1,6 @@
 import { buildSrc } from "@imagekit/javascript";
 import React, { useContext } from "react";
-import { SrcProps } from "../interface/index";
+import type { SrcProps } from "../interface";
 
 import { ImageKitContext } from "../provider/ImageKit";
 

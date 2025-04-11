@@ -44,7 +44,7 @@ export const Image = (props: IKImageProps) => {
     return null;
   }
 
-  const isAbsoluteURL = src.startsWith("http://") || src.startsWith("https://");
+  // const isAbsoluteURL = src.startsWith("http://") || src.startsWith("https://");
 
   // Do not mutate original transformation array from the props
   const finalTransformation = [...transformation];
@@ -100,10 +100,10 @@ export const Image = (props: IKImageProps) => {
         // Since `src` inside loader is always absolute, `buildSrc` won't respect the `path` transformation position.
         // To fix this, if the original src prop isn't an absolute URL, remove `urlEndpoint` from this `src`
         // before calling `buildSrc`. Otherwise, leave it as is.
-        const srcWithoutUrlEndpoint = !isAbsoluteURL ? src.replace(urlEndpoint, "") : src;
+        // const srcWithoutUrlEndpoint = !isAbsoluteURL ? src.replace(urlEndpoint, "") : src;
         const finalSrc = buildSrc({
           urlEndpoint,
-          src: srcWithoutUrlEndpoint,
+          src,
           transformationPosition,
           transformation: [
             ...finalTransformation,

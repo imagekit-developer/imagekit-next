@@ -8,7 +8,6 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@imagekit/next": "file:../imagekit-next-2.0.0-beta.4.tgz",
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

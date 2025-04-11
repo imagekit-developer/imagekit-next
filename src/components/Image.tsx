@@ -44,6 +44,8 @@ export const Image = (props: IKImageProps) => {
     return null;
   }
 
+  const isAbsoluteURL = src.startsWith("http://") || src.startsWith("https://");
+
   // Do not mutate original transformation array from the props
   const finalTransformation = [...transformation];
 
@@ -61,14 +63,18 @@ export const Image = (props: IKImageProps) => {
   }
 
   // Return original file without any transformation or optimization to match the behavior of NextImage
+  // Always keep src in the end
   if (unoptimized) {
     return (
       <NextImage
+        unoptimized={true}
+        {...nonIKParams}
         src={buildSrc(
           {
             urlEndpoint,
             src,
             queryParameters,
+            transformationPosition,
             transformation: [
               {
                 "raw": "orig-true"
@@ -76,12 +82,11 @@ export const Image = (props: IKImageProps) => {
             ]
           }
         )}
-        unoptimized={true}
-        {...nonIKParams}
       />
     )
   }
 
+  // Don't pass transformation just yet as loader will take care of it along with width for srcset generation as per Next.js logic.
   const finalSrcWithoutTransformation = buildSrc({
     urlEndpoint,
     queryParameters,
@@ -89,16 +94,26 @@ export const Image = (props: IKImageProps) => {
   });
 
   return (
+    // Always keep src in the end
     <NextImage
-      src={finalSrcWithoutTransformation}
-      {...nonIKParams}
       loader={({ src, width }) => {
-        return buildSrc({
+        // Since `src` inside loader is always absolute, `buildSrc` won't respect the `path` transformation position.
+        // To fix this, if the original src prop isn't an absolute URL, remove `urlEndpoint` from this `src`
+        // before calling `buildSrc`. Otherwise, leave it as is.
+        const srcWithoutUrlEndpoint = !isAbsoluteURL ? src.replace(urlEndpoint, "") : src;
+        const finalSrc = buildSrc({
           urlEndpoint,
-          src,
-          transformation: [...finalTransformation, { ...propsTransformation, width, crop: "at_max" }],
+          src: srcWithoutUrlEndpoint,
+          transformationPosition,
+          transformation: [
+            ...finalTransformation,
+            { ...propsTransformation, width, crop: "at_max" },
+          ],
         });
+        return finalSrc;
       }}
+      {...nonIKParams}
+      src={finalSrcWithoutTransformation}
     />
   )
 };

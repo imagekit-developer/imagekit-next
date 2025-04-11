@@ -26,7 +26,7 @@ jobs:
           cd test-app
           npm install
           npm install ../imagekit-next-*.tgz
-          npx playwright install
+          npx playwright install --with-deps
           npm run test:e2e
         env:
           CI: true

@@ -18,10 +18,16 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install, build
+      - name: Build and Test
         run: |
-          npm i
+          npm install
           npm run build
+          npm pack
+          cd test-app
+          npm install
+          npm install ../imagekit-next-*.tgz
+          npx playwright install
+          npm run test:e2e
         env:
           CI: true
 

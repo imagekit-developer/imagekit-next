@@ -1,27 +1,9 @@
-# Next.js + Playwright
+## How it works
 
-This example shows how to configure Playwright to work with Next.js.
+This is a simple Next.js app using latest version. In Github CI, we build the SDK and pack it. Then we install it in this test app and run the playwright tests.
 
-## Deploy your own
+We are using snapshot testing to verify the output generate by the SDK. This asserts the whole element along with all attributes instead of tons of assertions for each attribute.
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-playwright)
+Run the test app and manually verify the output before comming any changes in snapshots.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-playwright&project-name=with-playwright&repository-name=with-playwright)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-playwright with-playwright-app
-```
-
-```bash
-yarn create next-app --example with-playwright with-playwright-app
-```
-
-```bash
-pnpm create next-app --example with-playwright with-playwright-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+Also we add `color:red` styles in all Image because otherwise Next.js may add `color:transparent` styles to the image. This may causes flaky tests.

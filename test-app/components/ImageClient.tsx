@@ -18,6 +18,7 @@ export const ImageEvents = () => {
                     // Set an attribute to this element to indicate that the image loaded successfully
                     e.currentTarget.setAttribute("data-imagekit-loaded", "true");
                 }}
+                style={{ color: "red" }}
             />
 
 
@@ -35,6 +36,7 @@ export const ImageEvents = () => {
                     // Set an attribute to this element to indicate that the image loaded successfully
                     e.currentTarget.setAttribute("data-imagekit-loaded", "true");
                 }}
+                style={{ color: "red" }}
             />
 
             {/* Ignore loader silently */}
@@ -47,6 +49,7 @@ export const ImageEvents = () => {
                 loader={() => {
                     return "https://ik.imagekit.io/demo/you-should-not-see-this-on-src.jpg"
                 }}
+                style={{ color: "red" }}
             />
         </div>
     )

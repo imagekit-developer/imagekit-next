@@ -13,6 +13,7 @@ export const Basic = () => {
                 height={300}
                 width={300}
                 priority={true}
+                style={{ color: "red" }} // we add `color:red` styles in all Image because otherwise Next.js may add `color:transparent` styles to the image. This may causes flaky tests.
             />
 
             <ImageKitProvider urlEndpoint="https://ik.imagekit.io/demo/">
@@ -21,6 +22,7 @@ export const Basic = () => {
                     alt="Image with ImageKit provider"
                     height={300}
                     width={300}
+                    style={{ color: "red" }}
                 />
 
                 <Image
@@ -29,6 +31,7 @@ export const Basic = () => {
                     transformation={[{ height: 100, width: 100 }]}
                     height={300}
                     width={300}
+                    style={{ color: "red" }}
                 />
 
                 {/* quality={50} */}
@@ -39,6 +42,7 @@ export const Basic = () => {
                     transformation={[{ height: 100, width: 100 }]}
                     height={300}
                     width={300}
+                    style={{ color: "red" }}
                 />
 
                 <Image
@@ -48,6 +52,7 @@ export const Basic = () => {
                     transformation={[{ height: 100, width: 100 }]}
                     height={300}
                     width={300}
+                    style={{ color: "red" }}
                 />
 
                 <Image
@@ -59,6 +64,7 @@ export const Basic = () => {
                     transformation={[{ height: 100, width: 100 }]}
                     height={300}
                     width={300}
+                    style={{ color: "red" }}
                 />
 
                 {/* responsive images with sizes */}
@@ -68,6 +74,7 @@ export const Basic = () => {
                     sizes="(max-width: 600px) 100vw, 50vw"
                     height={300}
                     width={300}
+                    style={{ color: "red" }}
                 />
 
                 {/* urlEndpoint override */}
@@ -78,6 +85,7 @@ export const Basic = () => {
                     transformation={[{ height: 100, width: 100 }]}
                     height={300}
                     width={300}
+                    style={{ color: "red" }}
                 />
 
                 {/* Pass className to the image tag as it is */}
@@ -87,6 +95,7 @@ export const Basic = () => {
                     className="custom-class"
                     height={300}
                     width={300}
+                    style={{ color: "red" }}
                 />
 
                 {/* Lazy loading eager */}
@@ -96,6 +105,7 @@ export const Basic = () => {
                     loading="eager"
                     height={300}
                     width={300}
+                    style={{ color: "red" }}
                 />
 
                 {/* Transformation position test */}
@@ -105,6 +115,7 @@ export const Basic = () => {
                     transformationPosition="path"
                     height={300}
                     width={300}
+                    style={{ color: "red" }}
                 />
 
                 <Image
@@ -113,6 +124,7 @@ export const Basic = () => {
                     transformationPosition="path"
                     height={300}
                     width={300}
+                    style={{ color: "red" }}
                 />
 
                 {/* fill true */}
@@ -122,6 +134,7 @@ export const Basic = () => {
                         alt="Image with fill"
                         fill={true}
                         sizes="(max-width: 600px) 100vw, 50vw"
+                        style={{ color: "red" }}
                     />
                 </div>
 

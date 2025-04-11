@@ -18,9 +18,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Setup module
+    - name: Build and test
       run: |
         npm install
+        npm run build
+        npm pack
+        cd test-app
+        npm install
+        npm install ../imagekit-next-*.tgz
+        npm run test:e2e
       env:
         CI: true
 

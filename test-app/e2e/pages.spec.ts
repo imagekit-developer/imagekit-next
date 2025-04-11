@@ -3,6 +3,13 @@ import { test, expect } from "@playwright/test";
 test("Pages router test case", async ({ page }) => {
   await page.goto("/pages");
 
+  // Scroll to the bottom of the page
+  await page.evaluate(() => {
+    window.scrollTo(0, document.body.scrollHeight);
+  });
+
+  await page.waitForTimeout(2000); // Wait for 2 seconds
+
   // Locate the output element (adjust selector as needed)
   const outputElement = page.locator('.container');
 

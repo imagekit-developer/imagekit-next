@@ -138,6 +138,19 @@ export const Basic = () => {
                     />
                 </div>
 
+                {/* Responsive off */}
+                <Image
+                    src="/default-image.jpg"
+                    alt="Image with responsive off"
+                    height={300}
+                    width={300}
+                    transformation={[{
+                        named: "restrict-unnamed",
+                    }]}
+                    style={{ color: "red" }}
+                    responsive={false}
+                />
+
             </ImageKitProvider>
 
             <h1>Video</h1>

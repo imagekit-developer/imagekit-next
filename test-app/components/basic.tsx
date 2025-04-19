@@ -149,6 +149,7 @@ export const Basic = () => {
                     }]}
                     style={{ color: "red" }}
                     responsive={false}
+                    sizes="(max-width: 600px) 100vw, 50vw"
                 />
 
             </ImageKitProvider>

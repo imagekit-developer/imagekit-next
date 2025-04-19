@@ -4,7 +4,12 @@ import React, { useContext } from "react";
 import type { SrcProps } from "../interface";
 import { ImageKitContext } from "../provider/ImageKit";
 
-export type IKImageProps = Omit<ImageProps, "src"> & SrcProps;
+export type IKImageProps = Omit<ImageProps, "src"> & SrcProps & {
+  /**
+   * Set to `false` to disable responsive srcset generation. By default, this is `true`.
+   */
+  responsive?: boolean;
+};
 
 /**
  * The Image component is a wrapper around the Next.js Image component. It supports all the features of the Next.js Image component, along with additional features provided by ImageKit.
@@ -32,7 +37,7 @@ export const Image = (props: IKImageProps) => {
   const contextValues = useContext(ImageKitContext);
 
   // Its important to extract the ImageKit specific props from the props, so that we can use the rest of the props as is in the NextImage component
-  const { transformation = [], unoptimized = false, quality, src = "", queryParameters, urlEndpoint, transformationPosition, loader, ...nonIKParams } = {
+  const { transformation = [], unoptimized = false, quality, src = "", queryParameters, urlEndpoint, transformationPosition, responsive = true, loader, ...nonIKParams } = {
     ...contextValues, // Default values from context
     ...props // Override with props
   };
@@ -84,6 +89,29 @@ export const Image = (props: IKImageProps) => {
         )}
       />
     )
+  }
+
+  // User disabled responsive images
+  if (!responsive) {
+    return (
+      <NextImage
+        unoptimized={true}
+        {...nonIKParams}
+        src={buildSrc(
+          {
+            urlEndpoint,
+            src,
+            queryParameters,
+            transformationPosition,
+            // keep only user‑supplied transformations;no width, no crop
+            transformation: [
+              ...finalTransformation,
+              { ...propsTransformation },
+            ],
+          }
+        )}
+      />
+    );
   }
 
   // Don't pass transformation just yet as loader will take care of it along with width for srcset generation as per Next.js logic.

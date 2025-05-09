@@ -10,10 +10,6 @@
 
 - `transformationPosition` prop in the **Video** component was not working, this has been fixed.
 
-## 2.1.1
-
-- `transformationPosition` prop in the **Video** component was not working, this has been fixed.
-
 ## 2.1.0
 
 - Added an optional `responsive` prop to the **`Image`** component. Set `responsive` to `false` to disable automatic `srcset` generation and prevent any transformations you haven’t explicitly specified. This is also handy when Restricted Unnamed Transformation is enabled and you want to stop the SDK from applying any extra transformations beyond the ones you specify.

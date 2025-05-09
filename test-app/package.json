@@ -5,7 +5,8 @@
     "dev": "npm run clean && next dev",
     "build": "next build",
     "start": "npm run clean && npm run build && next start",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:e2e-update": "playwright test --update-snapshots"
   },
   "dependencies": {
     "next": "latest",

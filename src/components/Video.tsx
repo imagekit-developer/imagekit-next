@@ -43,7 +43,8 @@ export const Video = (props: IKVideoProps) => {
     urlEndpoint,
     src,
     transformation: [...transformation], // Do not mutate original transformation array from the props
-    queryParameters
+    queryParameters,
+    transformationPosition,
   });
 
   return (

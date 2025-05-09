@@ -210,6 +210,18 @@ export const Basic = () => {
                     transformation={[{ height: 100, width: 100 }]}
                     controls={true}
                 />
+
+                {/* Transformation position test */}
+                <Video
+                    urlEndpoint="https://ik.imagekit.io/demo2/"
+                    src="sample-video.mp4"
+                    title="Video with path transformation"
+                    height={300}
+                    width={300}
+                    transformation={[{ height: 100, width: 100 }]}
+                    transformationPosition="path"
+                    controls={true}
+                />
             </ImageKitProvider>
 
         </div>

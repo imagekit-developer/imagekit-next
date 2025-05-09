@@ -1,5 +1,5 @@
-import { buildSrc, buildTransformationString, ImageKitAbortError, ImageKitInvalidRequestError, ImageKitServerError, ImageKitUploadNetworkError, upload } from '@imagekit/javascript';
-import type { SrcOptions, Transformation, UploadOptions, UploadResponse } from '@imagekit/javascript';
+import { buildSrc, buildTransformationString, ImageKitAbortError, ImageKitInvalidRequestError, ImageKitServerError, ImageKitUploadNetworkError, upload, getResponsiveImageAttributes } from '@imagekit/javascript';
+import type { SrcOptions, Transformation, UploadOptions, UploadResponse, GetImageAttributesOptions, ResponsiveImageAttributes } from '@imagekit/javascript';
 
 import { Image } from './components/Image';
 import type { IKImageProps } from './components/Image';
@@ -10,7 +10,7 @@ import type { IKVideoProps } from './components/Video';
 import { ImageKitContext, ImageKitProvider } from "./provider/ImageKit";
 import type { ImageKitProviderProps } from "./provider/ImageKit";
 
-export { buildSrc, buildTransformationString, Image, ImageKitAbortError, ImageKitContext, ImageKitInvalidRequestError, ImageKitProvider, ImageKitServerError, ImageKitUploadNetworkError, upload, Video };
+export { buildSrc, buildTransformationString, Image, ImageKitAbortError, ImageKitContext, ImageKitInvalidRequestError, ImageKitProvider, ImageKitServerError, ImageKitUploadNetworkError, upload, Video, getResponsiveImageAttributes };
 export type {
     // Next.js SDK types
     IKImageProps,
@@ -21,5 +21,7 @@ export type {
     SrcOptions,
     Transformation, 
     UploadOptions,
-    UploadResponse
+    UploadResponse,
+    GetImageAttributesOptions,
+    ResponsiveImageAttributes
 };

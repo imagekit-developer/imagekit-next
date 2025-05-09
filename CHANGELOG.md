@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.1.2
+
+- Bump `@imagekitio/javascript` dependency to `5.1.0`.
+- Export `getResponsiveImageAttributes` util function from the package.
+- Improved type definitions for the solid color overlay transformations.
+
+## 2.1.1
+
+- `transformationPosition` prop in the **Video** component was not working, this has been fixed.
+
 ## 2.1.1
 
 - `transformationPosition` prop in the **Video** component was not working, this has been fixed.

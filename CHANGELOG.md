@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.3
+
+- Fixed missing `ref` prop support in the **Image** component. The component now properly accepts and forwards all Next.js Image props, including `ref`, by using `React.ComponentPropsWithRef<typeof NextImage>` instead of the exported `ImageProps` type.
+
 ## 2.1.2
 
 - Bump `@imagekitio/javascript` dependency to `5.1.0`.

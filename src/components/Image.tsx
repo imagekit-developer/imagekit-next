@@ -1,10 +1,10 @@
 import { buildSrc, type Transformation } from "@imagekit/javascript";
-import NextImage, { type ImageProps } from "next/image";
+import NextImage from "next/image";
 import React, { useContext } from "react";
 import type { SrcProps } from "../interface";
 import { ImageKitContext } from "../provider/ImageKit";
 
-export type IKImageProps = Omit<ImageProps, "src"> & SrcProps & {
+export type IKImageProps = Omit<React.ComponentPropsWithRef<typeof NextImage>, "src"> & SrcProps & {
   /**
    * Set to `false` to disable responsive srcset generation. By default, this is `true`.
    */

@@ -8,10 +8,10 @@ import pkg from "./package.json";
 
 const extensions = [".js", ".jsx", ".ts", ".tsx"];
 
-const PLUGINS = [
+const createPlugins = (tsconfigPath) => [
   peerDepsExternal(),
   resolve({ extensions }),
-  typescript({ tsconfig: "./tsconfig.json" }),
+  typescript({ tsconfig: tsconfigPath }),
   babel({
     extensions,
     babelHelpers: "bundled",
@@ -30,7 +30,7 @@ export default [
       { file: pkg.exports["."].main, format: "cjs", sourcemap: true, banner: "'use client'" },
       { file: pkg.exports["."].module, format: "es", sourcemap: true, banner: "'use client'" },
     ],
-    plugins: PLUGINS,
+    plugins: createPlugins("./tsconfig.client.json"),
   },
   // Server entry build (server-only code)
   {
@@ -39,6 +39,6 @@ export default [
       { file: pkg.exports["./server"].main, format: "cjs", sourcemap: true },
       { file: pkg.exports["./server"].module, format: "es", sourcemap: true },
     ],
-    plugins: PLUGINS,
+    plugins: createPlugins("./tsconfig.server.json"),
   },
 ];

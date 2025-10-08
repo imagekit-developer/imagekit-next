@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.4
+
+- Fixed build process that was incorrectly generating client-side types in server export paths. Server types (`@imagekit/next/server`) now correctly export only server-side functions (`getUploadAuthParams`) instead of client components.
+- Improved build configuration by separating client and server TypeScript configurations for better type isolation.
+- Cleaned up package.json scripts by removing unused `build:types` script.
+
 ## 2.1.3
 
 - Fixed missing `ref` prop support in the **Image** component. The component now properly accepts and forwards all Next.js Image props, including `ref`, by using `React.ComponentPropsWithRef<typeof NextImage>` instead of the exported `ImageProps` type.

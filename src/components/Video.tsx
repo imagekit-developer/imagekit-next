@@ -61,7 +61,7 @@ export const Video = forwardRef<HTMLVideoElement, IKVideoProps>((props, ref) => 
   });
 
   return (
-    <video ref={ref} {...nonIKParams} src={finalSrc} />
+    <video {...nonIKParams} ref={ref} src={finalSrc} />
   );
 });
 

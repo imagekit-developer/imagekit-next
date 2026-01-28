@@ -1,6 +1,6 @@
 {
   "name": "@imagekit/next",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "Next.js SDK for ImageKit.io which implements client-side upload and URL generation for use inside a next application.",
   "scripts": {
     "build:js": "rollup -c",

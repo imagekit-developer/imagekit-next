@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.4
+
+- Added `ref` support to the **Video** component using `forwardRef`, enabling programmatic control of the video element (play, pause, etc.) and access to native video DOM methods. This is particularly useful for implementing custom video controls or handling browser-specific requirements like Safari's autoplay policies.
+
 ## 2.1.3
 
 - Fixed missing `ref` prop support in the **Image** component. The component now properly accepts and forwards all Next.js Image props, including `ref`, by using `React.ComponentPropsWithRef<typeof NextImage>` instead of the exported `ImageProps` type.

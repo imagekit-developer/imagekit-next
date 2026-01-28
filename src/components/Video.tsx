@@ -1,5 +1,5 @@
 import { buildSrc } from "@imagekit/javascript";
-import React, { useContext } from "react";
+import React, { forwardRef, useContext } from "react";
 import type { SrcProps } from "../interface";
 
 import { ImageKitContext } from "../provider/ImageKit";
@@ -21,8 +21,21 @@ export type IKVideoProps = Omit<JSX.IntrinsicElements["video"], "src"> & SrcProp
  *  transformation={[{ width: 500, height: 500 }]} // Add ImageKit transformations
  * />
  * ```
+ * 
+ * @example
+ * ```jsx
+ * // With ref for programmatic control
+ * const videoRef = useRef<HTMLVideoElement>(null);
+ * <Video
+ *  ref={videoRef}
+ *  urlEndpoint="https://ik.imagekit.io/your_imagekit_id"
+ *  src="/default-video.mp4"
+ *  muted
+ *  playsInline
+ * />
+ * ```
  */
-export const Video = (props: IKVideoProps) => {
+export const Video = forwardRef<HTMLVideoElement, IKVideoProps>((props, ref) => {
   const contextValues = useContext(ImageKitContext);
 
   // Its important to extract the ImageKit specific props from the props, so that we can use the rest of the props as is in the video element
@@ -48,6 +61,8 @@ export const Video = (props: IKVideoProps) => {
   });
 
   return (
-    <video {...nonIKParams} src={finalSrc} />
+    <video ref={ref} {...nonIKParams} src={finalSrc} />
   );
-};
+});
+
+Video.displayName = "Video";

@@ -25,7 +25,7 @@ export default [
   // Main entry build (client and shared code)
   {
     input: "src/index.ts",
-    external: ["react", "next"],
+    external: ["react", "next", "@imagekit/javascript"],
     output: [
       { file: pkg.exports["."].main, format: "cjs", sourcemap: true, banner: "'use client'" },
       { file: pkg.exports["."].module, format: "es", sourcemap: true, banner: "'use client'" },

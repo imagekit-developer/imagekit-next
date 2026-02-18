@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.5
+
+Include `@imagekit/javascript` in external in Rollup config to prevent bundling it with the package, allowing users to be able to fetch the latest version of the SDK without needing to update the package. This also reduces the bundle size of the package and allows users to manage the SDK version separately.
+
 ## 2.1.4
 
 - Added `ref` support to the **Video** component using `forwardRef`, enabling programmatic control of the video element (play, pause, etc.) and access to native video DOM methods. This is particularly useful for implementing custom video controls or handling browser-specific requirements like Safari's autoplay policies.

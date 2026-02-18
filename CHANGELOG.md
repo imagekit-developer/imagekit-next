@@ -2,7 +2,7 @@
 
 ## 2.1.5
 
-Include `@imagekitio/javascript` in external in Rollup config to prevent bundling it with the package, allowing users to be able to fetch the latest version of the SDK without needing to update the package. This also reduces the bundle size of the package and allows users to manage the SDK version separately.
+Include `@imagekit/javascript` in external in Rollup config to prevent bundling it with the package, allowing users to be able to fetch the latest version of the SDK without needing to update the package. This also reduces the bundle size of the package and allows users to manage the SDK version separately.
 
 ## 2.1.4
 

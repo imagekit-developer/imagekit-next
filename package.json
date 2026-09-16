@@ -54,7 +54,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@imagekit/javascript": "^5.1.0"
+    "@imagekit/javascript": "^5.5.0"
   },
   "peerDependencies": {
     "next": ">= 13"

@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.6](https://github.com/imagekit-developer/imagekit-next/compare/2.1.5...2.1.6) (2026-09-17)
+
+
+### Bug Fixes
+
+* **deps:** require @imagekit/javascript ^5.5.0 and set up Release Please ([2e5c1da](https://github.com/imagekit-developer/imagekit-next/commit/2e5c1da9e4daf22a0d37042d73b2fe7cef44e806))
+* **deps:** require @imagekit/javascript ^5.5.0 for density transformation support ([5acf59b](https://github.com/imagekit-developer/imagekit-next/commit/5acf59b97933a58e97fc0bb862d10af2c5d8615d))
+
 ## 2.1.5
 
 Include `@imagekit/javascript` in external in Rollup config to prevent bundling it with the package, allowing users to be able to fetch the latest version of the SDK without needing to update the package. This also reduces the bundle size of the package and allows users to manage the SDK version separately.
